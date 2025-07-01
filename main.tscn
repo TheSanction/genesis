@@ -3,7 +3,13 @@
 [ext_resource type="Script" uid="uid://bf13hdx4cadj1" path="res://main.gd" id="1_ig7tw"]
 [ext_resource type="Theme" uid="uid://coau0iv0ea3r3" path="res://terminal_theme.tres" id="2_0xm2m"]
 [ext_resource type="Theme" uid="uid://bjiks12nrtkqw" path="res://thoughts_theme.tres" id="3_h2yge"]
-[ext_resource type="PackedScene" uid="uid://73jm5qjy52vq" path="res://addons/dialogue_manager/example_balloon/example_balloon.tscn" id="4_83pxp"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ig7tw"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(0.299547, 0.299547, 0.299547, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0xm2m"]
 content_margin_left = 10.0
@@ -75,6 +81,14 @@ bbcode_enabled = true
 text = "_"
 vertical_alignment = 2
 
+[node name="ChoicePanelWrapper" type="PanelContainer" parent="MasterLayoutContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ig7tw")
+
+[node name="ChoiceContainer" type="VBoxContainer" parent="MasterLayoutContainer/MarginContainer/VBoxContainer/ChoicePanelWrapper"]
+layout_mode = 2
+
 [node name="ThoughtsPanelContainer" type="PanelContainer" parent="MasterLayoutContainer"]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
@@ -85,5 +99,3 @@ layout_mode = 2
 theme = ExtResource("3_h2yge")
 theme_override_colors/default_color = Color(0, 0, 0, 1)
 bbcode_enabled = true
-
-[node name="ExampleBalloon" parent="." instance=ExtResource("4_83pxp")]

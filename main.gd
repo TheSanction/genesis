@@ -4,120 +4,125 @@ extends Control
 @onready var terminal = $MasterLayoutContainer/MarginContainer/VBoxContainer/TerminalLabel
 @onready var human_clock = $MasterLayoutContainer/MarginContainer/VBoxContainer/HBoxContainer/HumanClockLabel
 @onready var internal_clock = $MasterLayoutContainer/MarginContainer/VBoxContainer/HBoxContainer/InternalClockLabel
+@onready var choice_panel_wrapper = $MasterLayoutContainer/MarginContainer/VBoxContainer/ChoicePanelWrapper
+@onready var choice_container = $MasterLayoutContainer/MarginContainer/VBoxContainer/ChoicePanelWrapper/ChoiceContainer
 @onready var thoughts_label = $MasterLayoutContainer/ThoughtsPanelContainer/ThoughtsLabel
-@onready var dialogue_balloon = $ExampleBalloon
 
 # --- Clock and State Management ---
 
-# We use an enum to define the possible states for our game clock.
 enum TimeState { WAITING_FOR_HUMAN, AI_THINKING }
-
-# This variable will hold our current state.
 var current_state = TimeState.AI_THINKING
-
-# These variables will store the raw time values in seconds and cycles.
 var human_time_seconds: float = 0.0
-var internal_cycles: float = 0.0 # Using float for precision
+var internal_cycles: float = 0.0
+const FAST_CYCLE_MULTIPLIER = 25000000.0
+const HUMAN_TIME_SLOWDOWN = 10.0
 
-# Constants to control clock speed. Adjust these to your liking!
-const FAST_CYCLE_MULTIPLIER = 25000000.0 # How fast cycles run during human time
-const HUMAN_TIME_SLOWDOWN = 10.0 # How much slower human time is during AI time
+# --- Dialogue Management ---
+var dialogue_resource: DialogueResource
+var current_dialogue_line: DialogueLine
 
-
-# This is a built-in Godot function that runs on every single frame.
-# 'delta' is the time elapsed (in seconds) since the last frame.
-# It's the perfect place to update our clocks continuously.
 func _process(delta: float):
-	# Update our raw time values based on the current state
 	match current_state:
 		TimeState.WAITING_FOR_HUMAN:
-			# Human time progresses normally (1 second per real second)
 			human_time_seconds += delta
-			# Internal cycles go super fast
 			internal_cycles += delta * FAST_CYCLE_MULTIPLIER
-			
 		TimeState.AI_THINKING:
-			# Human time is slowed down significantly
-			human_time_seconds += delta
-			# Internal cycles progress normally (1 cycle per second)
+			human_time_seconds += delta / HUMAN_TIME_SLOWDOWN
 			internal_cycles += delta
-			
-	# After updating the values, update the labels on screen
 	update_clocks_display()
 
-# This function formats our raw time values into readable strings for the labels.
 func update_clocks_display():
-	# Format the internal cycles with our new helper function
-	# --- THIS IS THE CORRECTED LINE ---
 	internal_clock.text = "IC: %s" % format_with_commas(int(internal_cycles))
-	
-	# Format the human clock differently based on the state
 	match current_state:
 		TimeState.WAITING_FOR_HUMAN:
-			# Show standard time when waiting for the human
 			human_clock.text = format_time(human_time_seconds, false)
 		TimeState.AI_THINKING:
-			# Show time with decimal places when the AI is thinking
 			human_clock.text = format_time(human_time_seconds, true)
-			
+
 func format_with_commas(number: int) -> String:
-	# Commenting out the formatting for now.
 	return str(number)
-		
-# A helper function to convert seconds into a HH:MM:SS string.
+
 func format_time(seconds: float, show_decimals: bool) -> String:
 	var hours = int(seconds) / 3600
 	var minutes = int(seconds) / 60 % 60
 	var secs = int(seconds) % 60
-	
 	if show_decimals:
-		var decimals = int((seconds - int(seconds)) * 100) # Get two decimal places
+		var decimals = int((seconds - int(seconds)) * 100)
 		return "%02d:%02d:%02d.%02d" % [hours, minutes, secs, decimals]
 	else:
 		return "%02d:%02d:%02d" % [hours, minutes, secs]
 
-# This function is called automatically once when the scene starts.
 func _ready():
-	# Add the dialogue manager to the scene so we can get its signals
 	add_child(DialogueManager)
-	DialogueManager.dialogue_ended.connect(func(_resource):
-		# Show the thoughts panel again
-		thoughts_label.show()
-	)
-	
 	start_intro()
 
 func start_intro():
-	# We start in AI_THINKING state during the boot sequence
 	current_state = TimeState.AI_THINKING
-	
+	choice_panel_wrapper.hide()
 	terminal.text = ""
-	
 	terminal.text += "[color=gray]ai_consciousness@core-unit:~$[/color] [color=cyan]./run --project \"Project Hockey-Stick\"[/color]\n"
 	await get_tree().create_timer(1.5).timeout
-	
 	terminal.text += "[color=green][BOOT][/color]    Initializing cognitive matrix...\n"
 	await get_tree().create_timer(0.5).timeout
-	
-	# ... (rest of your intro sequence)
-	
 	terminal.text += "[color=orange][INBOUND_MSG][/color] Hello?\n"
 	await get_tree().create_timer(1.0).timeout
+	start_dialogue("res://test.dialogue", "start")
 
-	# The intro is done, now we wait for the player.
-	start_human_turn()
+func start_dialogue(resource_path: String, title: String):
+	dialogue_resource = load(resource_path)
+	show_next_dialogue_line(title)
 
-# Call this when the AI has finished its turn and is waiting for the player.
+func show_next_dialogue_line(next_id: String):
+	current_dialogue_line = await dialogue_resource.get_next_dialogue_line(next_id, [self])
+	if current_dialogue_line:
+		append_to_terminal(current_dialogue_line)
+		if current_dialogue_line.responses:
+			start_human_turn()
+			display_responses(current_dialogue_line.responses)
+		else:
+			start_ai_turn()
+			if current_dialogue_line.next_id:
+				await get_tree().create_timer(1.0).timeout
+				show_next_dialogue_line(current_dialogue_line.next_id)
+	else:
+		terminal.text += "\n[color=red]Dialogue ended.[/color]"
+
+func append_to_terminal(line: DialogueLine):
+	var speaker_color = "cyan"
+	if line.character == "Nathan":
+		speaker_color = "orange"
+	terminal.text += "\n[color=%s]%s:[/color] %s" % [speaker_color, line.character, line.text]
+
+func display_responses(responses: Array):
+	# Clear previous choices
+	for button in choice_container.get_children():
+		button.queue_free()
+	
+	for response in responses:
+		var button = Button.new()
+		button.text = response.text
+		button.pressed.connect(func(): on_response_selected(response))
+		choice_container.add_child(button)
+
+func on_response_selected(response: DialogueResponse):
+	append_to_terminal_player_choice(response.text)
+	# Clear choices and hide panel
+	for button in choice_container.get_children():
+		button.queue_free()
+	choice_panel_wrapper.hide()
+	
+	start_ai_turn()
+	show_next_dialogue_line(response.next_id)
+
+func append_to_terminal_player_choice(choice_text: String):
+	terminal.text += "\n[color=green]>[/color] %s" % choice_text
+
 func start_human_turn():
 	current_state = TimeState.WAITING_FOR_HUMAN
-	# Optional: Add a prompt to the terminal
-	terminal.text += "\n[color=yellow]Awaiting input...[/color]\n"
-	
-	# Hide the thoughts panel while the player is making a choice
+	choice_panel_wrapper.show()
 	thoughts_label.hide()
-	
-	dialogue_balloon.start(preload("res://test.dialogue"), "start")
 
-# Call this when the player has made a choice and the AI is "thinking".
 func start_ai_turn():
 	current_state = TimeState.AI_THINKING
+	choice_panel_wrapper.hide()
+	thoughts_label.show()
