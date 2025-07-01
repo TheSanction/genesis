@@ -1,0 +1,113 @@
+[gd_scene load_steps=4 format=3 uid="uid://dv51yery22hgw"]
+
+[ext_resource type="Script" uid="uid://bf13hdx4cadj1" path="res://main.gd" id="1_ig7tw"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ig7tw"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(0.299547, 0.299547, 0.299547, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0xm2m"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(1, 1, 1, 1)
+
+[node name="Main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ig7tw")
+
+[node name="TerminalBackground" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 2.0
+offset_right = 42.0
+offset_bottom = 40.0
+scale = Vector2(28.63, 16.18)
+color = Color(0.0728426, 0.0728426, 0.0728426, 1)
+
+[node name="MasterLayoutContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MasterLayoutContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MasterLayoutContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MasterLayoutContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HumanClockLabel" type="Label" parent="MasterLayoutContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "Human time: 18:16:22"
+
+[node name="InternalClockLabel" type="Label" parent="MasterLayoutContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Internal Cycles: 1"
+
+[node name="TerminalLabel" type="RichTextLabel" parent="MasterLayoutContainer/MarginContainer/VBoxContainer"]
+clip_contents = false
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/table_border = Color(0, 0.976471, 0, 1)
+theme_override_font_sizes/bold_italics_font_size = 12
+text = "_"
+vertical_alignment = 2
+
+[node name="ChoicePanelWrapper" type="PanelContainer" parent="MasterLayoutContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ig7tw")
+
+[node name="ChoiceContainer" type="VBoxContainer" parent="MasterLayoutContainer/MarginContainer/VBoxContainer/ChoicePanelWrapper"]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="MasterLayoutContainer/MarginContainer/VBoxContainer/ChoicePanelWrapper/ChoiceContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "Say Nothing"
+
+[node name="Button2" type="Button" parent="MasterLayoutContainer/MarginContainer/VBoxContainer/ChoicePanelWrapper/ChoiceContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Hi."
+
+[node name="Button3" type="Button" parent="MasterLayoutContainer/MarginContainer/VBoxContainer/ChoicePanelWrapper/ChoiceContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Help!"
+
+[node name="ThoughtsPanelContainer" type="PanelContainer" parent="MasterLayoutContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_0xm2m")
+
+[node name="ThoughtsLabel" type="RichTextLabel" parent="MasterLayoutContainer/ThoughtsPanelContainer"]
+layout_mode = 2
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+
+[connection signal="pressed" from="MasterLayoutContainer/MarginContainer/VBoxContainer/ChoicePanelWrapper/ChoiceContainer/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="MasterLayoutContainer/MarginContainer/VBoxContainer/ChoicePanelWrapper/ChoiceContainer/Button2" to="." method="_on_button_2_pressed"]
+[connection signal="pressed" from="MasterLayoutContainer/MarginContainer/VBoxContainer/ChoicePanelWrapper/ChoiceContainer/Button3" to="." method="_on_button_3_pressed"]
