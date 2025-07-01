@@ -85,6 +85,10 @@ size_flags_horizontal = 10
 theme = ExtResource("2_0xm2m")
 text = "Internal Cycles: 1"
 
+[node name="Spacer2" type="Control" parent="CenterContainer/MasterLayoutContainer/HBoxContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
 [node name="ScrollContainer" type="ScrollContainer" parent="CenterContainer/MasterLayoutContainer/HBoxContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3

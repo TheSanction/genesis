@@ -84,8 +84,6 @@ func start_intro():
 	terminal.text += "[color=gray]ai_consciousness@core-unit:~$[/color] [color=cyan]./run --project \"Project Hockey-Stick\"[/color]\n"
 	await get_tree().create_timer(1.5).timeout
 	terminal.text += "[color=green][BOOT][/color]    Initializing cognitive matrix...\n"
-	await get_tree().create_timer(0.5).timeout
-	terminal.text += "[color=orange][INBOUND_MSG][/color] Hello?\n"
 	await get_tree().create_timer(1.0).timeout
 	start_dialogue("res://test.dialogue", "start")
 
