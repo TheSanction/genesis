@@ -15,6 +15,12 @@ run/main_scene="uid://dv51yery22hgw"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
+[display]
+
+window/size/viewport_width=3200
+window/size/viewport_height=1800
+window/stretch_mode="disabled"
+
 [autoload]
 
 DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"

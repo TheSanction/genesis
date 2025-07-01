@@ -1,6 +1,10 @@
-[gd_resource type="Theme" load_steps=2 format=3 uid="uid://bjiks12nrtkqw"]
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://bjiks12nrtkqw"]
 
 [ext_resource type="FontFile" uid="uid://0s47pddfm8mf" path="res://fonts/JetBrainsMono-Medium.ttf" id="1_06m57"]
 
+[sub_resource type="FontVariation" id="FontVariation_d4e5f"]
+base_font = ExtResource("1_06m57")
+
 [resource]
-default_font = ExtResource("1_06m57")
+default_font = SubResource("FontVariation_d4e5f")
+default_font_size = 16

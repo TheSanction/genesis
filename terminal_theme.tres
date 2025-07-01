@@ -1,6 +1,11 @@
-[gd_resource type="Theme" load_steps=2 format=3 uid="uid://coau0iv0ea3r3"]
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://coau0iv0ea3r3"]
 
 [ext_resource type="FontFile" uid="uid://dp6abajhvvg8m" path="res://fonts/IBMPlexMono-Bold.ttf" id="1_75fg2"]
 
+[sub_resource type="FontVariation" id="FontVariation_a1b2c"]
+base_font = ExtResource("1_75fg2")
+spacing_glyph = -1
+
 [resource]
-default_font = ExtResource("1_75fg2")
+default_font = SubResource("FontVariation_a1b2c")
+default_font_size = 16
