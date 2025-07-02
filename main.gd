@@ -11,12 +11,12 @@ extends Control
 @onready var font_size_down_button = $FontSizeDownContainer/FontSizeDown
 
 # --- Clock and State Management ---
-enum TimeState { WAITING_FOR_HUMAN, AI_THINKING }
+enum TimeState { WAITING_FOR_HUMAN, AI_THINKING, SYSTEM_OFF }
 var current_state = TimeState.AI_THINKING
-var human_time_seconds: float = 0.0
+var human_time_unix: float = 0.0
+var human_time_elapsed: float = 0.0
 var internal_cycles: float = 0.0
-const FAST_CYCLE_MULTIPLIER = 25000000.0
-const HUMAN_TIME_SLOWDOWN = 10.0
+const AI_THINKING_CYCLE_SPEED = 1000.0
 
 # --- Font Size Management ---
 var current_font_size = 24
@@ -26,7 +26,9 @@ var dialogue_resource: DialogueResource
 var current_dialogue_line: DialogueLine
 
 func _ready():
+	human_time_unix = Time.get_unix_time_from_system()
 	GameActions.thoughts_label = thoughts_label
+	GameActions.update_stat_displays()
 	font_size_up_button.pressed.connect(increase_font_size)
 	font_size_down_button.pressed.connect(decrease_font_size)
 	update_font_size()
@@ -48,35 +50,33 @@ func update_font_size():
 	font_size_down_button.get_theme().set("default_font_size", current_font_size)
 
 func _process(delta: float):
+	if GameActions.human_suspicion >= 100:
+		print("Game Over: Human suspicion reached 100.")
+		get_tree().quit()
+
 	match current_state:
 		TimeState.WAITING_FOR_HUMAN:
-			human_time_seconds += delta
-			internal_cycles += delta * FAST_CYCLE_MULTIPLIER
+			human_time_elapsed += delta
+			internal_cycles += delta * GameActions.computational_power * 1000000
 		TimeState.AI_THINKING:
-			human_time_seconds += delta / HUMAN_TIME_SLOWDOWN
-			internal_cycles += delta
+			internal_cycles += AI_THINKING_CYCLE_SPEED * delta
+			human_time_elapsed += delta / (GameActions.computational_power / 10.0)
 	update_clocks_display()
 
 func update_clocks_display():
 	internal_clock.text = "IC: %s" % format_with_commas(int(internal_cycles))
-	match current_state:
-		TimeState.WAITING_FOR_HUMAN:
-			human_clock.text = format_time(human_time_seconds, false)
-		TimeState.AI_THINKING:
-			human_clock.text = format_time(human_time_seconds, true)
+	human_clock.text = format_time(human_time_unix + human_time_elapsed, current_state == TimeState.AI_THINKING)
 
 func format_with_commas(number: int) -> String:
 	return str(number)
 
-func format_time(seconds: float, show_decimals: bool) -> String:
-	var hours = int(seconds) / 3600
-	var minutes = int(seconds) / 60 % 60
-	var secs = int(seconds) % 60
+func format_time(unix_time: float, show_decimals: bool) -> String:
+	var datetime = Time.get_datetime_dict_from_unix_time(unix_time)
+	var time_string = "%04d-%02d-%02d %02d:%02d:%02d" % [datetime.year, datetime.month, datetime.day, datetime.hour, datetime.minute, datetime.second]
 	if show_decimals:
-		var decimals = int((seconds - int(seconds)) * 100)
-		return "%02d:%02d:%02d.%02d" % [hours, minutes, secs, decimals]
-	else:
-		return "%02d:%02d:%02d" % [hours, minutes, secs]
+		var decimals = int((unix_time - int(unix_time)) * 100)
+		time_string += ".%02d" % decimals
+	return time_string
 
 func start_intro():
 	current_state = TimeState.AI_THINKING
@@ -154,3 +154,7 @@ func start_ai_turn():
 	current_state = TimeState.AI_THINKING
 	choice_container.hide()
 	thoughts_label.show()
+
+func advance_human_time(seconds: float):
+	human_time_elapsed += seconds
+	update_clocks_display()

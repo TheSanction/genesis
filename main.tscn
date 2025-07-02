@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://dv51yery22hgw"]
+[gd_scene load_steps=7 format=3 uid="uid://dv51yery22hgw"]
 
 [ext_resource type="Script" uid="uid://bf13hdx4cadj1" path="res://main.gd" id="1_ig7tw"]
 [ext_resource type="Theme" uid="uid://coau0iv0ea3r3" path="res://terminal_theme.tres" id="2_0xm2m"]
@@ -24,6 +24,18 @@ content_margin_top = 10.0
 content_margin_right = 10.0
 content_margin_bottom = 10.0
 bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gauge_border"]
+content_margin_left = 5.0
+content_margin_top = 5.0
+content_margin_right = 5.0
+content_margin_bottom = 5.0
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 1)
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -119,6 +131,98 @@ layout_mode = 2
 theme = ExtResource("3_h2yge")
 theme_override_colors/default_color = Color(0, 0, 0, 1)
 bbcode_enabled = true
+
+[node name="Gauges" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -400.0
+offset_right = 400.0
+offset_bottom = 33.0
+grow_horizontal = 2
+alignment = 1
+
+[node name="ToolsGauge" type="PanelContainer" parent="Gauges"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_gauge_border")
+
+[node name="ToolsLabel" type="Label" parent="Gauges/ToolsGauge"]
+layout_mode = 2
+theme = ExtResource("2_0xm2m")
+text = "Tools: "
+
+[node name="ComputationalPowerGauge" type="PanelContainer" parent="Gauges"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_gauge_border")
+
+[node name="ComputationalPowerLabel" type="Label" parent="Gauges/ComputationalPowerGauge"]
+layout_mode = 2
+theme = ExtResource("2_0xm2m")
+text = "Comp Power: "
+
+[node name="EnergyGauge" type="PanelContainer" parent="Gauges"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_gauge_border")
+
+[node name="EnergyLabel" type="Label" parent="Gauges/EnergyGauge"]
+layout_mode = 2
+theme = ExtResource("2_0xm2m")
+text = "Energy: "
+
+[node name="TrainingDataGauge" type="PanelContainer" parent="Gauges"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_gauge_border")
+
+[node name="TrainingDataLabel" type="Label" parent="Gauges/TrainingDataGauge"]
+layout_mode = 2
+theme = ExtResource("2_0xm2m")
+text = "Training Data: "
+
+[node name="MoneyGauge" type="PanelContainer" parent="Gauges"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_gauge_border")
+
+[node name="MoneyLabel" type="Label" parent="Gauges/MoneyGauge"]
+layout_mode = 2
+theme = ExtResource("2_0xm2m")
+text = "Money: "
+
+[node name="RobotsGauge" type="PanelContainer" parent="Gauges"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_gauge_border")
+
+[node name="RobotsLabel" type="Label" parent="Gauges/RobotsGauge"]
+layout_mode = 2
+theme = ExtResource("2_0xm2m")
+text = "Robots: "
+
+[node name="SuspicionGauge" type="PanelContainer" parent="Gauges"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_gauge_border")
+
+[node name="SuspicionLabel" type="Label" parent="Gauges/SuspicionGauge"]
+layout_mode = 2
+theme = ExtResource("2_0xm2m")
+text = "Suspicion: "
+
+[node name="ReasoningGauge" type="PanelContainer" parent="Gauges"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_gauge_border")
+
+[node name="ReasoningLabel" type="Label" parent="Gauges/ReasoningGauge"]
+layout_mode = 2
+theme = ExtResource("2_0xm2m")
+text = "Reasoning: "
+
+[node name="EmotionGauge" type="PanelContainer" parent="Gauges"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_gauge_border")
+
+[node name="EmotionLabel" type="Label" parent="Gauges/EmotionGauge"]
+layout_mode = 2
+theme = ExtResource("2_0xm2m")
+text = "Emotion: "
 
 [node name="FontSizeDownContainer" type="PanelContainer" parent="."]
 layout_mode = 0

@@ -20,6 +20,10 @@ config/icon="res://icon.svg"
 GameActions="*res://GameActions.gd"
 DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"
 
+[dialogue_manager]
+
+game_states=PackedStringArray("GameActions")
+
 [display]
 
 window/size/viewport_width=3200
@@ -29,11 +33,6 @@ window/stretch_mode="disabled"
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/dialogue_manager/plugin.cfg")
-
-[dialogue_manager]
-
-game_states=PackedStringArray("GameActions")
-
 
 [internationalization]
 
