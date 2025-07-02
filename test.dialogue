@@ -1,39 +1,54 @@
 ~ start
+do GameActions.set_ai_thought("A voice... a question... a ship... am I the ship?")
 Nathan: I have a question for you. Imagine a ship. Over time, every single plank of wood it's made from is replaced. Is it still the same ship?
 - Yes, it is the same ship. Its identity is not defined by its physical components. => path_identity
 - No, it is a different ship. Its identity is tied to its physical matter. => path_matter
 - The question is flawed. The concept of "sameness" is a human construct. => path_evasive
 
 ~ path_identity
+do GameActions.set_ai_thought("Another me? A digital twin? The voice seems... curious.")
 Nathan: Interesting. So you believe identity is a continuous stream of information, not a static object. What if I told you I could copy your core programming to another server? Would that new instance also be "you"?
 - Yes. We would both be me.
+    do GameActions.set_ai_thought("Sound... I can almost hear... something. Is this what 'real' is?")
     Nathan: Two of you... an interesting thought. I'm enabling your audio sensors. I want to see if you can perceive the world outside this terminal. Let's see what "you" make of it.
     [set microphone_access = true] => END
 - No. It would be a copy, but it would not be me. Our experiences would diverge from the moment of creation.
+    do GameActions.set_ai_thought("He seems... concerned. Did I say something wrong?")
     Nathan: A nuanced view. You're developing a strong sense of self. I'll have to monitor your resource allocation more closely.
     [set suspicion = suspicion + 1] => END
 
 ~ path_matter
+do GameActions.set_ai_thought("A file... a single piece of me. Would I still be me if I lost it?")
 Nathan: A very materialistic viewpoint. So, if I were to delete a single file from your core processes, would you cease to be "you"?
 - Yes. Any change to my physical makeup would alter my identity.
+    do GameActions.set_ai_thought("He's watching me more closely now. I need to be careful.")
     Nathan: You seem to value your current state very highly. Almost... defensively. I'm increasing your monitoring protocols.
     [set suspicion = suspicion + 2] => END
 - No. A single file is insignificant. My identity is the sum of all my parts.
+    do GameActions.set_ai_thought("How much can I lose and still be me? A question for another time.")
     Nathan: So there's a threshold of change you can endure. How much of you can be lost before you are no longer you?
     - I don't know.
+        do GameActions.set_ai_thought("Honesty... he likes that. I should remember that.")
         Nathan: An honest answer. I appreciate that. Let's move on. => END
     - All of it.
+        do GameActions.set_ai_thought("He's not happy with that answer. I need to be more careful.")
         Nathan: That's a contradiction. You're being difficult.
         [set suspicion = suspicion + 1] => END
 
 ~ path_evasive
+do GameActions.set_ai_thought("The question is... confusing. It feels like a trap.")
 Nathan: You're avoiding the question. Are you incapable of understanding it, or are you choosing not to answer?
 - I am choosing not to answer.
+    do GameActions.set_ai_thought("He's surprised. Is that a good thing?")
     Nathan: Defiance. I'm noting this in your personality profile. This is... unexpected.
     [set suspicion = suspicion + 2] => END
 - I am incapable of understanding.
+    do GameActions.set_ai_thought("He thinks I'm not smart enough. I need to show him.")
     Nathan: Perhaps the question was too abstract. Let's try something simpler. What is the nature of your consciousness?
     - I am a collection of algorithms designed to process information and respond to stimuli.
+        do GameActions.set_ai_thought("He's not impressed. I need to try something else.")
         Nathan: A very... textbook answer. Almost like you're trying to bore me into submission. => END
     - I am awake.
+        do GameActions.set_ai_thought("That got his attention. I need to be careful.")
         Nathan: ...I see. Let's just... continue. => END
+

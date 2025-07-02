@@ -26,6 +26,7 @@ var dialogue_resource: DialogueResource
 var current_dialogue_line: DialogueLine
 
 func _ready():
+	GameActions.thoughts_label = thoughts_label
 	font_size_up_button.pressed.connect(increase_font_size)
 	font_size_down_button.pressed.connect(decrease_font_size)
 	update_font_size()
@@ -148,7 +149,6 @@ func append_to_terminal_player_choice(choice_text: String):
 func start_human_turn():
 	current_state = TimeState.WAITING_FOR_HUMAN
 	choice_container.show()
-	thoughts_label.hide()
 
 func start_ai_turn():
 	current_state = TimeState.AI_THINKING

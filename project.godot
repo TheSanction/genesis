@@ -15,19 +15,25 @@ run/main_scene="uid://dv51yery22hgw"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+GameActions="*res://GameActions.gd"
+DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"
+
 [display]
 
 window/size/viewport_width=3200
 window/size/viewport_height=1800
 window/stretch_mode="disabled"
 
-[autoload]
-
-DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"
-
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/dialogue_manager/plugin.cfg")
+
+[dialogue_manager]
+
+game_states=PackedStringArray("GameActions")
+
 
 [internationalization]
 

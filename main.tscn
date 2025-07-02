@@ -110,7 +110,7 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="ThoughtsPanelContainer" type="PanelContainer" parent="CenterContainer/MasterLayoutContainer/HBoxContainer"]
-custom_minimum_size = Vector2(200, 0)
+custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_0xm2m")
 

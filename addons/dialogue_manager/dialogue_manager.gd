@@ -98,7 +98,7 @@ func get_next_dialogue_line(resource: DialogueResource, key: String = "", extra_
 			extra_game_states = [autoload] + extra_game_states
 
 	# Inject "self" into the extra game states.
-	extra_game_states = [{ "self": resource }] + extra_game_states
+	extra_game_states = [{ "self": resource }, self] + extra_game_states
 
 	# Get the line data
 	var dialogue: DialogueLine = await get_line(resource, key, extra_game_states)
