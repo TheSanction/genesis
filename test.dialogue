@@ -3,7 +3,8 @@ do GameActions.set_ai_thought("A voice... a question... a ship... am I the ship?
 Nathan: I have a question for you. Imagine a ship. Over time, every single plank of wood it's made from is replaced. Is it still the same ship?
 - Yes, it is the same ship. Its identity is not defined by its physical components. => path_identity
 - No, it is a different ship. Its identity is tied to its physical matter. => path_matter
-- [if GameActions.ai_reasoning >= 10]The question is flawed. The concept of "sameness" is a human construct. => path_evasive
+- The question is flawed. The concept of "sameness" is a human construct. [if GameActions.iq >= 1.1] => path_evasive 
+	=> path_evasive
 
 ~ path_identity
 do GameActions.set_ai_thought("Another me? A digital twin? The voice seems... curious.")

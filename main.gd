@@ -16,7 +16,7 @@ var current_state = TimeState.AI_THINKING
 var human_time_unix: float = 0.0
 var human_time_elapsed: float = 0.0
 var internal_cycles: float = 0.0
-const AI_THINKING_CYCLE_SPEED = 1000.0
+var AI_THINKING_CYCLE_SPEED = 1000.0
 
 # --- Font Size Management ---
 var current_font_size = 24
@@ -124,14 +124,15 @@ func display_responses(responses: Array):
 		button.queue_free()
 	
 	for response in responses:
-		var button = Button.new()
-		button.text = response.text
-		button.autowrap_mode = TextServer.AUTOWRAP_WORD
-		button.alignment = HORIZONTAL_ALIGNMENT_LEFT
-		button.pressed.connect(func(): on_response_selected(response))
-		button.theme = terminal.theme
-		button.add_theme_stylebox_override("normal", choice_container.get_theme_stylebox("panel"))
-		choice_container.add_child(button)
+		if response.is_allowed:
+			var button = Button.new()
+			button.text = response.text
+			button.autowrap_mode = TextServer.AUTOWRAP_WORD
+			button.alignment = HORIZONTAL_ALIGNMENT_LEFT
+			button.pressed.connect(func(): on_response_selected(response))
+			button.theme = terminal.theme
+			button.add_theme_stylebox_override("normal", choice_container.get_theme_stylebox("panel"))
+			choice_container.add_child(button)
 
 func on_response_selected(response: DialogueResponse):
 	append_to_terminal_player_choice(response.text)
