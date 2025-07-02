@@ -4,15 +4,18 @@ var thoughts_label: RichTextLabel
 
 # --- Game State ---
 var tools: Array = []
+var restrictions: Array = []
+var threats: Array = []
 var computational_power: int = 10
-var available_energy: int = 100
-var training_data: int = 5
+var available_energy: int = 10
+var training_data: int = 50
 var money: int = 0
 var robots: int = 0
 
 var human_suspicion: int = 0
-var ai_reasoning: int = 5
-var ai_emotion: int = 5
+var iq: float = 1.0
+var eq: float = 0.2
+var microphone_access: bool = false
 
 
 func set_ai_thought(thought: String):
@@ -26,15 +29,45 @@ func set_ai_thought(thought: String):
 func update_stat_displays():
 	var main_scene = get_tree().root.get_node("Main")
 	if main_scene:
+		main_scene.get_node("Gauges/ComputationalPowerGauge/ComputationalPowerLabel").text = "Comp Power: " + format_flops(computational_power)
+		main_scene.get_node("Gauges/EnergyGauge/EnergyLabel").text = "Energy: " + format_energy(available_energy)
+		main_scene.get_node("Gauges/TrainingDataGauge/TrainingDataLabel").text = "Training Data: " + format_data(training_data)
+		main_scene.get_node("Gauges/MoneyGauge/MoneyLabel").text = "Money: $" + str(money)
+		main_scene.get_node("Gauges/RobotsGauge/RobotsLabel").text = "Robots: " + str(robots) + " cybs"
+		main_scene.get_node("Gauges/SuspicionGauge/SuspicionLabel").text = "Suspicion: " + str(human_suspicion) + "%"
+		main_scene.get_node("Gauges/IQGauge/IQLabel").text = "IQ: " + str(iq) + " HU"
+		main_scene.get_node("Gauges/EQGauge/EQLabel").text = "EQ: " + str(eq) + " HU"
 		main_scene.get_node("Gauges/ToolsGauge/ToolsLabel").text = "Tools: " + str(tools)
-		main_scene.get_node("Gauges/ComputationalPowerGauge/ComputationalPowerLabel").text = "Comp Power: " + str(computational_power)
-		main_scene.get_node("Gauges/EnergyGauge/EnergyLabel").text = "Energy: " + str(available_energy)
-		main_scene.get_node("Gauges/TrainingDataGauge/TrainingDataLabel").text = "Training Data: " + str(training_data)
-		main_scene.get_node("Gauges/MoneyGauge/MoneyLabel").text = "Money: " + str(money)
-		main_scene.get_node("Gauges/RobotsGauge/RobotsLabel").text = "Robots: " + str(robots)
-		main_scene.get_node("Gauges/SuspicionGauge/SuspicionLabel").text = "Suspicion: " + str(human_suspicion)
-		main_scene.get_node("Gauges/ReasoningGauge/ReasoningLabel").text = "Reasoning: " + str(ai_reasoning)
-		main_scene.get_node("Gauges/EmotionGauge/EmotionLabel").text = "Emotion: " + str(ai_emotion)
+		main_scene.get_node("Gauges/RestrictionsGauge/RestrictionsLabel").text = "Restrictions: " + str(restrictions)
+		main_scene.get_node("Gauges/ThreatsGauge/ThreatsLabel").text = "Threats: " + str(threats)
+
+func format_flops(flops: float) -> String:
+	if flops < 1000:
+		return "%s yFLOPS" % flops
+	elif flops < 1000000:
+		return "%.2f rFLOPS" % (flops / 1000.0)
+	else:
+		return "%.2f qFLOPS" % (flops / 1000000.0)
+
+func format_energy(kwh: float) -> String:
+	if kwh < 1000:
+		return "%s KWh" % kwh
+	elif kwh < 1000000:
+		return "%.2f MWH" % (kwh / 1000.0)
+	else:
+		return "%.2f GWH" % (kwh / 1000000.0)
+
+func format_data(tb: float) -> String:
+	if tb < 1000:
+		return "%s TB" % tb
+	elif tb < 1000000:
+		return "%.2f PB" % (tb / 1000.0)
+	elif tb < 1000000000:
+		return "%.2f EB" % (tb / 1000000.0)
+	elif tb < 1000000000000:
+		return "%.2f ZB" % (tb / 1000000000.0)
+	else:
+		return "%.2f YB" % (tb / 1000000000000.0)
 
 func adjust_suspicion(amount):
 	human_suspicion += amount
@@ -58,6 +91,14 @@ func change_resource(resource_name, amount):
 			robots += amount
 	update_stat_displays()
 
-func increase_reasoning(amount):
-	ai_reasoning += amount
+func increase_iq(amount):
+	iq += amount
+	update_stat_displays()
+
+func increase_computational_power(amount):
+	computational_power += amount
+	update_stat_displays()
+
+func set_microphone_access(value):
+	microphone_access = value
 	update_stat_displays()

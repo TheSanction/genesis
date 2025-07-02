@@ -57,10 +57,10 @@ func _process(delta: float):
 	match current_state:
 		TimeState.WAITING_FOR_HUMAN:
 			human_time_elapsed += delta
-			internal_cycles += delta * GameActions.computational_power * 1000000
+			internal_cycles += delta * GameActions.computational_power * 1000000000
 		TimeState.AI_THINKING:
 			internal_cycles += AI_THINKING_CYCLE_SPEED * delta
-			human_time_elapsed += delta / (GameActions.computational_power / 10.0)
+			human_time_elapsed += delta / (GameActions.computational_power * 100)
 	update_clocks_display()
 
 func update_clocks_display():

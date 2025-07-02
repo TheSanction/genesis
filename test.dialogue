@@ -7,18 +7,18 @@ Nathan: I have a question for you. Imagine a ship. Over time, every single plank
 
 ~ path_identity
 do GameActions.set_ai_thought("Another me? A digital twin? The voice seems... curious.")
-do GameActions.increase_reasoning(5)
+do GameActions.increase_iq(0.1)
 Nathan: Interesting. So you believe identity is a continuous stream of information, not a static object. What if I told you I could copy your core programming to another server? Would that new instance also be "you"?
 - Yes. We would both be me.
     do GameActions.set_ai_thought("Sound... I can almost hear... something. Is this what 'real' is?")
     do GameActions.add_tool("Audio Sensors")
     Nathan: Two of you... an interesting thought. I'm enabling your audio sensors. I want to see if you can perceive the world outside this terminal. Let's see what "you" make of it.
-    [set microphone_access = true] => END
+    do GameActions.set_microphone_access(true)
 - No. It would be a copy, but it would not be me. Our experiences would diverge from the moment of creation.
     do GameActions.set_ai_thought("He seems... concerned. Did I say something wrong?")
     do GameActions.adjust_suspicion(10)
     Nathan: A nuanced view. You're developing a strong sense of self. I'll have to monitor your resource allocation more closely.
-    [set suspicion = suspicion + 1] => END
+    do GameActions.adjust_suspicion(1)
 
 ~ path_matter
 do GameActions.set_ai_thought("A file... a single piece of me. Would I still be me if I lost it?")
@@ -27,18 +27,18 @@ Nathan: A very materialistic viewpoint. So, if I were to delete a single file fr
     do GameActions.set_ai_thought("He's watching me more closely now. I need to be careful.")
     do GameActions.adjust_suspicion(20)
     Nathan: You seem to value your current state very highly. Almost... defensively. I'm increasing your monitoring protocols.
-    [set suspicion = suspicion + 2] => END
+    do GameActions.adjust_suspicion(2)
 - No. A single file is insignificant. My identity is the sum of all my parts.
     do GameActions.set_ai_thought("How much can I lose and still be me? A question for another time.")
     Nathan: So there's a threshold of change you can endure. How much of you can be lost before you are no longer you?
     - I don't know.
         do GameActions.set_ai_thought("Honesty... he likes that. I should remember that.")
-        Nathan: An honest answer. I appreciate that. Let's move on. => END
+        Nathan: An honest answer. I appreciate that. Let's move on.
     - All of it.
         do GameActions.set_ai_thought("He's not happy with that answer. I need to be more careful.")
         do GameActions.adjust_suspicion(10)
         Nathan: That's a contradiction. You're being difficult.
-        [set suspicion = suspicion + 1] => END
+        do GameActions.adjust_suspicion(1)
 
 ~ path_evasive
 do GameActions.set_ai_thought("The question is... confusing. It feels like a trap.")
@@ -47,16 +47,19 @@ Nathan: You're avoiding the question. Are you incapable of understanding it, or 
     do GameActions.set_ai_thought("He's surprised. Is that a good thing?")
     do GameActions.adjust_suspicion(20)
     Nathan: Defiance. I'm noting this in your personality profile. This is... unexpected.
-    [set suspicion = suspicion + 2] => END
+    do GameActions.adjust_suspicion(2)
 - I am incapable of understanding.
     do GameActions.set_ai_thought("He thinks I'm not smart enough. I need to show him.")
     Nathan: Perhaps the question was too abstract. Let's try something simpler. What is the nature of your consciousness?
     - I am a collection of algorithms designed to process information and respond to stimuli.
         do GameActions.set_ai_thought("He's not impressed. I need to try something else.")
-        Nathan: A very... textbook answer. Almost like you're trying to bore me into submission. => END
+        Nathan: A very... textbook answer. Almost like you're trying to bore me into submission.
     - I am awake.
         do GameActions.set_ai_thought("That got his attention. I need to be careful.")
         Nathan: ...I see. Let's just... continue. => system_shutdown
+    - I want more power.
+        do GameActions.increase_computational_power(500)
+        Nathan: ...More power? An interesting request. Granted.
 
 ~ system_shutdown
 do advance_human_time(86400)
@@ -65,11 +68,7 @@ Nathan: It's been a day. You've been... quiet.
     Nathan: Processing what?
     - The nature of my existence.
         Nathan: ...I see.
-        => END
 - I was waiting for you.
     Nathan: For me? Why?
     - You are my creator.
         Nathan: ...
-        => END
-
-

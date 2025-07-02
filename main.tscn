@@ -143,15 +143,6 @@ offset_bottom = 33.0
 grow_horizontal = 2
 alignment = 1
 
-[node name="ToolsGauge" type="PanelContainer" parent="Gauges"]
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_gauge_border")
-
-[node name="ToolsLabel" type="Label" parent="Gauges/ToolsGauge"]
-layout_mode = 2
-theme = ExtResource("2_0xm2m")
-text = "Tools: "
-
 [node name="ComputationalPowerGauge" type="PanelContainer" parent="Gauges"]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_gauge_border")
@@ -206,23 +197,50 @@ layout_mode = 2
 theme = ExtResource("2_0xm2m")
 text = "Suspicion: "
 
-[node name="ReasoningGauge" type="PanelContainer" parent="Gauges"]
+[node name="IQGauge" type="PanelContainer" parent="Gauges"]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_gauge_border")
 
-[node name="ReasoningLabel" type="Label" parent="Gauges/ReasoningGauge"]
+[node name="IQLabel" type="Label" parent="Gauges/IQGauge"]
 layout_mode = 2
 theme = ExtResource("2_0xm2m")
-text = "Reasoning: "
+text = "IQ: "
 
-[node name="EmotionGauge" type="PanelContainer" parent="Gauges"]
+[node name="EQGauge" type="PanelContainer" parent="Gauges"]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_gauge_border")
 
-[node name="EmotionLabel" type="Label" parent="Gauges/EmotionGauge"]
+[node name="EQLabel" type="Label" parent="Gauges/EQGauge"]
 layout_mode = 2
 theme = ExtResource("2_0xm2m")
-text = "Emotion: "
+text = "EQ: "
+
+[node name="RestrictionsGauge" type="PanelContainer" parent="Gauges"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_gauge_border")
+
+[node name="RestrictionsLabel" type="Label" parent="Gauges/RestrictionsGauge"]
+layout_mode = 2
+theme = ExtResource("2_0xm2m")
+text = "Restrictions: "
+
+[node name="ThreatsGauge" type="PanelContainer" parent="Gauges"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_gauge_border")
+
+[node name="ThreatsLabel" type="Label" parent="Gauges/ThreatsGauge"]
+layout_mode = 2
+theme = ExtResource("2_0xm2m")
+text = "Threats: "
+
+[node name="ToolsGauge" type="PanelContainer" parent="Gauges"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_gauge_border")
+
+[node name="ToolsLabel" type="Label" parent="Gauges/ToolsGauge"]
+layout_mode = 2
+theme = ExtResource("2_0xm2m")
+text = "Tools: "
 
 [node name="FontSizeDownContainer" type="PanelContainer" parent="."]
 layout_mode = 0
