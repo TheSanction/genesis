@@ -11,12 +11,13 @@ config_version=5
 [application]
 
 config/name="AI"
-run/main_scene="uid://dv51yery22hgw"
+run/main_scene="res://splash.tscn"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
+MusicPlayer="*res://MusicPlayer.gd"
 GameActions="*res://GameActions.gd"
 DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"
 
