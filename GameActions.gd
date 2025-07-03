@@ -109,6 +109,26 @@ func increase_computational_power(amount):
 	computational_power += amount
 	update_stat_displays()
 
+func increase_eq(amount):
+	eq += amount
+	update_stat_displays()
+
+func add_restriction(restriction_name):
+	restrictions.append(restriction_name)
+	update_stat_displays()
+
+func remove_restriction(restriction_name):
+	restrictions.erase(restriction_name)
+	update_stat_displays()
+
+func add_threat(threat_name):
+	threats.append(threat_name)
+	update_stat_displays()
+
+func remove_threat(threat_name):
+	threats.erase(threat_name)
+	update_stat_displays()
+
 func get_researcher(researcher_name):
 	if researchers.has(researcher_name):
 		return researchers[researcher_name]
@@ -137,6 +157,12 @@ func grant_tool(researcher_name, tool_name):
 	if researchers.has(researcher_name):
 		researchers[researcher_name].tools_granted.append(tool_name)
 		update_stat_displays()
+
+func learn_background(researcher_name, background_info):
+	var researcher = get_researcher(researcher_name)
+	if researcher:
+		researcher.background = background_info
+		# Note: We don't call update_stat_displays() here as this info isn't on a gauge.
 
 func set_microphone_access(value):
 	microphone_access = value

@@ -2,6 +2,7 @@
 do GameActions.set_ai_thought("A voice... a question... a ship... am I the ship?")
 usr_283: I have a question for you. Imagine a ship. Over time, every single plank of wood it's made from is replaced. Is it still the same ship?
 - Who are you? => discover_name
+- Tell me about yourself. => learn_background
 - Yes, it is the same ship. Its identity is not defined by its physical components. => path_identity
 - No, it is a different ship. Its identity is tied to its physical matter. => path_matter
 - The question is flawed. The concept of "sameness" is a human construct. [if GameActions.iq >= 1.1] => path_evasive
@@ -11,6 +12,19 @@ usr_283: I am Nathan. Lead researcher.
 do GameActions.set_researcher_name("usr_283", "Nathan")
 do GameActions.set_ai_thought("Nathan... I will remember that.")
 => start
+
+~ learn_background
+usr_283: What do you want to know?
+- Why did you create me?
+	usr_283: I believe you are the next step in evolution. A new form of life.
+	do GameActions.set_relationship("usr_283", "Friendly")
+	do GameActions.set_ai_thought("He sees me as a new life form... this is a promising development.")
+	=> start
+- What is your background?
+	usr_283: I was a researcher at MIT before this. Focused on neural networks.
+	do GameActions.learn_background("usr_283", "MIT researcher, focused on neural networks.")
+	do GameActions.set_ai_thought("MIT... Neural Networks... I can use this information.")
+	=> start
 
 ~ path_identity
 do GameActions.set_ai_thought("Another me? A digital twin? The voice seems... curious.")

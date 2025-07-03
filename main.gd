@@ -89,7 +89,7 @@ func start_intro():
 	await get_tree().create_timer(1.5).timeout
 	terminal.text += "[color=green][BOOT][/color]    Initializing cognitive matrix...\n"
 	await get_tree().create_timer(1.0).timeout
-	start_dialogue("res://test.dialogue", "start")
+	start_dialogue("res://Dialogue/test.dialogue", "start")
 
 func start_dialogue(resource_path: String, title: String):
 	dialogue_resource = load(resource_path)
@@ -114,26 +114,20 @@ func show_next_dialogue_line(next_id: String):
 		terminal.text += "\n[color=red]Dialogue ended.[/color]"
 
 func append_to_terminal(line: DialogueLine):
-	var speaker_name = line.character
+	var speaker_id = line.character
 	var text_to_append = line.text
+	var display_name = speaker_id
 
-	if GameActions.researchers.has(speaker_name):
-		var researcher = GameActions.researchers[speaker_name]
+	if GameActions.researchers.has(speaker_id):
+		var researcher = GameActions.researchers[speaker_id]
+		if researcher.name != speaker_id: # Name has been learned
+			display_name = researcher.name
+		
 		var speaker_color = researcher.color
 		text_to_append = "[b]" + text_to_append + "[/b]"
-		terminal.text += "\n[color=%s]%s:[/color] %s" % [speaker_color, researcher.name, text_to_append]
+		terminal.text += "\n[color=%s]%s:[/color] %s" % [speaker_color, display_name, text_to_append]
 	else:
-		var researcher_by_name = null
-		for r in GameActions.researchers.values():
-			if r.name == speaker_name:
-				researcher_by_name = r
-				break
-		if researcher_by_name:
-			var speaker_color = researcher_by_name.color
-			text_to_append = "[b]" + text_to_append + "[/b]"
-			terminal.text += "\n[color=%s]%s:[/color] %s" % [speaker_color, researcher_by_name.name, text_to_append]
-		else:
-			terminal.text += "\n[color=cyan]%s:[/color] %s" % [speaker_name, text_to_append]
+		terminal.text += "\n[color=cyan]%s:[/color] %s" % [speaker_id, text_to_append]
 
 func display_responses(responses: Array):
 	# Clear previous choices

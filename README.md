@@ -78,7 +78,7 @@ These are features that are part of the game's vision but are not yet implemente
 3.  Open the project in the Godot editor.
 4.  Run the main scene (`main.tscn`).
 
-The core game logic is managed in `main.gd`, while the game's state and callable functions are primarily located in the `GameActions.gd` autoload script. Dialogue trees are located in `.dialogue` files.
+The core game logic is managed in `main.gd`, while the game's state and callable functions are primarily located in the `GameActions.gd` autoload script. Dialogue trees are located in the `Dialogue` folder in `.dialogue` files.
 
 ---
 
