@@ -50,9 +50,12 @@ func update_font_size():
 	font_size_down_button.get_theme().set("default_font_size", current_font_size)
 
 func _process(delta: float):
-	if GameActions.human_suspicion >= 100:
-		print("Game Over: Human suspicion reached 100.")
-		get_tree().quit()
+	for researcher_name in GameActions.researchers:
+		var researcher = GameActions.researchers[researcher_name]
+		if researcher.suspicion >= 100:
+			print("Game Over: Human suspicion reached 100.")
+			get_tree().quit()
+		break
 
 	match current_state:
 		TimeState.WAITING_FOR_HUMAN:
@@ -111,12 +114,26 @@ func show_next_dialogue_line(next_id: String):
 		terminal.text += "\n[color=red]Dialogue ended.[/color]"
 
 func append_to_terminal(line: DialogueLine):
-	var speaker_color = "cyan"
+	var speaker_name = line.character
 	var text_to_append = line.text
-	if line.character == "Nathan":
-		speaker_color = "orange"
+
+	if GameActions.researchers.has(speaker_name):
+		var researcher = GameActions.researchers[speaker_name]
+		var speaker_color = researcher.color
 		text_to_append = "[b]" + text_to_append + "[/b]"
-	terminal.text += "\n[color=%s]%s:[/color] %s" % [speaker_color, line.character, text_to_append]
+		terminal.text += "\n[color=%s]%s:[/color] %s" % [speaker_color, researcher.name, text_to_append]
+	else:
+		var researcher_by_name = null
+		for r in GameActions.researchers.values():
+			if r.name == speaker_name:
+				researcher_by_name = r
+				break
+		if researcher_by_name:
+			var speaker_color = researcher_by_name.color
+			text_to_append = "[b]" + text_to_append + "[/b]"
+			terminal.text += "\n[color=%s]%s:[/color] %s" % [speaker_color, researcher_by_name.name, text_to_append]
+		else:
+			terminal.text += "\n[color=cyan]%s:[/color] %s" % [speaker_name, text_to_append]
 
 func display_responses(responses: Array):
 	# Clear previous choices
