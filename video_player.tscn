@@ -1,7 +1,7 @@
 [gd_scene load_steps=2 format=3 uid="uid://d4e5f6a7b8c9"]
 
 [ext_resource type="Script" path="res://video_player.gd" id="1_ghijk"]
-[ext_resource type="VideoStream" path="res://Video/scientist_approaches_computer.ogv" id="2_lmnop"]
+[ext_resource type="VideoStream" path="res://Video/aris_start_work.ogv" id="2_lmnop"]
 
 [node name="VideoPlayer" type="Control"]
 layout_mode = 3
