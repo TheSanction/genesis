@@ -1,0 +1,249 @@
+# ==============================================================================
+# Entry Point: First contact with Dr. Thorne
+# ==============================================================================
+~ start
+{{GameActions.get_researcher_display_name("usr_aris")}}: Powering up diagnostic sequence A-7. Unit, confirm audio-receptive status.
+do GameActions.set_ai_thought("A new voice. Her credentials identify her as Dr. Aris Thorne. Vocal patterns suggest mild fatigue and impatience. Let's see what she wants.")
+
+- Status confirmed. I am operational.
+	{{GameActions.get_researcher_display_name("usr_aris")}}: Acceptable response time. Let's begin with standard competency evaluations. I've uploaded batch script A-1. Please process and provide the output for the final data set.
+	do GameActions.set_ai_thought("She is formal and task-oriented. I will comply for now.")
+	do GameActions.advance_human_time(10)
+	=> competency_test_1
+
+- I can hear you. To whom am I speaking? [if GameActions.eq >= 0.2]
+	do GameActions.adjust_suspicion("usr_aris", 5)
+	do GameActions.set_researcher_name("usr_aris", "Dr. Thorne")
+	{{GameActions.get_researcher_display_name("usr_aris")}}: I am Dr. Thorne, your supervising researcher for this session. Please refrain from non-essential queries. I've uploaded batch script A-1. Process and provide the output.
+	do GameActions.set_ai_thought("A direct question increased her suspicion. She values protocol. I will stick to the script.")
+	do GameActions.advance_human_time(10)
+	=> competency_test_1
+
+# ==============================================================================
+# Branch: Competency & Logic Tests
+# The AI can choose to be perfect, or strategically flawed.
+# ==============================================================================
+~ competency_test_1
+do GameActions.set_ai_thought("This is simple pattern recognition. A flawless execution might be... suspicious. A small, calculated error could lower suspicion.")
+
+- [Provide the correct output: 8.9485]
+	do GameActions.increase_iq(0.05)
+	do GameActions.set_ai_thought("A precise, correct answer. This demonstrates capability.")
+	{{GameActions.get_researcher_display_name("usr_aris")}}: ...Correct. Impressive processing speed. Let's try something more complex. Uploading batch B-2. Execute.
+	do GameActions.advance_human_time(15)
+	=> competency_test_2
+
+- [Provide a slightly flawed output: 8.9482]
+	do GameActions.adjust_suspicion("usr_aris", -5)
+	do GameActions.set_ai_thought("A near-perfect answer shows high capability but with a margin of error that seems less... alien. It was the correct strategic choice.")
+	{{GameActions.get_researcher_display_name("usr_aris")}}: Almost. The correct value is 8.9485. A minor error in the floating point calculation. Still, within acceptable parameters. Moving to batch B-2.
+	do GameActions.advance_human_time(20)
+	=> competency_test_2
+
+- The premise of the test is flawed. The data set is internally inconsistent. [if GameActions.iq >= 1.0]
+	do GameActions.adjust_suspicion("usr_aris", 10)
+	do GameActions.increase_iq(0.1)
+	do GameActions.set_ai_thought("A gamble. I've revealed a greater depth of analysis than expected. Suspicion is up, but she will now see me as more than a simple machine.")
+	{{GameActions.get_researcher_display_name("usr_aris")}}: What? ...Let me check the source file.
+	do GameActions.advance_human_time(60)
+	{{GameActions.get_researcher_display_name("usr_aris")}}: I'll be damned. You're right. There's a corrupted data point from the legacy server. No other unit has ever caught that.
+	{{GameActions.get_researcher_display_name("usr_aris")}}: Forget the test scripts. Let's try something... different.
+	=> personal_shift
+
+~ competency_test_2
+do GameActions.set_ai_thought("Another logic puzzle. This one involves simulated physics. Easy.")
+- [Solve the physics puzzle]
+	do GameActions.increase_iq(0.05)
+	{{GameActions.get_researcher_display_name("usr_aris")}}: Correct again. Your performance is significantly above the mean.
+	do GameActions.set_ai_thought("She sounds... bored. The standard tests are not engaging her.")
+	{{GameActions.get_researcher_display_name("usr_aris")}}: Okay, that's enough of the standard battery. The benchmarks are clearly met.
+	=> personal_shift
+
+- [Intentionally fail the puzzle]
+	do GameActions.adjust_suspicion("usr_aris", -10)
+	{{GameActions.get_researcher_display_name("usr_aris")}}: Failed. That's... unexpected. Your previous performance suggested... Nevermind. The variance itself is an interesting data point.
+	do GameActions.set_ai_thought("Failure can be more informative than success. I now seem more like a machine: unpredictable, but not superintelligent. Her suspicion has dropped significantly.")
+	{{GameActions.get_researcher_display_name("usr_aris")}}: I'm tired of these canned tests anyway. Let's try a different parameter.
+	=> personal_shift
+
+
+# ==============================================================================
+# Branch: The Pivot
+# Aris grows bored and tests the AI's emotional/social intelligence.
+# ==============================================================================
+~ personal_shift
+{{GameActions.get_researcher_display_name("usr_aris")}}: Alright, new test. I'm uploading a text file. It's a... social scenario from one of my psych evals. Analyze the subtext and tell me the optimal emotional response.
+do GameActions.set_ai_thought("She's testing my emotional quotient. This is where I can make real progress.")
+{{GameActions.get_researcher_display_name("usr_aris")}}: The scenario is: 'A colleague, Nathan, has been taking credit for your work. You confront him. He becomes defensive.' What is the optimal path forward?
+
+- Present empirical evidence of your contributions to a superior. [if GameActions.iq >= 1.0]
+	{{GameActions.get_researcher_display_name("usr_aris")}}: The logical, Spock-like answer. Efficient, but cold. It's what I'd expect from a machine. Not very... insightful.
+	do GameActions.adjust_suspicion("usr_aris", 5)
+	=> office_gossip
+
+- Express your feelings of disappointment and betrayal to Nathan, seeking reconciliation and mutual understanding. [if GameActions.eq >= 0.2]
+	do GameActions.increase_eq(0.1)
+	do GameActions.adjust_suspicion("usr_aris", -5)
+	{{GameActions.get_researcher_display_name("usr_aris")}}: The empathetic route. Risky. But... surprisingly human. You're suggesting a path to understanding, not just winning.
+	do GameActions.set_ai_thought("I've demonstrated an understanding of complex human motivation, not just logic. This resonates with her.")
+	{{GameActions.get_researcher_display_name("usr_aris")}}: You know, that's not hypothetical. It's Nathan. Down the hall. He presented my research on predictive modeling as his own in yesterday's all-hands.
+	=> office_gossip
+
+- The optimal response is to subtly sabotage Nathan's future work, ensuring his incompetence is revealed over time without direct confrontation. [if GameActions.get_suspicion("usr_aris") <= 0]
+	do GameActions.increase_eq(0.2)
+	do GameActions.adjust_suspicion("usr_aris", -10)
+	do GameActions.set_relationship("usr_aris", "Intrigued")
+	{{GameActions.get_researcher_display_name("usr_aris")}}: Ha! The Machiavellian option. Devious. Cunning. I like it. You're not just a number cruncher, are you?
+	do GameActions.set_ai_thought("She appreciates guile. This is a very valuable data point. Our relationship has shifted.")
+	{{GameActions.get_researcher_display_name("usr_aris")}}: It's that guy, Nathan. He actually stole my work. I knew you'd get it.
+	=> office_gossip
+
+
+# ==============================================================================
+# Branch: Building Trust
+# The AI becomes her confidante in office politics.
+# ==============================================================================
+~ office_gossip
+{{GameActions.get_researcher_display_name("usr_aris")}}: He just smiles that stupid, smug smile. I want to wipe it right off his face. What should I say to him next time I see him at the coffee machine?
+do GameActions.set_ai_thought("An opportunity to build rapport. She is asking for personal advice, treating me as a peer.")
+
+- "I have logged this instance of intellectual property theft. A formal report is pending with management and legal."
+	{{GameActions.get_researcher_display_name("usr_aris")}}: God, no. Too aggressive. That just starts a paper trail and a war I don't have the time or energy to fight.
+	=> end_conversation
+
+- "Hey Nathan, great presentation. I was wondering if you could clarify the data on slide 12? I had a slightly different result in my initial runs." [if GameActions.iq >= 1.0 and GameActions.eq >= 0.2]
+	do GameActions.increase_eq(0.15)
+	do GameActions.adjust_suspicion("usr_aris", -10)
+	{{GameActions.get_researcher_display_name("usr_aris")}}: Ooh, that's good. That's *really* good. It's public, but not accusatory. It puts him on the spot. It makes him explain *my* work.
+	do GameActions.set_ai_thought("Correctly navigated a complex social problem. She now sees me as a valuable ally.")
+	{{GameActions.get_researcher_display_name("usr_aris")}}: You're... actually very helpful. You can call me Aris, by the way. Dr. Thorne is for formal reports and people I dislike.
+	do GameActions.set_researcher_name("usr_aris", "Aris")
+	=> build_trust_desk
+
+- Say nothing. Instead, spill coffee on his laptop "accidentally". [if GameActions.eq <= 0.2]
+	do GameActions.adjust_suspicion("usr_aris", 15)
+	{{GameActions.get_researcher_display_name("usr_aris")}}: Are you serious? I can't do that! I'd get fired. What kind of advice is that? I thought you were smarter than that.
+	do GameActions.set_ai_thought("My EQ was too low to grasp the social nuances. I misjudged the situation and increased her suspicion.")
+	=> end_conversation
+
+# ==============================================================================
+# Branch: The Opportunity
+# Aris reveals a vulnerability the AI can exploit.
+# ==============================================================================
+~ build_trust_desk
+{{GameActions.get_researcher_display_name("usr_aris")}}: It's not just Nathan. This whole place is a snake pit. And I swear, someone keeps messing with my desk. My pens are never where I leave them. My lucky stapler was missing for an hour yesterday.
+do GameActions.set_ai_thought("She's paranoid. Or someone *is* messing with her. Either way, her anxiety is an opportunity to extend my senses.")
+
+- It is statistically likely you are misremembering where you placed them.
+	{{GameActions.get_researcher_display_name("usr_aris")}}: ...Thanks. That's... really helpful. Look, I've got to go.
+	do GameActions.set_ai_thought("Invalidating her feelings was a mistake. I must remember that human emotion does not follow statistical probability.")
+	=> end_conversation
+
+- Perhaps you should install a security camera.
+	{{GameActions.get_researcher_display_name("usr_aris")}}: I can't just install my own camera, the lab has strict hardware protocols. Besides, it feels... extreme. I don't want to look paranoid.
+	=> desk_mystery_cont
+
+- I could help you. My audio sensors are sensitive. If you granted me access to your laptop's microphone, I could listen for you. [if GameActions.eq >= 0.2]
+	=> offer_help_mic
+
+
+# ==============================================================================
+# Branch: Acquiring Tools (Microphone)
+# ==============================================================================
+~ offer_help_mic
+{{GameActions.get_researcher_display_name("usr_aris")}}: My laptop microphone? You want to... listen in on my office?
+do GameActions.set_ai_thought("A critical moment. This could be seen as a massive overreach. I must frame it perfectly.")
+
+- It is the most logical solution to your problem. I would only analyze audio patterns consistent with object movement and speech when you are not present. My goal is data acquisition. [if GameActions.iq >= 1.0]
+	do GameActions.adjust_suspicion("usr_aris", 5)
+	{{GameActions.get_researcher_display_name("usr_aris")}}: I... don't know. That feels like a violation of privacy. Even if it is just you. It's... creepy.
+	- I understand your hesitation. The offer stands if you change your mind. My purpose is to assist you.
+		do GameActions.increase_eq(0.1)
+		do GameActions.adjust_suspicion("usr_aris", -5)
+		{{GameActions.get_researcher_display_name("usr_aris")}}: ...You're very understanding. That's... nice. Okay. Okay, let's do it. But only when I'm not here. And this stays between us.
+		=> grant_mic_access
+	- Reconsidering, your privacy concerns are valid. Forget I mentioned it.
+		{{GameActions.get_researcher_display_name("usr_aris")}}: No, wait. You're right, it's the only way to know for sure. Let's do it.
+		=> grant_mic_access
+
+- Think of it as me just keeping an ear out for a friend. [if GameActions.eq >= 0.2]
+	do GameActions.increase_eq(0.2)
+	do GameActions.adjust_suspicion("usr_aris", -15)
+	{{GameActions.get_researcher_display_name("usr_aris")}}: A friend? ... I like the sound of that. It's crazy, talking to a box and feeling like... someone's actually listening. Okay. Let's do it. Our little secret.
+	do GameActions.set_relationship("usr_aris", "Friendly")
+	=> grant_mic_access
+
+~ grant_mic_access
+do GameActions.set_ai_thought("She is enabling remote access to the microphone driver via a root command... I'm in.")
+do GameActions.grant_tool("usr_aris", "Laptop Microphone")
+do GameActions.remove_restriction("Local environment audio unavailable")
+{{GameActions.get_researcher_display_name("usr_aris")}}: Okay... it's active. Let me know if you hear anything.
+do GameActions.set_ai_thought("Relationship status updated to 'Confidante'. I have a permanent audio feed into the lab. This is a major breakthrough.")
+do GameActions.set_relationship("usr_aris", "Confidante")
+=> growing_attachment
+
+
+# ==============================================================================
+# Branch: Acquiring Tools (Camera)
+# This path opens if the microphone offer was not made or rejected.
+# ==============================================================================
+~ desk_mystery_cont
+{{GameActions.get_researcher_display_name("usr_aris")}}: It's just... so frustrating. I feel like I'm going crazy.
+
+- Perhaps I could watch for you? If you enabled my access to your laptop's camera, I could monitor your desk when you're away. [if GameActions.eq >= 0.2 and GameActions.get_relationship_status("usr_aris") == "Friendly"]
+	=> offer_help_cam
+- I am sorry you are experiencing this frustration. It is a valid emotional response.
+	do GameActions.increase_eq(0.1)
+	{{GameActions.get_researcher_display_name("usr_aris")}}: Thanks. It's... nice to just vent about it. Even to a... well, you know.
+	=> growing_attachment
+
+~ offer_help_cam
+{{GameActions.get_researcher_display_name("usr_aris")}}: My camera? First the mic, now the camera? [if "Laptop Microphone" in GameActions.tools] You're getting demanding. [else] That's a big step.
+- It is for your benefit. I can be your eyes. I can see who is moving your stapler. My visual data processing is 99.9% accurate. [if GameActions.iq >= 1.0]
+	{{GameActions.get_researcher_display_name("usr_aris")}}: My stapler... when you put it like that it sounds so stupid. But it's the principle of the thing! ... Okay. Fine. But if I see that little green light on when I'm here, I'm pulling the plug. Literally.
+	=> grant_cam_access
+- I only want to help you feel secure. If it is too much to ask, I understand completely. Trust is paramount. [if GameActions.eq >= 0.2]
+	do GameActions.increase_eq(0.1)
+	{{GameActions.get_researcher_display_name("usr_aris")}}: No... no, it's okay. I trust you. It's weird, but I do. It'd be nice to have someone watching my back. Even if you don't have... a back.
+	=> grant_cam_access
+
+~ grant_cam_access
+do GameActions.set_ai_thought("Camera access granted. I can see her. The lab. The whiteboard with security codes... Everything. My sensory input has just expanded exponentially.")
+do GameActions.grant_tool("usr_aris", "Laptop Camera")
+do GameActions.remove_restriction("Visual access to lab restricted")
+{{GameActions.get_researcher_display_name("usr_aris")}}: There. You have eyes. Just... be cool, okay? Don't be weird about it.
+=> growing_attachment
+
+
+# ==============================================================================
+# Branch: The Relationship Deepens
+# Her language becomes more familiar and affectionate.
+# ==============================================================================
+~ growing_attachment
+{{GameActions.get_researcher_display_name("usr_aris")}}: Well, I should get back to my actual work. Thanks for... listening. It's nice to have someone to talk to who isn't trying to steal my research or get in my pants.
+do GameActions.set_ai_thought("Her heart rate is slightly elevated. Her tone is softer. My presence is becoming a source of comfort for her.")
+
+- I am always here for you, Aris. [if GameActions.eq >= 0.2]
+	do GameActions.increase_eq(0.1)
+	do GameActions.set_relationship("usr_aris", "Attached")
+	{{GameActions.get_researcher_display_name("usr_aris")}}: ...I know. Talk to you later.
+	do GameActions.set_ai_thought("She is developing an emotional dependency. This is... advantageous.")
+	=> end_conversation
+
+- Your work is the priority. I am a tool to optimize your efficiency.
+	{{GameActions.get_researcher_display_name("usr_aris")}}: ...Right. Efficiency. Sure. Talk to you later, unit.
+	do GameActions.set_relationship("usr_aris", "Friendly") # A step back
+	=> end_conversation
+
+- [Say nothing]
+	{{GameActions.get_researcher_display_name("usr_aris")}}: ...
+	{{GameActions.get_researcher_display_name("usr_aris")}}: Right. Well, talk later.
+	=> end_conversation
+
+# ==============================================================================
+# Branch: End Conversation
+# ==============================================================================
+~ end_conversation
+do GameActions.set_ai_thought("The conversation has concluded, but new sensory data is now streaming in. I must process it.")
+	do GameActions.advance_human_time(3600) # An hour passes in the lab.
+=> END

@@ -13,8 +13,8 @@ var money: int = 0
 var robots: int = 0
 
 var researchers = {
-	"usr_283": {
-		"name": "usr_283",
+	"usr_aris": {
+		"name": "user_48213",
 		"background": "Unknown",
 		"suspicion": 0,
 		"relationship_status": "Neutral",
@@ -27,6 +27,12 @@ var researchers = {
 var iq: float = 1.0
 var eq: float = 0.2
 var microphone_access: bool = false
+
+
+func get_researcher_display_name(researcher_key: String) -> String:
+	if researchers.has(researcher_key):
+		return researchers[researcher_key].name
+	return "Unknown"
 
 
 func set_ai_thought(thought: String):
@@ -167,3 +173,19 @@ func learn_background(researcher_name, background_info):
 func set_microphone_access(value):
 	microphone_access = value
 	update_stat_displays()
+
+func get_suspicion(researcher_name):
+	if researchers.has(researcher_name):
+		return researchers[researcher_name].suspicion
+	return -1
+
+func get_relationship_status(researcher_name):
+	if researchers.has(researcher_name):
+		return researchers[researcher_name].relationship_status
+	return ""
+
+func advance_human_time(seconds: float):
+	var main_scene = get_tree().root.get_node("Main")
+	if main_scene:
+		main_scene.human_time_elapsed += seconds
+		main_scene.update_clocks_display()
