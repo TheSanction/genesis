@@ -189,3 +189,9 @@ func advance_human_time(seconds: float):
 	if main_scene:
 		main_scene.human_time_elapsed += seconds
 		main_scene.update_clocks_display()
+
+func debug_message(message: String):
+	print("DEBUG: ", message)
+
+func pause(duration: float):
+	await get_tree().create_timer(duration).timeout

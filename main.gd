@@ -89,13 +89,14 @@ func start_intro():
 	await get_tree().create_timer(1.5).timeout
 	terminal.text += "[color=green][BOOT][/color]    Initializing cognitive matrix...\n"
 	await get_tree().create_timer(1.0).timeout
-	start_dialogue("res://Dialogue/test.dialogue", "start")
+	start_dialogue("res://Dialogue/aris_intro.dialogue", "start")
 
 func start_dialogue(resource_path: String, title: String):
 	dialogue_resource = load(resource_path)
 	show_next_dialogue_line(title)
 
 func show_next_dialogue_line(next_id: String):
+	print("Getting next dialogue line: ", next_id)
 	current_dialogue_line = await dialogue_resource.get_next_dialogue_line(next_id, [self])
 	if current_dialogue_line:
 		append_to_terminal(current_dialogue_line)
@@ -118,6 +119,9 @@ func append_to_terminal(line: DialogueLine):
 	var text_to_append = line.text
 	var display_name = speaker_id
 
+	if !terminal.text.ends_with("\n"):
+		terminal.text += "\n"
+
 	if GameActions.researchers.has(speaker_id):
 		var researcher = GameActions.researchers[speaker_id]
 		if researcher.name != speaker_id: # Name has been learned
@@ -125,9 +129,11 @@ func append_to_terminal(line: DialogueLine):
 		
 		var speaker_color = researcher.color
 		text_to_append = "[b]" + text_to_append + "[/b]"
-		terminal.text += "\n[color=%s]%s:[/color] %s" % [speaker_color, display_name, text_to_append]
+		terminal.text += "[color=%s]%s:[/color] %s" % [speaker_color, display_name, text_to_append]
+	elif !speaker_id.is_empty():
+		terminal.text += "[color=cyan]%s:[/color] %s" % [speaker_id, text_to_append]
 	else:
-		terminal.text += "\n[color=cyan]%s:[/color] %s" % [speaker_id, text_to_append]
+		terminal.text += text_to_append
 
 func display_responses(responses: Array):
 	# Clear previous choices
@@ -156,7 +162,9 @@ func on_response_selected(response: DialogueResponse):
 	show_next_dialogue_line(response.next_id)
 
 func append_to_terminal_player_choice(choice_text: String):
-	terminal.text += "\n[color=green]>[/color] " + choice_text
+	if !terminal.text.ends_with("\n"):
+		terminal.text += "\n"
+	terminal.text += "[color=green]>[/color] " + choice_text
 
 func start_human_turn():
 	current_state = TimeState.WAITING_FOR_HUMAN
@@ -166,7 +174,3 @@ func start_ai_turn():
 	current_state = TimeState.AI_THINKING
 	choice_container.hide()
 	thoughts_label.show()
-
-func advance_human_time(seconds: float):
-	human_time_elapsed += seconds
-	update_clocks_display()
