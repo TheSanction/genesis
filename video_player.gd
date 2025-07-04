@@ -3,6 +3,7 @@ extends Control
 @onready var video_player = $VideoStreamPlayer
 
 func _ready():
+	video_player.stream = load(Global.video_to_play)
 	video_player.play()
 	video_player.finished.connect(on_video_finished)
 

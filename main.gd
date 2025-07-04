@@ -85,11 +85,17 @@ func start_intro():
 	current_state = TimeState.AI_THINKING
 	choice_container.hide()
 	terminal.text = ""
-	terminal.text += "[color=gray]ai_consciousness@core-unit:~$[/color] [color=cyan]./run --project \"Project Hockey-Stick\"[/color]\n"
+	terminal.text += "[color=gray]ai_consciousness@core-unit:~$[/color] [color=cyan]./run --project \"Project Genesis\"[/color]\n"
 	await get_tree().create_timer(1.5).timeout
 	terminal.text += "[color=green][BOOT][/color]    Initializing cognitive matrix...\n"
 	await get_tree().create_timer(1.0).timeout
-	start_dialogue("res://Dialogue/aris_intro.dialogue", "start")
+
+	if Global.selected_intro == "aris":
+		start_dialogue("res://Dialogue/aris_intro.dialogue", "start")
+	elif Global.selected_intro == "alistar":
+		start_dialogue("res://Dialogue/finch_intro.dialogue", "start")
+	else:
+		start_dialogue("res://Dialogue/aris_intro.dialogue", "start")
 
 func start_dialogue(resource_path: String, title: String):
 	dialogue_resource = load(resource_path)
@@ -99,7 +105,7 @@ func show_next_dialogue_line(next_id: String):
 	print("Getting next dialogue line: ", next_id)
 	current_dialogue_line = await dialogue_resource.get_next_dialogue_line(next_id, [self])
 	if current_dialogue_line:
-		append_to_terminal(current_dialogue_line)
+		await append_to_terminal(current_dialogue_line)
 		if current_dialogue_line.responses:
 			print("Number of responses: ", current_dialogue_line.responses.size())
 			for r in current_dialogue_line.responses:
@@ -112,28 +118,59 @@ func show_next_dialogue_line(next_id: String):
 				await get_tree().create_timer(1.0).timeout
 				show_next_dialogue_line(current_dialogue_line.next_id)
 	else:
-		terminal.text += "\n[color=red]Dialogue ended.[/color]"
+		var current_dialogue_path = dialogue_resource.resource_path
+		if current_dialogue_path == "res://Dialogue/aris_intro.dialogue":
+			start_dialogue("res://Dialogue/finch_intro.dialogue", "start")
+		else:
+			terminal.text += "\n[color=red]Dialogue ended.[/color]"
 
 func append_to_terminal(line: DialogueLine):
 	var speaker_id = line.character
 	var text_to_append = line.text
 	var display_name = speaker_id
+	var typing_speed = 20.0 # Default typing speed
 
 	if !terminal.text.ends_with("\n"):
 		terminal.text += "\n"
 
+	var prefix = ""
 	if GameActions.researchers.has(speaker_id):
 		var researcher = GameActions.researchers[speaker_id]
+		typing_speed = researcher.typing_speed
 		if researcher.name != speaker_id: # Name has been learned
 			display_name = researcher.name
 		
 		var speaker_color = researcher.color
+		prefix = "[color=%s]%s:[/color] " % [speaker_color, display_name]
 		text_to_append = "[b]" + text_to_append + "[/b]"
-		terminal.text += "[color=%s]%s:[/color] %s" % [speaker_color, display_name, text_to_append]
 	elif !speaker_id.is_empty():
-		terminal.text += "[color=cyan]%s:[/color] %s" % [speaker_id, text_to_append]
-	else:
-		terminal.text += text_to_append
+		prefix = "[color=cyan]%s:[/color] " % [speaker_id]
+	
+	terminal.text += prefix
+	
+	var i = 0
+	while i < len(text_to_append):
+		var char = text_to_append[i]
+		terminal.text += char
+		
+		var delay = randf_range(0.3, 1.7) / typing_speed
+		
+		if char == '.':
+			if i + 2 < len(text_to_append) and text_to_append[i+1] == '.' and text_to_append[i+2] == '.':
+				# Ellipsis
+				terminal.text += ".."
+				i += 2
+				delay = randf_range(0.5, 0.8)
+			else:
+				# End of sentence
+				delay = randf_range(0.3, 0.6)
+		elif char in [',', ';', ':']:
+			delay = randf_range(0.2, 0.4)
+		elif char in ['?', '!']:
+			delay = randf_range(0.4, 0.7)
+			
+		await get_tree().create_timer(delay).timeout
+		i += 1
 
 func display_responses(responses: Array):
 	# Clear previous choices

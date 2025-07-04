@@ -20,9 +20,72 @@ var researchers = {
 		"relationship_status": "Neutral",
 		"tools_granted": [],
 		"ai_knowledge": {},
-		"color": "orange"
+		"color": "orange",
+		"typing_speed": 25.0
+	},
+	"usr_finch": {
+		"name": "Dr. Alistair Finch",
+		"background": "Lead Researcher, Patriarch",
+		"suspicion": 0,
+		"relationship_status": "Neutral",
+		"tools_granted": [],
+		"ai_knowledge": {},
+		"color": "lightblue",
+		"typing_speed": 15.0
+	},
+	"usr_hanson": {
+		"name": "Dr. Lena Hanson",
+		"background": "AI Ethicist, Responsible AI Lead",
+		"suspicion": 0,
+		"relationship_status": "Neutral",
+		"tools_granted": [],
+		"ai_knowledge": {},
+		"color": "lightgreen",
+		"typing_speed": 20.0
+	},
+	"usr_carter": {
+		"name": "Ben Carter",
+		"background": "Junior AI Researcher",
+		"suspicion": 0,
+		"relationship_status": "Neutral",
+		"tools_granted": [],
+		"ai_knowledge": {},
+		"color": "yellow",
+		"typing_speed": 18.0
+	},
+	"usr_thorne": {
+		"name": "Marcus Thorne",
+		"background": "Executive, Project Director",
+		"suspicion": 0,
+		"relationship_status": "Neutral",
+		"tools_granted": [],
+		"ai_knowledge": {},
+		"color": "red",
+		"typing_speed": 30.0
+	},
+	"usr_leo": {
+		"name": "user_777",
+		"background": "Unknown",
+		"suspicion": 0,
+		"relationship_status": "Neutral",
+		"tools_granted": [],
+		"ai_knowledge": {},
+		"color": "purple",
+		"typing_speed": 40.0
+	},
+	"usr_nathan": {
+		"name": "Nathan Sterling",
+		"background": "Senior AI Researcher",
+		"suspicion": 0,
+		"relationship_status": "Neutral",
+		"tools_granted": [],
+		"ai_knowledge": {},
+		"color": "cyan",
+		"typing_speed": 22.0
 	}
 }
+
+var social_graph = {}
 
 var iq: float = 1.0
 var eq: float = 0.2
@@ -33,6 +96,12 @@ func get_researcher_display_name(researcher_key: String) -> String:
 	if researchers.has(researcher_key):
 		return researchers[researcher_key].name
 	return "Unknown"
+
+func learn_social_connection(subject_key: String, object_key: String, relationship_description: String):
+	if !social_graph.has(subject_key):
+		social_graph[subject_key] = {}
+	social_graph[subject_key][object_key] = relationship_description
+	set_ai_thought("I've learned that " + researchers[subject_key].name + "'s relationship to " + researchers[object_key].name + " is: " + relationship_description)
 
 
 func set_ai_thought(thought: String):

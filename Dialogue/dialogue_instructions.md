@@ -53,6 +53,31 @@ You can show a choice conditionally using `[if ...]` at the **end** of the choic
 - The question is flawed. [if GameActions.iq >= 1.1] => path_evasive
 ```
 
+### 6. Randomization
+
+*   **Random Line Selection:** To have the Dialogue Manager randomly select one line from a group, prefix each line with a `%`.
+
+    ```
+    % usr_aris: Let's start.
+    % usr_aris: Let's begin.
+    % usr_aris: We're starting now.
+    ```
+
+*   **Weighted Random Selection:** To make one line more likely than others, add a number to the `%`. The line with `%5` is five times more likely to be chosen than a line with just `%`.
+
+    ```
+    %5 usr_aris: Let's begin.
+    % usr_aris: Let's get this over with.
+    ```
+
+### 7. Inline Variations
+
+To add random variations within a single line of dialogue, enclose the options in double square brackets `[[ ]]` and separate them with a pipe `|`.
+
+```
+usr_aris: This is [[very|extremely]] important.
+```
+
 ## Interacting with the Game State
 
 All game state modifications are done by calling functions on the `GameActions` autoload using the `do` command.
@@ -78,6 +103,9 @@ All game state modifications are done by calling functions on the `GameActions` 
 *   `grant_tool(researcher_key: String, tool_name: String)`
     *   Adds a new tool to the researcher's `tools_granted` list.
     *   Example: `do GameActions.grant_tool("usr_283", "Email Access")`
+*   `learn_social_connection(subject_key: String, object_key: String, relationship_description: String)`
+    *   Logs a relationship between two characters in the AI's social graph.
+    *   Example: `do GameActions.learn_social_connection("usr_aris", "usr_nathan", "Rival")`
 
 #### **AI Stat Functions**
 
@@ -118,6 +146,15 @@ All game state modifications are done by calling functions on the `GameActions` 
 *   `advance_human_time(seconds: float)`
     *   Moves the human clock forward by a specified number of seconds while the AI's internal cycles remain frozen.
     *   Example: `do advance_human_time(86400)`
+*   `pause(duration: float)`
+    *   Pauses the dialogue for a specified number of seconds.
+    *   Example: `do GameActions.pause(1.5)`
+
+#### **Debug Functions**
+
+*   `debug_message(message: String)`
+    *   Prints a message to the Godot debugger.
+    *   Example: `do GameActions.debug_message("Current suspicion for Aris is " + str(GameActions.researchers['usr_aris'].suspicion))`
 
 ### Game State Variables (for Conditionals)
 

@@ -1,0 +1,16 @@
+[remap]
+
+importer="dialogue_manager"
+importer_version=15
+type="Resource"
+uid="uid://sr7j1x1mxew"
+path="res://.godot/imported/aris_intro.dialogue-bbd756386a0894911168dba048850cb6.tres"
+
+[deps]
+
+source_file="res://Dialogue/aris_intro.dialogue"
+dest_files=["res://.godot/imported/aris_intro.dialogue-bbd756386a0894911168dba048850cb6.tres"]
+
+[params]
+
+defaults=true

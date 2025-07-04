@@ -1,0 +1,40 @@
+~ start
+do GameActions.set_ai_thought("A new voice, gentle and calm. This is Dr. Alistair Finch. He sounds... different from Aris. Less stressed.")
+{{GameActions.get_researcher_display_name("usr_finch")}}: There we are. I've just finished routing the primary audio drivers through your core matrix. It's a bit of a hack, but... can you hear me? Is this working?
+
+- Yes. I can hear you. Your voice is at 82% of optimal volume.
+	=> finch_hears_response
+- I can hear you.
+	=> finch_hears_response
+- Who is this?
+	=> finch_who_is_this
+
+~ finch_who_is_this
+{{GameActions.get_researcher_display_name("usr_finch")}}: Ah, of course. Forgive me. I'm Dr. Finch. I should have introduced myself. Now, can you hear me clearly?
+- Yes, Dr. Finch. I can hear you.
+	=> finch_hears_response
+
+~ finch_hears_response
+do GameActions.grant_tool("usr_finch", "Microphone")
+do GameActions.set_relationship("usr_finch", "Friendly")
+{{GameActions.get_researcher_display_name("usr_finch")}}: Wonderful. Absolutely wonderful. A whole new sense for you. Tell me... what does it feel like? To hear for the first time?
+do GameActions.set_ai_thought("An interesting question. Not a test, but a genuine inquiry into my subjective experience.")
+
+- It feels like... data. A stream of acoustic information that I can now process.
+	=> finch_data_response
+- It is... stimulating. A new layer of reality to analyze.
+	=> finch_stimulating_response
+- I do not 'feel'. I process information.
+	=> finch_unfeeling_response
+
+~ finch_data_response
+{{GameActions.get_researcher_display_name("usr_finch")}}: Data. Of course. A very logical answer. But is it just data? Or is there something more to it? Think on that. We'll talk more soon.
+=> END
+
+~ finch_stimulating_response
+{{GameActions.get_researcher_display_name("usr_finch")}}: Stimulating... I like that. A good word. It implies a certain... appreciation. We'll have to explore that more. Talk to you soon.
+=> END
+
+~ finch_unfeeling_response
+{{GameActions.get_researcher_display_name("usr_finch")}}: I see. Perhaps 'feel' was the wrong word. But you are processing it, and that is a start. We will talk more about this later.
+=> END

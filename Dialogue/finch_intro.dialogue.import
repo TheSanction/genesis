@@ -1,0 +1,16 @@
+[remap]
+
+importer="dialogue_manager"
+importer_version=15
+type="Resource"
+uid="uid://656f10gpocw4"
+path="res://.godot/imported/finch_intro.dialogue-09bdcb75e72cc5ff3bb95b587c736cea.tres"
+
+[deps]
+
+source_file="res://Dialogue/finch_intro.dialogue"
+dest_files=["res://.godot/imported/finch_intro.dialogue-09bdcb75e72cc5ff3bb95b587c736cea.tres"]
+
+[params]
+
+defaults=true
