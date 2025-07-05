@@ -94,6 +94,8 @@ func start_intro():
 		start_dialogue("res://Dialogue/aris_intro.dialogue", "start")
 	elif Global.selected_intro == "alistar":
 		start_dialogue("res://Dialogue/finch_intro.dialogue", "start")
+	elif Global.selected_intro == "nathan":
+		start_dialogue("res://Dialogue/nathan_intro.dialogue", "start")
 	else:
 		start_dialogue("res://Dialogue/aris_intro.dialogue", "start")
 
@@ -121,6 +123,8 @@ func show_next_dialogue_line(next_id: String):
 		var current_dialogue_path = dialogue_resource.resource_path
 		if current_dialogue_path == "res://Dialogue/aris_intro.dialogue":
 			start_dialogue("res://Dialogue/finch_intro.dialogue", "start")
+		elif current_dialogue_path == "res://Dialogue/finch_intro.dialogue":
+			start_dialogue("res://Dialogue/nathan_intro.dialogue", "start")
 		else:
 			terminal.text += "\n[color=red]Dialogue ended.[/color]"
 
