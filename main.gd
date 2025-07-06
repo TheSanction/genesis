@@ -97,7 +97,7 @@ func start_intro():
 	elif Global.selected_intro == "nathan":
 		start_dialogue("res://Dialogue/nathan_intro.dialogue", "start")
 	elif Global.selected_intro == "test":
-		start_test("res://Tests/c_zero_kappa.tres")
+		start_test(load("res://Tests/c_zero_kappa.tres"))
 	else:
 		start_dialogue("res://Dialogue/aris_intro.dialogue", "start")
 
@@ -218,21 +218,27 @@ func start_ai_turn():
 	choice_container.hide()
 	thoughts_label.show()
 
-func start_test(test_file_path: String):
+func start_test(test_resource: Test):
 	var test_popup_scene = load("res://TestPopup.tscn")
 	var test_popup = test_popup_scene.instantiate()
 	add_child(test_popup)
 	
-	var test_resource = load(test_file_path)
-	
 	test_popup.set_test_name(test_resource.test_name)
-	test_popup.start_test(test_resource.questions)
+	test_popup.start_test(test_resource)
 	test_popup.test_finished.connect(_on_test_completed)
 
-func _on_test_completed(duration, iq_delta, eq_delta):
+func _on_test_completed(test_name, duration, iq_delta, eq_delta):
 	var total_score = iq_delta + eq_delta
 	var result_text = "
 
+[color=gray]" + test_name + "[/color]"
+	result_text += "
+[color=gray]--------------------[/color]"
+	result_text += "
+[color=gray]Results Summary[/color]"
+	result_text += "
+[color=gray]--------------------[/color]"
+	result_text += "
 [color=gray]Test completed in " + ("%.2f" % duration) + " seconds.[/color]"
 	result_text += "
 [color=gray]Inferred IQ: " + ("%+.2f" % iq_delta) + " HUs.[/color]"

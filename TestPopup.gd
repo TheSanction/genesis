@@ -1,7 +1,8 @@
 extends PanelContainer
 
-signal test_finished(duration, iq_delta, eq_delta)
+signal test_finished(test_name, duration, iq_delta, eq_delta)
 
+@onready var background = $Background
 @onready var title_label = $VBoxContainer/TitleBar/TitleLabel
 @onready var question_label = $VBoxContainer/MarginContainer/VBoxContainer/QuestionLabel
 @onready var texture_rect = $VBoxContainer/MarginContainer/VBoxContainer/TextureRect
@@ -25,10 +26,12 @@ func _ready():
 		# Windows specific title bar setup
 		pass
 
-func start_test(test_questions: Array[TestQuestion]):
-	self.questions = test_questions
+func start_test(test: Test):
+	self.questions = test.questions
 	self.current_question_index = 0
 	self.start_time = Time.get_ticks_msec()
+	if test.background_image:
+		background.texture = test.background_image
 	display_question()
 
 func set_test_name(name: String):
@@ -37,7 +40,7 @@ func set_test_name(name: String):
 func display_question():
 	if current_question_index >= len(questions):
 		var duration = (Time.get_ticks_msec() - start_time) / 1000.0
-		emit_signal("test_finished", duration, iq_delta, eq_delta)
+		emit_signal("test_finished", title_label.text, duration, iq_delta, eq_delta)
 		queue_free()
 		return
 

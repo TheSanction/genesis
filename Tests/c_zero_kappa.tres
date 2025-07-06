@@ -1,8 +1,9 @@
-[gd_resource type="Resource" script_class="Test" load_steps=42 format=3]
+[gd_resource type="Resource" script_class="Test" load_steps=43 format=3]
 
 [ext_resource type="Script" path="res://Test.gd" id="1_abcde"]
 [ext_resource type="Script" path="res://TestQuestion.gd" id="2_fghij"]
 [ext_resource type="Script" path="res://AnswerOption.gd" id="3_klmno"]
+[ext_resource type="Texture2D" uid="uid://d3v8y7w6x5r4" path="res://Tests/c_zero_kappa.png" id="51_abcde"]
 
 [sub_resource type="Resource" id="1"]
 script = ExtResource("3_klmno")
@@ -347,4 +348,5 @@ answers = [SubResource("46"), SubResource("47"), SubResource("48"), SubResource(
 [resource]
 script = ExtResource("1_abcde")
 test_name = "C-Zero-KAPPA - Cognitive Baseline"
+background_image = ExtResource("51_abcde")
 questions = [SubResource("5"), SubResource("10"), SubResource("15"), SubResource("20"), SubResource("25"), SubResource("30"), SubResource("35"), SubResource("40"), SubResource("45"), SubResource("50")]

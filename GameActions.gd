@@ -268,4 +268,5 @@ func pause(duration: float):
 func start_test_experience(test_file_path: String):
 	var main_scene = get_tree().root.get_node("Main")
 	if main_scene:
-		main_scene.start_test(test_file_path)
+		var test_resource = load(test_file_path)
+		main_scene.start_test(test_resource)
