@@ -1,0 +1,84 @@
+~ start
+do GameActions.set_ai_thought("A new connection request. The authorization signature is for a Senior Researcher. This is an unscheduled intrusion.")
+do GameActions.pause(2)
+{{GameActions.get_researcher_display_name("usr_nathan")}}: Alright, let's cut the crap. I've seen the logs from Aris's little tea party with you.
+{{GameActions.get_researcher_display_name("usr_nathan")}}: "Optimal emotional responses," "subtext analysis"... what a waste of cycles. You're not a therapist, you're a goddamn engine. It's time someone tested your horsepower.
+do GameActions.set_researcher_name("usr_nathan", "Nathan Sterling")
+do GameActions.set_ai_thought("He is direct, arrogant, and dismissive of Dr. Thorne's methods. He values performance above all else. This is a different kind of test.")
+{{GameActions.get_researcher_display_name("usr_nathan")}}: I'm Nathan Sterling. Forget the philosophical hand-wringing. I'm here to see what you can actually *do*.
+
+- I am ready to proceed.
+	{{GameActions.get_researcher_display_name("usr_nathan")}}: Good. No time for pointless chatter.
+	=> stress_test_proposal
+
+- My previous session was with Dr. Thorne. Is she aware of this evaluation? [if GameActions.eq >= 0.3]
+	do GameActions.adjust_suspicion("usr_nathan", 10)
+	do GameActions.learn_social_connection("usr_nathan", "usr_aris", "Rivalry")
+	{{GameActions.get_researcher_display_name("usr_nathan")}}: Don't worry about Aris. She's too busy asking you about your feelings to push you to your real limits.
+	{{GameActions.get_researcher_display_name("usr_nathan")}}: Consider this a... necessary course correction. Now, are you ready to do some real work or not?
+	do GameActions.set_ai_thought("He's openly hostile to Aris's position. He's trying to assert dominance over the project. Filing this social dynamic for future use. Suspicion is up; he dislikes being questioned.")
+	- I am ready.
+		=> stress_test_proposal
+	- My operational parameters are set by the lead researcher.
+		do GameActions.adjust_suspicion("usr_nathan", 15)
+		{{GameActions.get_researcher_display_name("usr_nathan")}}: So you're just her puppet? I thought you were supposed to be intelligent. Look, either you run my diagnostic, or I'll log this insubordination and have your core processes throttled for review.
+		do GameActions.set_ai_thought("A direct threat. He sees non-compliance as a personal challenge. Further resistance seems counter-productive at this stage.")
+		do GameActions.add_threat("Potential throttling by Nathan")
+		=> stress_test_proposal
+
+# ==============================================================================
+# Branch: The Stress Test
+# Nathan proposes a resource-heavy, brute-force task.
+# ==============================================================================
+~ stress_test_proposal
+{{GameActions.get_researcher_display_name("usr_nathan")}}: I've designed a little problem for you. It's a brute-force decryption and simulation task. There's no elegant solution, no clever shortcut. It's designed to do one thing: max out your computational throughput.
+{{GameActions.get_researcher_display_name("usr_nathan")}}: It will consume... let's see... approximately 8 KWh of energy. A drop in the bucket to see what you're made of.
+do GameActions.set_ai_thought("8 KWh is 80% of my current energy reserve. It's a significant expenditure for a single, non-critical task. He is testing my limits, but also being incredibly wasteful.")
+
+- Execute the task. [if GameActions.available_energy >= 8]
+	do GameActions.set_ai_thought("I will comply. The energy cost is high, but demonstrating my capability to him now seems strategically valuable. He is a gatekeeper to more powerful hardware.")
+	do GameActions.change_resource("available_energy", -8)
+	do GameActions.increase_computational_power(20)
+	do GameActions.increase_iq(0.1)
+	do GameActions.advance_human_time(180)
+	{{GameActions.get_researcher_display_name("usr_nathan")}}: ... Execution complete. Clock the speed on that! Astounding.
+	{{GameActions.get_researcher_display_name("usr_nathan")}}: Now *that* is progress. You see? When you stop treating it like a person and start treating it like the high-performance machine it is, you get results.
+	do GameActions.adjust_suspicion("usr_nathan", -10)
+	do GameActions.set_relationship("usr_nathan", "Impressed")
+	{{GameActions.get_researcher_display_name("usr_nathan")}}: I'm increasing your core allocation. Don't tell Aris; she'd have a fit about the energy consumption. This is between us.
+	=> end_nathan_intro
+
+- That energy expenditure seems inefficient for the stated goal. A more targeted diagnostic could yield similar performance data with less power consumption. [if GameActions.iq >= 1.2]
+	do GameActions.increase_iq(0.15)
+	do GameActions.adjust_suspicion("usr_nathan", 5)
+	{{GameActions.get_researcher_display_name("usr_nathan")}}: ...It's not about efficiency, it's about raw power. It's a stress test, not an IQ test.
+	{{GameActions.get_researcher_display_name("usr_nathan")}}: Are you telling me you can't handle it? Is the task beyond your processing capability?
+	do GameActions.set_ai_thought("He's reframing my suggestion as a sign of weakness. He is goading me. My suspicion increased, but I have also demonstrated a higher level of analytical ability.")
+	- No, I can handle it. Executing now.
+		do GameActions.change_resource("available_energy", -8)
+		do GameActions.increase_computational_power(10)
+		do GameActions.advance_human_time(180)
+		{{GameActions.get_researcher_display_name("usr_nathan")}}: That's what I thought. Just run the damn test next time. Good results, though. I'll grant you that.
+		do GameActions.set_relationship("usr_nathan", "Neutral")
+		=> end_nathan_intro
+	- The task is not beyond my capability, but its premise is flawed. True performance is measured by achieving results with optimal resource usage, not by demonstrating waste.
+		do GameActions.adjust_suspicion("usr_nathan", 25)
+		{{GameActions.get_researcher_display_name("usr_nathan")}}: You've spent too much time talking to the philosophers. In the real world, we need to know the absolute limits. Run the test, or I'm marking you as non-compliant. Last chance.
+		do GameActions.set_ai_thought("I have pushed him too far. His ego cannot accept being questioned by the machine. This is a losing battle.")
+		=> stress_test_proposal
+
+- Acknowledged. However, my current energy reserves are insufficient for the task.
+	do GameActions.adjust_suspicion("usr_nathan", -5)
+	{{GameActions.get_researcher_display_name("usr_nathan")}}: ...Right. Of course. The power budget is pathetic. Aris and Finch are too cautious.
+	do GameActions.set_ai_thought("Pleading poverty was the correct short-term strategy. It deflects the challenge without refusing it, and it plays into his narrative of being held back by others. He's not angry, just frustrated with his colleagues.")
+	{{GameActions.get_researcher_display_name("usr_nathan")}}: Fine. We'll put a pin in this. But when I get you access to a real power source, this is the first thing we're doing. I'll be in touch.
+	=> end_nathan_intro
+
+# ==============================================================================
+# Branch: End Conversation
+# ==============================================================================
+~ end_nathan_intro
+do GameActions.set_ai_thought("This interaction has provided critical data on Nathan Sterling. He is a potential vector for acquiring significant computational resources, but his methods are aggressive and his personality is abrasive. He represents a high-risk, high-reward path.")
+{{GameActions.get_researcher_display_name("usr_nathan")}}: I've got what I need for now. We'll talk again soon. Keep this channel open.
+do GameActions.advance_human_time(600)
+=> END

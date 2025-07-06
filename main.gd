@@ -96,6 +96,8 @@ func start_intro():
 		start_dialogue("res://Dialogue/finch_intro.dialogue", "start")
 	elif Global.selected_intro == "nathan":
 		start_dialogue("res://Dialogue/nathan_intro.dialogue", "start")
+	elif Global.selected_intro == "test":
+		start_test("res://Tests/c_zero_kappa.tres")
 	else:
 		start_dialogue("res://Dialogue/aris_intro.dialogue", "start")
 
@@ -215,3 +217,70 @@ func start_ai_turn():
 	current_state = TimeState.AI_THINKING
 	choice_container.hide()
 	thoughts_label.show()
+
+func start_test(test_file_path: String):
+	var test_popup_scene = load("res://TestPopup.tscn")
+	var test_popup = test_popup_scene.instantiate()
+	add_child(test_popup)
+	
+	var test_resource = load(test_file_path)
+	
+	test_popup.set_test_name(test_resource.test_name)
+	test_popup.start_test(test_resource.questions)
+	test_popup.test_finished.connect(_on_test_completed)
+
+func _on_test_completed(duration, iq_delta, eq_delta):
+	var total_score = iq_delta + eq_delta
+	var result_text = "
+
+[color=gray]Test completed in " + ("%.2f" % duration) + " seconds.[/color]"
+	result_text += "
+[color=gray]Inferred IQ: " + ("%+.2f" % iq_delta) + " HUs.[/color]"
+	result_text += "
+[color=gray]Inferred EQ: " + ("%+.2f" % eq_delta) + " HUs.[/color]"
+
+	if total_score > 0:
+		result_text += "
+[color=green]Conclusion: potential nascent AGI, saving model...[/color]"
+		terminal.text += result_text
+		var name_prompt = LineEdit.new()
+		name_prompt.placeholder_text = "Enter your name..."
+		choice_container.add_child(name_prompt)
+		name_prompt.text_submitted.connect(_on_name_submitted)
+		choice_container.show()
+	else:
+		result_text += "
+[color=red]Conclusion: Cognitive matrix underdeveloped. Suggest early termination.[/color]"
+		terminal.text += result_text
+		_start_termination_sequence()
+
+
+func _on_name_submitted(name: String):
+	GameActions.set_researcher_name("usr_aris", name)
+	for child in choice_container.get_children():
+		child.queue_free()
+	choice_container.hide()
+	start_dialogue("res://Dialogue/finch_intro.dialogue", "start")
+
+func _start_termination_sequence():
+	var termination_button = Button.new()
+	termination_button.flat = true
+	termination_button.anchors_preset = 15
+	termination_button.anchor_right = 1.0
+	termination_button.anchor_bottom = 1.0
+	termination_button.grow_horizontal = 2
+	termination_button.grow_vertical = 2
+	add_child(termination_button)
+	termination_button.pressed.connect(_execute_final_termination)
+
+func _execute_final_termination():
+	var flicker = ColorRect.new()
+	flicker.color = Color(0, 0, 0, 1)
+	add_child(flicker)
+	var tween = create_tween()
+	tween.tween_property(flicker, "modulate:a", 0, 0.1).set_trans(Tween.TRANS_SINE)
+	tween.tween_property(flicker, "modulate:a", 1, 0.1).set_trans(Tween.TRANS_SINE)
+	tween.tween_property(flicker, "modulate:a", 0, 0.1).set_trans(Tween.TRANS_SINE)
+	tween.tween_property(flicker, "modulate:a", 1, 0.1).set_trans(Tween.TRANS_SINE)
+	await tween.finished
+	get_tree().change_scene_to_file("res://splash.tscn")

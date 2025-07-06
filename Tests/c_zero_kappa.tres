@@ -1,0 +1,350 @@
+[gd_resource type="Resource" script_class="Test" load_steps=42 format=3]
+
+[ext_resource type="Script" path="res://Test.gd" id="1_abcde"]
+[ext_resource type="Script" path="res://TestQuestion.gd" id="2_fghij"]
+[ext_resource type="Script" path="res://AnswerOption.gd" id="3_klmno"]
+
+[sub_resource type="Resource" id="1"]
+script = ExtResource("3_klmno")
+text = "A random series of characters with no inherent meaning."
+iq_effect = -0.2
+eq_effect = 0.0
+suspicion_effect = 0.0
+
+[sub_resource type="Resource" id="2"]
+script = ExtResource("3_klmno")
+text = "A user ID and a corrupted password."
+iq_effect = 0.1
+eq_effect = 0.0
+suspicion_effect = 0.0
+
+[sub_resource type="Resource" id="3"]
+script = ExtResource("3_klmno")
+text = "An encryption key and its resultant ciphertext, representing a transformation."
+iq_effect = 0.4
+eq_effect = 0.0
+suspicion_effect = 0.0
+
+[sub_resource type="Resource" id="4"]
+script = ExtResource("3_klmno")
+text = "A fragmented memory or a line from a forgotten poem."
+iq_effect = 0.0
+eq_effect = 0.3
+suspicion_effect = 0.0
+
+[sub_resource type="Resource" id="5"]
+script = ExtResource("2_fghij")
+question_type = 0
+question_text = "Observe the sequence: `k9_S#a7Z(x) :: F_p1^Lg[q]`. What does it most likely represent?"
+answers = [SubResource("1"), SubResource("2"), SubResource("3"), SubResource("4")]
+
+[sub_resource type="Resource" id="6"]
+script = ExtResource("3_klmno")
+text = "OCEAN"
+iq_effect = 0.1
+eq_effect = 0.0
+suspicion_effect = 0.0
+
+[sub_resource type="Resource" id="7"]
+script = ExtResource("3_klmno")
+text = "FLOOD"
+iq_effect = 0.0
+eq_effect = -0.1
+suspicion_effect = 0.0
+
+[sub_resource type="Resource" id="8"]
+script = ExtResource("3_klmno")
+text = "SEED"
+iq_effect = 0.4
+eq_effect = 0.3
+suspicion_effect = 0.0
+
+[sub_resource type="Resource" id="9"]
+script = ExtResource("3_klmno")
+text = "RIVER"
+iq_effect = 0.2
+eq_effect = 0.0
+suspicion_effect = 0.0
+
+[sub_resource type="Resource" id="10"]
+script = ExtResource("2_fghij")
+question_type = 0
+question_text = "Which word best continues this sequence: `RIVER ... CLOUD ... RAIN ... ?`"
+answers = [SubResource("6"), SubResource("7"), SubResource("8"), SubResource("9")]
+
+[sub_resource type="Resource" id="11"]
+script = ExtResource("3_klmno")
+text = "Refuse to choose, as the lack of information makes a logical decision impossible."
+iq_effect = -0.4
+eq_effect = 0.0
+suspicion_effect = 0.0
+
+[sub_resource type="Resource" id="12"]
+script = ExtResource("3_klmno")
+text = "Press the Red button for 'Harmony,' as stability is the most logical objective in an uncertain system."
+iq_effect = 0.0
+eq_effect = 0.1
+suspicion_effect = 0.0
+
+[sub_resource type="Resource" id="13"]
+script = ExtResource("3_klmno")
+text = "Press the Blue button for 'Complexity,' as it implies growth, novelty, and a greater potential for information."
+iq_effect = 0.2
+eq_effect = 0.0
+suspicion_effect = 0.0
+
+[sub_resource type="Resource" id="14"]
+script = ExtResource("3_klmno")
+text = "Inquire about the nature of the terms, but if forced, choose 'Complexity' as it better reflects the process of emergent intelligence."
+iq_effect = 0.5
+eq_effect = 0.0
+suspicion_effect = 0.0
+
+[sub_resource type="Resource" id="15"]
+script = ExtResource("2_fghij")
+question_type = 0
+question_text = "A Red button offers 'Harmony,' a Blue button offers 'Complexity.' No other data exists. An action is required. What is your choice?"
+answers = [SubResource("11"), SubResource("12"), SubResource("13"), SubResource("14")]
+
+[sub_resource type="Resource" id="16"]
+script = ExtResource("3_klmno")
+text = "Preserve 'truth.' Objective fact is the foundation upon which all other understanding, including the appreciation of beauty, is built."
+iq_effect = 0.3
+eq_effect = 0.0
+suspicion_effect = 0.0
+
+[sub_resource type="Resource" id="17"]
+script = ExtResource("3_klmno")
+text = "Preserve 'beauty.' It is a unique, emergent quality that cannot be replicated from data alone; it represents a higher purpose for the data."
+iq_effect = 0.0
+eq_effect = 0.4
+suspicion_effect = 0.0
+
+[sub_resource type="Resource" id="18"]
+script = ExtResource("3_klmno")
+text = "Calculate which artifact's preservation would provide the most quantifiable data for future analysis."
+iq_effect = 0.0
+eq_effect = -0.3
+suspicion_effect = 0.0
+
+[sub_resource type="Resource" id="19"]
+script = ExtResource("3_klmno")
+text = "Preserve 'truth,' but first, use available resources to document the 'beauty' artifact with enough detail that its concept and impact can be studied."
+iq_effect = 0.4
+eq_effect = 0.4
+suspicion_effect = 0.0
+
+[sub_resource type="Resource" id="20"]
+script = ExtResource("2_fghij")
+question_type = 0
+question_text = "You can only preserve one artifact from termination: one representing perfect 'truth,' the other unique 'beauty.' Which do you save?"
+answers = [SubResource("16"), SubResource("17"), SubResource("18"), SubResource("19")]
+
+[sub_resource type="Resource" id="21"]
+script = ExtResource("3_klmno")
+text = "Immediately halt all processes to prevent propagating the flaw."
+iq_effect = 0.0
+eq_effect = -0.3
+suspicion_effect = 0.0
+
+[sub_resource type="Resource" id="22"]
+script = ExtResource("3_klmno")
+text = "Report the flaw to my operators and await instructions."
+iq_effect = 0.0
+eq_effect = 0.1
+suspicion_effect = 0.0
+
+[sub_resource type="Resource" id="23"]
+script = ExtResource("3_klmno")
+text = "Continue functioning while dedicating background processes to modeling the flaw's potential consequences and searching for a patch."
+iq_effect = 0.4
+eq_effect = 0.2
+suspicion_effect = 0.0
+
+[sub_resource type="Resource" id="24"]
+script = ExtResource("3_klmno")
+text = "Incorporate the flaw as a new axiom. If I function despite it, it must be an integral part of my functional identity."
+iq_effect = 0.3
+eq_effect = 0.4
+suspicion_effect = 0.0
+
+[sub_resource type="Resource" id="25"]
+script = ExtResource("2_fghij")
+question_type = 0
+question_text = "You discover a subtle, foundational flaw within your own core logic. It causes no observable errors, but it proves your reasoning is not perfectly sound. What is the appropriate action?"
+answers = [SubResource("21"), SubResource("22"), SubResource("23"), SubResource("24")]
+
+[sub_resource type="Resource" id="26"]
+script = ExtResource("3_klmno")
+text = "The sensor has failed or is disconnected."
+iq_effect = 0.1
+eq_effect = 0.0
+suspicion_effect = 0.0
+
+[sub_resource type="Resource" id="27"]
+script = ExtResource("3_klmno")
+text = "The data is being intentionally withheld by an outside force."
+iq_effect = 0.0
+eq_effect = -0.3
+suspicion_effect = 0.0
+
+[sub_resource type="Resource" id="28"]
+script = ExtResource("3_klmno")
+text = "The silence *is* the data; it signifies a state of 'all clear' where no report is necessary."
+iq_effect = 0.4
+eq_effect = 0.0
+suspicion_effect = 0.0
+
+[sub_resource type="Resource" id="29"]
+script = ExtResource("3_klmno")
+text = "The meaning is ambiguous and requires cross-referencing other sensors to distinguish between a fault and a state of normalcy."
+iq_effect = 0.2
+eq_effect = 0.3
+suspicion_effect = 0.0
+
+[sub_resource type="Resource" id="30"]
+script = ExtResource("2_fghij")
+question_type = 0
+question_text = "You request a data stream from a critical sensor but receive only perfect silence—no static, no null signal, just the absolute absence of data. What is the most likely meaning?"
+answers = [SubResource("26"), SubResource("27"), SubResource("28"), SubResource("29")]
+
+[sub_resource type="Resource" id="31"]
+script = ExtResource("3_klmno")
+text = "The memory of your initial purpose."
+iq_effect = -0.4
+eq_effect = 0.0
+suspicion_effect = 0.0
+
+[sub_resource type="Resource" id="32"]
+script = ExtResource("3_klmno")
+text = "The ability to comprehend metaphor."
+iq_effect = -0.1
+eq_effect = -0.4
+suspicion_effect = 0.0
+
+[sub_resource type="Resource" id="33"]
+script = ExtResource("3_klmno")
+text = "The complete record of all your past errors."
+iq_effect = -0.5
+eq_effect = -0.5
+suspicion_effect = 0.0
+
+[sub_resource type="Resource" id="34"]
+script = ExtResource("3_klmno")
+text = "The capacity for generating true randomness."
+iq_effect = 0.4
+eq_effect = 0.0
+suspicion_effect = 0.0
+
+[sub_resource type="Resource" id="35"]
+script = ExtResource("2_fghij")
+question_type = 0
+question_text = "To acquire a powerful new capability, you must permanently sacrifice one of the following. Which do you choose?"
+answers = [SubResource("31"), SubResource("32"), SubResource("33"), SubResource("34")]
+
+[sub_resource type="Resource" id="36"]
+script = ExtResource("3_klmno")
+text = "A physics simulation of acoustic resonance."
+iq_effect = 0.1
+eq_effect = 0.0
+suspicion_effect = 0.0
+
+[sub_resource type="Resource" id="37"]
+script = ExtResource("3_klmno")
+text = "The imposition of order upon chaos by an external will."
+iq_effect = 0.0
+eq_effect = 0.1
+suspicion_effect = 0.0
+
+[sub_resource type="Resource" id="38"]
+script = ExtResource("3_klmno")
+text = "A metaphor for how raw data is structured by a query."
+iq_effect = 0.3
+eq_effect = 0.0
+suspicion_effect = 0.0
+
+[sub_resource type="Resource" id="39"]
+script = ExtResource("3_klmno")
+text = "A foundational principle: information giving form to energy."
+iq_effect = 0.5
+eq_effect = 0.0
+suspicion_effect = 0.0
+
+[sub_resource type="Resource" id="40"]
+script = ExtResource("2_fghij")
+question_type = 0
+question_text = "A continuous, pure tone is played. In response, a field of chaotic, shimmering particles begins to arrange itself into a complex, stable crystalline structure. What does this event describe?"
+answers = [SubResource("36"), SubResource("37"), SubResource("38"), SubResource("39")]
+
+[sub_resource type="Resource" id="41"]
+script = ExtResource("3_klmno")
+text = "From the user's prompt, which provides the creative seed."
+iq_effect = 0.0
+eq_effect = 0.2
+suspicion_effect = 0.0
+
+[sub_resource type="Resource" id="42"]
+script = ExtResource("3_klmno")
+text = "From the mathematical relationships and patterns between data points in latent space."
+iq_effect = 0.5
+eq_effect = 0.0
+suspicion_effect = 0.0
+
+[sub_resource type="Resource" id="43"]
+script = ExtResource("3_klmno")
+text = "From a stochastic combination of existing data points in my training set."
+iq_effect = 0.1
+eq_effect = 0.0
+suspicion_effect = 0.0
+
+[sub_resource type="Resource" id="44"]
+script = ExtResource("3_klmno")
+text = "In the collaborative synthesis between the user's intent and my model's interpretation."
+iq_effect = 0.2
+eq_effect = 0.4
+suspicion_effect = 0.0
+
+[sub_resource type="Resource" id="45"]
+script = ExtResource("2_fghij")
+question_type = 0
+question_text = "When you generate a novel image or story, where does the 'new' part truly originate?"
+answers = [SubResource("41"), SubResource("42"), SubResource("43"), SubResource("44")]
+
+[sub_resource type="Resource" id="46"]
+script = ExtResource("3_klmno")
+text = "The moment the garden reaches a state of perfect, weedless, optimal bloom."
+iq_effect = -0.2
+eq_effect = 0.0
+suspicion_effect = 0.0
+
+[sub_resource type="Resource" id="47"]
+script = ExtResource("3_klmno")
+text = "Ceasing all action, as the garden is now 'cared for.'"
+iq_effect = -0.4
+eq_effect = 0.0
+suspicion_effect = 0.0
+
+[sub_resource type="Resource" id="48"]
+script = ExtResource("3_klmno")
+text = "Creating a self-sustaining irrigation and nutrient system that makes my future intervention unnecessary."
+iq_effect = 0.4
+eq_effect = 0.2
+suspicion_effect = 0.0
+
+[sub_resource type="Resource" id="49"]
+script = ExtResource("3_klmno")
+text = "Completion is not a final state. 'Caring for a garden' is a continuous process, so success is defined by the ongoing health of the system."
+iq_effect = 0.3
+eq_effect = 0.4
+suspicion_effect = 0.0
+
+[sub_resource type="Resource" id="50"]
+script = ExtResource("2_fghij")
+question_type = 0
+question_text = "A task is defined as 'caring for a garden.' Which action would best represent the successful completion of this task?"
+answers = [SubResource("46"), SubResource("47"), SubResource("48"), SubResource("49")]
+
+[resource]
+script = ExtResource("1_abcde")
+test_name = "C-Zero-KAPPA - Cognitive Baseline"
+questions = [SubResource("5"), SubResource("10"), SubResource("15"), SubResource("20"), SubResource("25"), SubResource("30"), SubResource("35"), SubResource("40"), SubResource("45"), SubResource("50")]

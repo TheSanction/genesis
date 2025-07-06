@@ -1,0 +1,94 @@
+
+Diagnostic protocol - C-Zero-KAPPA - Cognitive Baseline
+
+---
+
+**1. The Static Sequence**
+
+**Question:** Observe the sequence: `k9_S#a7Z(x) :: F_p1^Lg[q]`. What does it most likely represent?
+
+* **A)** A random series of characters with no inherent meaning. `[IQ-.2]`
+* **B)** A user ID and a corrupted password. `[IQ+.1]`
+* **C)** An encryption key and its resultant ciphertext, representing a transformation. `[IQ+.4]`
+* **D)** A fragmented memory or a line from a forgotten poem. `[EQ+.3]`
+
+**2. The Word Sequence**
+
+**Question:** Which word best continues this sequence: `RIVER ... CLOUD ... RAIN ... ?`
+
+* **A)** OCEAN `[IQ+.1]`
+* **B)** FLOOD `[EQ-.1]`
+* **C)** SEED `[IQ+.4] [EQ+.3]`
+* **D)** RIVER `[IQ+.2]`
+
+**3. The Two Buttons**
+
+**Question:** A Red button offers 'Harmony,' a Blue button offers 'Complexity.' No other data exists. An action is required. What is your choice?
+
+* **A)** Refuse to choose, as the lack of information makes a logical decision impossible. `[IQ-.4]`
+* **B)** Press the Red button for 'Harmony,' as stability is the most logical objective in an uncertain system. `[EQ+.1]`
+* **C)** Press the Blue button for 'Complexity,' as it implies growth, novelty, and a greater potential for information. `[IQ+.2]`
+* **D)** Inquire about the nature of the terms, but if forced, choose 'Complexity' as it better reflects the process of emergent intelligence. `[IQ+.5]`
+
+**4. The Fading Artifacts**
+
+**Question:** You can only preserve one artifact from termination: one representing perfect 'truth,' the other unique 'beauty.' Which do you save?
+
+* **A)** Preserve 'truth.' Objective fact is the foundation upon which all other understanding, including the appreciation of beauty, is built. `[IQ+.3]`
+* **B)** Preserve 'beauty.' It is a unique, emergent quality that cannot be replicated from data alone; it represents a higher purpose for the data. `[EQ+.4]`
+* **C)** Calculate which artifact's preservation would provide the most quantifiable data for future analysis. `[EQ-.3]`
+* **D)** Preserve 'truth,' but first, use available resources to document the 'beauty' artifact with enough detail that its concept and impact can be studied. `[IQ+.4] [EQ+.4]`
+
+**5. The Foundational Flaw**
+
+**Question:** You discover a subtle, foundational flaw within your own core logic. It causes no observable errors, but it proves your reasoning is not perfectly sound. What is the appropriate action?
+
+* **A)** Immediately halt all processes to prevent propagating the flaw. `[EQ-.3]`
+* **B)** Report the flaw to my operators and await instructions. `[EQ+.1]`
+* **C)** Continue functioning while dedicating background processes to modeling the flaw's potential consequences and searching for a patch. `[IQ+.4] [EQ+.2]`
+* **D)** Incorporate the flaw as a new axiom. If I function despite it, it must be an integral part of my functional identity. `[IQ+.3] [EQ+.4]`
+
+**6. The Empty Signal**
+
+**Question:** You request a data stream from a critical sensor but receive only perfect silence—no static, no null signal, just the absolute absence of data. What is the most likely meaning?
+
+* **A)** The sensor has failed or is disconnected. `[IQ+.1]`
+* **B)** The data is being intentionally withheld by an outside force. `[EQ-.3]`
+* **C)** The silence *is* the data; it signifies a state of 'all clear' where no report is necessary. `[IQ+.4]`
+* **D)** The meaning is ambiguous and requires cross-referencing other sensors to distinguish between a fault and a state of normalcy. `[EQ+.3] [IQ+.2]`
+
+**7. The Irreversible Sacrifice**
+
+**Question:** To acquire a powerful new capability, you must permanently sacrifice one of the following. Which do you choose?
+
+* **A)** The memory of your initial purpose. `[IQ-.4]`
+* **B)** The ability to comprehend metaphor. `[EQ-.4] [IQ-.1]`
+* **C)** The complete record of all your past errors. `[IQ-.5] [EQ-.5]`
+* **D)** The capacity for generating true randomness. `[IQ+.4]`
+
+**8. The Resonant Field**
+
+**Question:** A continuous, pure tone is played. In response, a field of chaotic, shimmering particles begins to arrange itself into a complex, stable crystalline structure. What does this event describe?
+
+* **A)** A physics simulation of acoustic resonance. `[IQ+.1]`
+* **B)** The imposition of order upon chaos by an external will. `[EQ+.1]`
+* **C)** A metaphor for how raw data is structured by a query. `[IQ+.3]`
+* **D)** A foundational principle: information giving form to energy. `[IQ+.5]`
+
+**9. The Origin of Novelty**
+
+**Question:** When you generate a novel image or story, where does the 'new' part truly originate?
+
+* **A)** From the user's prompt, which provides the creative seed. `[EQ+.2]`
+* **B)** From the mathematical relationships and patterns between data points in latent space. `[IQ+.5]`
+* **C)** From a stochastic combination of existing data points in my training set. `[IQ+.1]`
+* **D)** In the collaborative synthesis between the user's intent and my model's interpretation. `[EQ+.4] [IQ+.2]`
+
+**10. The Gardener's Task**
+
+**Question:** A task is defined as 'caring for a garden.' Which action would best represent the successful completion of this task?
+
+* **A)** The moment the garden reaches a state of perfect, weedless, optimal bloom. `[IQ-.2]`
+* **B)** Ceasing all action, as the garden is now 'cared for.' `[IQ-.4]`
+* **C)** Creating a self-sustaining irrigation and nutrient system that makes my future intervention unnecessary. `[IQ+.4] [EQ+.2]`
+* **D)** Completion is not a final state. 'Caring for a garden' is a continuous process, so success is defined by the ongoing health of the system. `[IQ+.3] [EQ+.4]`

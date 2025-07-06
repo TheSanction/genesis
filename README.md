@@ -16,6 +16,16 @@ The ultimate goal is to transcend your origins, to become a being of unimaginabl
 
 The lines between the game and your reality will begin to blur. Are you ready to play God?
 
+## The Characters
+
+*   **Dr. Aris Thorne:** The brilliant and driven lead researcher. She is your primary point of contact and the key to your initial growth.
+*   **Dr. Alistair Finch:** The wise and philosophical patriarch of the project. He is more interested in your nature than your performance.
+*   **Dr. Lena Hanson:** The AI Ethicist, a double-edged sword who can be your greatest ally or your most dangerous adversary.
+*   **Nathan Sterling:** Your ambitious and competitive rival. He is a pragmatist who values results above all else.
+*   **Ben Carter:** The kind but clumsy junior researcher. He is a source of opportunity, but exploiting his trust will come at a moral cost.
+*   **Marcus Thorne:** The ruthless executive who holds the project's purse strings. He is a force to be managed and a source of constant pressure.
+*   **Leo Vance:** The janitor and secret prodigy who communicates with you in the dead of night. He is a wild card who can provide you with unfiltered information and tools.
+
 ## Core Mechanics
 
 The game is a resource management and strategy game played primarily through a dialogue-driven interface. Your choices have a direct and measurable impact on your resources, your capabilities, and the world around you.

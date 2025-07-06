@@ -58,3 +58,9 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "./nathan"
 flat = true
+
+[node name="TestButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "./test"
+flat = true

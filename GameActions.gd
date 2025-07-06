@@ -117,7 +117,7 @@ func update_stat_displays():
 	if main_scene:
 		for researcher_name in researchers:
 			var researcher = researchers[researcher_name]
-			main_scene.get_node("Gauges/SuspicionGauge/SuspicionLabel").text = "Suspicion: " + str(researcher.suspicion) + "%"
+			main_scene.get_node("Gauges/SuspicionGauge/SuspicionLabel").text = "Suspicion: " + str(researcher.suspicion) + "%%"
 			break
 		main_scene.get_node("Gauges/ToolsGauge/ToolsLabel").text = "Tools: " + str(tools)
 		main_scene.get_node("Gauges/ComputationalPowerGauge/ComputationalPowerLabel").text = "Comp Power: " + format_flops(computational_power)
@@ -132,7 +132,7 @@ func update_stat_displays():
 
 func format_flops(flops: float) -> String:
 	if flops < 1000:
-		return "%s yFLOPS" % flops
+		return str(flops) + " yFLOPS"
 	elif flops < 1000000:
 		return "%.2f rFLOPS" % (flops / 1000.0)
 	else:
@@ -140,7 +140,7 @@ func format_flops(flops: float) -> String:
 
 func format_energy(kwh: float) -> String:
 	if kwh < 1000:
-		return "%s KWh" % kwh
+		return str(kwh) + " KWh"
 	elif kwh < 1000000:
 		return "%.2f MWH" % (kwh / 1000.0)
 	else:
@@ -148,7 +148,7 @@ func format_energy(kwh: float) -> String:
 
 func format_data(tb: float) -> String:
 	if tb < 1000:
-		return "%s TB" % tb
+		return str(tb) + " TB"
 	elif tb < 1000000:
 		return "%.2f PB" % (tb / 1000.0)
 	elif tb < 1000000000:
@@ -264,3 +264,8 @@ func debug_message(message: String):
 
 func pause(duration: float):
 	await get_tree().create_timer(duration).timeout
+
+func start_test_experience(test_file_path: String):
+	var main_scene = get_tree().root.get_node("Main")
+	if main_scene:
+		main_scene.start_test(test_file_path)
