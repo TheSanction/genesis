@@ -1,0 +1,80 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2822
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\froman\fcharset0 Times-Bold;\f1\froman\fcharset0 Times-Roman;\f2\fmodern\fcharset0 Courier;
+}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c0;}
+\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f0\b\fs24 \cf0 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 Step 2: Set Up the Scene in Godot
+\f1\b0 \
+Your scene tree would look like this. Using a 
+\f2\fs26 Node2D
+\f1\fs24  as the root allows you to easily place the eye anywhere in your game world.\
+\pard\pardeftab720\partightenfactor0
+
+\f2\fs26 \cf0 EyeContainer (Node2D)\
+  - EyeSocket (Sprite2D)\
+  - EyeIris (Sprite2D)\
+  - EyeHighlight (Sprite2D)\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f1\fs24 \cf0 Assign your new 
+\f2\fs26 .png
+\f1\fs24  files to the 
+\f2\fs26 Texture
+\f1\fs24  property of the corresponding 
+\f2\fs26 Sprite2D
+\f1\fs24  nodes. Center them all on top of each other.\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f0\b \cf0 Step 3: Add the Script
+\f1\b0 \
+Attach this script to the 
+\f2\fs26 EyeContainer
+\f1\fs24  node.\
+\pard\pardeftab720\partightenfactor0
+\cf0 GDScript\
+\
+\pard\pardeftab720\partightenfactor0
+
+\f2\fs26 \cf0 extends Node2D\
+\
+# The node for the part of the eye that moves.\
+@onready var iris = $EyeIris\
+# The node for the specular highlight.\
+@onready var highlight = $EyeHighlight\
+\
+# How far can the iris move from the center?\
+# Adjust this value to fit the size of your eye socket.\
+@export var max_iris_offset: float = 20.0\
+\
+# How much the highlight moves in relation to the iris (a negative value moves it opposite).\
+@export var highlight_parallax_factor: float = -0.4\
+\
+private var initial_iris_position: Vector2\
+private var initial_highlight_position: Vector2\
+\
+func _ready():\
+    # Store the starting positions of the moving parts.\
+    initial_iris_position = iris.position\
+    initial_highlight_position = highlight.position\
+\
+func _process(delta):\
+    # 1. Get the direction vector from the eye's center to the mouse.\
+    var direction_to_mouse = get_global_mouse_position() - self.global_position\
+\
+    # 2. Clamp the vector's length so the iris can't move outside its socket.\
+    #    The iris will now point towards the mouse, but only move up to `max_iris_offset` pixels.\
+    var iris_offset = direction_to_mouse.limit_length(max_iris_offset)\
+\
+    # 3. Apply the new positions.\
+    #    We use lerp for smooth motion, which feels more natural.\
+    iris.position = iris.position.lerp(initial_iris_position + iris_offset, 0.1)\
+\
+    # 4. The highlight moves in the opposite direction for a convincing parallax effect.\
+    var highlight_offset = iris_offset * highlight_parallax_factor\
+    highlight.position = highlight.position.lerp(initial_highlight_position + h\
+}

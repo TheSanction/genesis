@@ -64,3 +64,9 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "./test"
 flat = true
+
+[node name="EyeAnimationButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "./ai_eye"
+flat = true

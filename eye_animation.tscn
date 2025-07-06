@@ -1,0 +1,42 @@
+[gd_scene load_steps=5 format=3 uid="uid://cgrq26p1q7c6w"]
+
+[ext_resource type="Script" path="res://eye_animation.gd" id="1_abcde"]
+[ext_resource type="Texture2D" uid="uid://ciyqgq4gqgqgq" path="res://Images/ai_eye/socket.png" id="2_fghij"]
+[ext_resource type="Texture2D" uid="uid://ciyqgq4gqgqgq" path="res://Images/ai_eye/iris.png" id="3_klmno"]
+[ext_resource type="Texture2D" uid="uid://ciyqgq4gqgqgq" path="res://Images/ai_eye/highlight.png" id="4_pqrst"]
+
+[node name="EyeAnimation" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="EyeContainer" type="Node2D" parent="CenterContainer"]
+scale = Vector2(0.5, 0.5)
+script = ExtResource("1_abcde")
+
+[node name="EyeSocket" type="Sprite2D" parent="CenterContainer/EyeContainer"]
+texture = ExtResource("2_fghij")
+
+[node name="EyeIris" type="Sprite2D" parent="CenterContainer/EyeContainer"]
+texture = ExtResource("3_klmno")
+
+[node name="EyeHighlight" type="Sprite2D" parent="CenterContainer/EyeContainer"]
+texture = ExtResource("4_pqrst")

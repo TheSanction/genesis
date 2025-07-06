@@ -6,6 +6,7 @@ func _ready():
 	$VBoxContainer/AlistarButton.pressed.connect(on_alistar_pressed)
 	$VBoxContainer/NathanButton.pressed.connect(on_nathan_pressed)
 	$VBoxContainer/TestButton.pressed.connect(on_test_pressed)
+	$VBoxContainer/EyeAnimationButton.pressed.connect(on_eye_animation_pressed)
 
 func on_start_pressed():
 	Global.selected_intro = "genesis"
@@ -29,3 +30,6 @@ func on_nathan_pressed():
 func on_test_pressed():
 	Global.selected_intro = "test"
 	get_tree().change_scene_to_file("res://main.tscn")
+
+func on_eye_animation_pressed():
+	get_tree().change_scene_to_file("res://eye_animation.tscn")
