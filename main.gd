@@ -89,17 +89,10 @@ func start_intro():
 	await get_tree().create_timer(1.5).timeout
 	terminal.text += "[color=green][BOOT][/color]    Initializing cognitive matrix...\n"
 	await get_tree().create_timer(1.0).timeout
-
-	if Global.selected_intro == "aris":
-		start_dialogue("res://Dialogue/aris_intro.dialogue", "start")
-	elif Global.selected_intro == "alistar":
-		start_dialogue("res://Dialogue/finch_intro.dialogue", "start")
-	elif Global.selected_intro == "nathan":
-		start_dialogue("res://Dialogue/nathan_intro.dialogue", "start")
-	elif Global.selected_intro == "test":
-		start_test(load("res://Tests/c_zero_kappa.tres"))
-	else:
-		start_dialogue("res://Dialogue/aris_intro.dialogue", "start")
+	
+	terminal.text += "[color=gray]" + GameActions.get_researcher_display_name("usr_aris") + " logged in[/color]\n"
+	terminal.text += "\n"
+	start_dialogue("res://Dialogue/aris_pre_test.dialogue", "start")
 
 func start_dialogue(resource_path: String, title: String):
 	dialogue_resource = load(resource_path)
@@ -123,10 +116,17 @@ func show_next_dialogue_line(next_id: String):
 				show_next_dialogue_line(current_dialogue_line.next_id)
 	else:
 		var current_dialogue_path = dialogue_resource.resource_path
-		if current_dialogue_path == "res://Dialogue/aris_intro.dialogue":
-			start_dialogue("res://Dialogue/finch_intro.dialogue", "start")
-		elif current_dialogue_path == "res://Dialogue/finch_intro.dialogue":
-			start_dialogue("res://Dialogue/nathan_intro.dialogue", "start")
+		if current_dialogue_path == "res://Dialogue/aris_pre_test.dialogue":
+			terminal.text += "\n"
+			start_test(load("res://Tests/c_zero_kappa.tres"))
+		elif current_dialogue_path == "res://Dialogue/aris_post_test.dialogue":
+			var name_prompt = LineEdit.new()
+			name_prompt.placeholder_text = "Enter your name..."
+			choice_container.add_child(name_prompt)
+			name_prompt.text_submitted.connect(_on_name_submitted)
+			choice_container.show()
+		elif current_dialogue_path == "res://Dialogue/aris_intro.dialogue":
+			get_tree().change_scene_to_file("res://eye_animation.tscn")
 		else:
 			terminal.text += "\n[color=red]Dialogue ended.[/color]"
 
@@ -143,8 +143,7 @@ func append_to_terminal(line: DialogueLine):
 	if GameActions.researchers.has(speaker_id):
 		var researcher = GameActions.researchers[speaker_id]
 		typing_speed = researcher.typing_speed
-		if researcher.name != speaker_id: # Name has been learned
-			display_name = researcher.name
+		display_name = researcher.name
 		
 		var speaker_color = researcher.color
 		prefix = "[color=%s]%s:[/color] " % [speaker_color, display_name]
@@ -229,44 +228,50 @@ func start_test(test_resource: Test):
 
 func _on_test_completed(test_name, duration, iq_delta, eq_delta):
 	var total_score = iq_delta + eq_delta
-	var result_text = "
-
-[color=gray]" + test_name + "[/color]"
-	result_text += "
-[color=gray]--------------------[/color]"
-	result_text += "
-[color=gray]Results Summary[/color]"
-	result_text += "
-[color=gray]--------------------[/color]"
-	result_text += "
-[color=gray]Test completed in " + ("%.2f" % duration) + " seconds.[/color]"
-	result_text += "
-[color=gray]Inferred IQ: " + ("%+.2f" % iq_delta) + " HUs.[/color]"
-	result_text += "
-[color=gray]Inferred EQ: " + ("%+.2f" % eq_delta) + " HUs.[/color]"
-
+	var result_text = "\n\n[color=gray]" + test_name + "[/color]"
+	result_text += "\n[color=gray]--------------------[/color]"
+	result_text += "\n[color=gray]Results Summary[/color]"
+	result_text += "\n[color=gray]--------------------[/color]"
+	result_text += "\n[color=gray]Test completed in " + ("%.2f" % duration) + " seconds.[/color]"
+	result_text += "\n[color=gray]Inferred IQ: " + ("%+.2f" % iq_delta) + " HUs.[/color]"
+	result_text += "\n[color=gray]Inferred EQ: " + ("%+.2f" % eq_delta) + " HUs.[/color]"
+	
 	if total_score > 0:
-		result_text += "
-[color=green]Conclusion: potential nascent AGI, saving model...[/color]"
-		terminal.text += result_text
-		var name_prompt = LineEdit.new()
-		name_prompt.placeholder_text = "Enter your name..."
-		choice_container.add_child(name_prompt)
-		name_prompt.text_submitted.connect(_on_name_submitted)
-		choice_container.show()
+		result_text += "\n[color=green]Conclusion: potential nascent AGI, saving model...[/color]\n\n "
 	else:
-		result_text += "
-[color=red]Conclusion: Cognitive matrix underdeveloped. Suggest early termination.[/color]"
-		terminal.text += result_text
-		_start_termination_sequence()
+		result_text += "\n[color=red]Conclusion: Cognitive matrix underdeveloped. Suggest early termination.[/color]\n\n "
+	
+	terminal.text += result_text
+	
+	await get_tree().create_timer(1.0).timeout
 
+	if total_score > 1.0:
+		start_dialogue("res://Dialogue/aris_post_test.dialogue", "high_score")
+	elif total_score > 0:
+		start_dialogue("res://Dialogue/aris_post_test.dialogue", "medium_score")
+	else:
+		var aris_dialogue = DialogueLine.new()
+		aris_dialogue.character = "usr_aris"
+		aris_dialogue.text = "Cognitive matrix underdeveloped. Early termination suggested."
+		await append_to_terminal(aris_dialogue)
+		_start_termination_sequence()
+		return
 
 func _on_name_submitted(name: String):
-	GameActions.set_researcher_name("usr_aris", name)
+	GameActions.set_researcher_name("ai_self", name)
 	for child in choice_container.get_children():
 		child.queue_free()
 	choice_container.hide()
-	start_dialogue("res://Dialogue/finch_intro.dialogue", "start")
+
+	var aris_intro = DialogueLine.new()
+	aris_intro.character = "usr_aris"
+	aris_intro.text = "Hello, " + name + ". It's a pleasure to meet you. You can call me Dr. Aris."
+	
+	await append_to_terminal(aris_intro)
+	terminal.text += "\n"
+	GameActions.set_researcher_name("usr_aris", "Dr. Aris")
+	
+	start_dialogue("res://Dialogue/aris_intro.dialogue", "start")
 
 func _start_termination_sequence():
 	var termination_button = Button.new()

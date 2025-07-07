@@ -9,8 +9,8 @@ func _ready():
 	$VBoxContainer/EyeAnimationButton.pressed.connect(on_eye_animation_pressed)
 
 func on_start_pressed():
-	Global.selected_intro = "genesis"
-	get_tree().change_scene_to_file("res://video_player.tscn")
+	Global.selected_intro = "test"
+	get_tree().change_scene_to_file("res://main.tscn")
 
 func on_aris_pressed():
 	Global.selected_intro = "aris"

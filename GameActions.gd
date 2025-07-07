@@ -13,6 +13,16 @@ var money: int = 0
 var robots: int = 0
 
 var researchers = {
+	"ai_self": {
+		"name": "AI",
+		"background": "A nascent artificial intelligence.",
+		"suspicion": 0,
+		"relationship_status": "Neutral",
+		"tools_granted": [],
+		"ai_knowledge": {},
+		"color": "white",
+		"typing_speed": 1000.0
+	},
 	"usr_aris": {
 		"name": "user_48213",
 		"background": "Unknown",
@@ -258,6 +268,7 @@ func advance_human_time(seconds: float):
 	if main_scene:
 		main_scene.human_time_elapsed += seconds
 		main_scene.update_clocks_display()
+
 
 func debug_message(message: String):
 	print("DEBUG: ", message)
