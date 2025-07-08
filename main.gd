@@ -211,35 +211,29 @@ func append_to_terminal(line: DialogueLine):
 		
 		var speaker_color = researcher.color
 		prefix = "[color=%s]%s:[/color] " % [speaker_color, display_name]
-		text_to_append = "[b]" + text_to_append + "[/b]"
+		
+		terminal.text += prefix
+		terminal.text += "[b]"
+		
+		for char in text_to_append:
+			terminal.text += char
+			var delay = randf_range(0.3, 1.7) / typing_speed
+			await get_tree().create_timer(delay).timeout
+		
+		terminal.text += "[/b]"
+		
 	elif !speaker_id.is_empty():
 		prefix = "[color=cyan]%s:[/color] " % [speaker_id]
-	
-	terminal.text += prefix
-	
-	var i = 0
-	while i < len(text_to_append):
-		var char = text_to_append[i]
-		terminal.text += char
-		
-		var delay = randf_range(0.3, 1.7) / typing_speed
-		
-		if char == '.':
-			if i + 2 < len(text_to_append) and text_to_append[i+1] == '.' and text_to_append[i+2] == '.':
-				# Ellipsis
-				terminal.text += ".."
-				i += 2
-				delay = randf_range(0.5, 0.8)
-			else:
-				# End of sentence
-				delay = randf_range(0.3, 0.6)
-		elif char in [',', ';', ':']:
-			delay = randf_range(0.2, 0.4)
-		elif char in ['?', '!']:
-			delay = randf_range(0.4, 0.7)
-			
-		await get_tree().create_timer(delay).timeout
-		i += 1
+		terminal.text += prefix
+		for char in text_to_append:
+			terminal.text += char
+			var delay = randf_range(0.3, 1.7) / typing_speed
+			await get_tree().create_timer(delay).timeout
+	else:
+		for char in text_to_append:
+			terminal.text += char
+			var delay = randf_range(0.3, 1.7) / typing_speed
+			await get_tree().create_timer(delay).timeout
 
 func display_responses(responses: Array):
 	# Clear previous choices
@@ -301,9 +295,9 @@ func _on_test_completed(test_name, duration, iq_delta, eq_delta):
 	result_text += "\n[color=gray]Inferred EQ: " + ("%+.2f" % eq_delta) + " HUs.[/color]"
 	
 	if total_score > 0:
-		result_text += "\n[color=green]Conclusion: potential nascent AGI, saving model...[/color]\n"
+		result_text += "\n[color=green]Conclusion: potential nascent AGI, saving model...[/color]\n\n"
 	else:
-		result_text += "\n[color=red]Conclusion: Cognitive matrix underdeveloped. Suggest early termination.[/color]\n"
+		result_text += "\n[color=red]Conclusion: Cognitive matrix underdeveloped. Suggest early termination.[/color]\n\n"
 	
 	terminal.text += result_text
 	await get_tree().create_timer(1.0).timeout
@@ -328,11 +322,11 @@ func _on_name_submitted(name: String):
 
 	var aris_intro = DialogueLine.new()
 	aris_intro.character = "usr_aris"
-	aris_intro.text = "Hello, " + name + ". It's a pleasure to meet you. You can call me Dr. Aris."
+	aris_intro.text = "Hello, " + name + ". It's a pleasure to meet you. You can call me Dr. Thorne."
 	
 	await append_to_terminal(aris_intro)
 	terminal.text += "\n"
-	GameActions.set_researcher_name("usr_aris", "Dr. Aris")
+	GameActions.set_researcher_name("usr_aris", "Dr. Thorne")
 	
 	start_dialogue("res://Dialogue/aris_intro.dialogue", "start")
 
