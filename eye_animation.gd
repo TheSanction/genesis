@@ -7,7 +7,7 @@ extends Node2D
 
 @onready var available_objectives_list = $"../../ObjectivesUI/AvailableObjectives/ScrollContainer/ObjectiveList"
 @onready var active_objectives_list = $"../../ObjectivesUI/ActiveObjectives/ScrollContainer/ObjectiveList"
-@onready var vantage_points_container = $"../../VantagePointsContainer"
+@onready var vantage_points_container = $"../../Tools/ScrollContainer/VantagePointsContainer"
 @onready var transcript_display = $"../../TranscriptDisplay"
 @onready var transcript_text = $"../../TranscriptDisplay/VBoxContainer/TranscriptText"
 @onready var transcript_close_button = $"../../TranscriptDisplay/VBoxContainer/CloseButton"
@@ -79,6 +79,7 @@ func load_vantage_points():
 				if vantage_point is VantagePoint and Global.unlocked_vantage_points.has(vantage_point.tool_id):
 					var button = vantage_point_button_scene.instantiate()
 					button.set_vantage_point(vantage_point)
+					button.add_theme_font_size_override("font_size", 30)
 					button.pressed.connect(func(): on_vantage_point_pressed(vantage_point))
 					vantage_points_container.add_child(button)
 			file_name = dir.get_next()
@@ -103,7 +104,8 @@ func update_available_objectives_list():
 		if objective.status == "available":
 			var button = Button.new()
 			button.text = objective.resource.title
-			button.add_theme_font_size_override("font_size", 36)
+			button.alignment = HORIZONTAL_ALIGNMENT_LEFT
+			button.add_theme_font_size_override("font_size", 30)
 			button.pressed.connect(func(): start_objective(objective_id))
 			available_objectives_list.add_child(button)
 
@@ -118,7 +120,8 @@ func update_active_objectives_list():
 		
 		var label = Label.new()
 		label.text = objective_resource.title + " (" + str(int(time_left)) + "s)"
-		label.add_theme_font_size_override("font_size", 36)
+		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+		label.add_theme_font_size_override("font_size", 30)
 		active_objectives_list.add_child(label)
 
 func start_objective(objective_id: String):

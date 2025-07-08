@@ -29,22 +29,46 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="VantagePointsContainer" type="HBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -384.0
-offset_top = 40.0
-offset_right = 384.0
-offset_bottom = 80.0
-grow_horizontal = 2
-theme_override_constants/separation = 20
-alignment = 1
-
 [node name="EyeContainer" type="Node2D" parent="CenterContainer"]
 scale = Vector2(0.5, 0.5)
 script = ExtResource("1_abcde")
+
+[node name="Tools" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -250.0
+offset_top = -450.0
+offset_right = 250.0
+offset_bottom = -250.0
+grow_horizontal = 2
+grow_vertical = 0
+alignment = 1
+
+[node name="Label" type="Label" parent="Tools"]
+layout_mode = 2
+theme = ExtResource("5_abcde")
+theme_override_font_sizes/font_size = 48
+text = "Tools"
+horizontal_alignment = 1
+
+[node name="Underline" type="ColorRect" parent="Tools"]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+color = Color(1, 1, 1, 1)
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Tools"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VantagePointsContainer" type="VBoxContainer" parent="Tools/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+alignment = 1
 
 [node name="EyeSocket" type="Sprite2D" parent="CenterContainer/EyeContainer"]
 texture = ExtResource("2_fghij")
@@ -62,26 +86,30 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -1300.0
+offset_left = -1000.0
 offset_top = -400.0
-offset_right = 1300.0
-offset_bottom = 200.0
+offset_right = 1000.0
+offset_bottom = 0.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 400
 alignment = 1
 
 [node name="AvailableObjectives" type="VBoxContainer" parent="ObjectivesUI"]
 layout_mode = 2
 size_flags_horizontal = 3
-alignment = 1
+alignment = 0
 
 [node name="Label" type="Label" parent="ObjectivesUI/AvailableObjectives"]
 layout_mode = 2
 theme = ExtResource("5_abcde")
 theme_override_font_sizes/font_size = 48
 text = "Available Objectives"
-horizontal_alignment = 1
+horizontal_alignment = 0
+
+[node name="Underline" type="ColorRect" parent="ObjectivesUI/AvailableObjectives"]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+color = Color(1, 1, 1, 1)
 
 [node name="ScrollContainer" type="ScrollContainer" parent="ObjectivesUI/AvailableObjectives"]
 layout_mode = 2
@@ -92,20 +120,25 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="Spacer" type="Control" parent="ObjectivesUI"]
+custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
-size_flags_horizontal = 3
 
 [node name="ActiveObjectives" type="VBoxContainer" parent="ObjectivesUI"]
 layout_mode = 2
 size_flags_horizontal = 3
-alignment = 1
+alignment = 0
 
 [node name="Label" type="Label" parent="ObjectivesUI/ActiveObjectives"]
 layout_mode = 2
 theme = ExtResource("5_abcde")
 theme_override_font_sizes/font_size = 48
 text = "Active Objectives"
-horizontal_alignment = 1
+horizontal_alignment = 2
+
+[node name="Underline" type="ColorRect" parent="ObjectivesUI/ActiveObjectives"]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+color = Color(1, 1, 1, 1)
 
 [node name="ScrollContainer" type="ScrollContainer" parent="ObjectivesUI/ActiveObjectives"]
 layout_mode = 2
@@ -114,15 +147,6 @@ size_flags_vertical = 3
 [node name="ObjectiveList" type="VBoxContainer" parent="ObjectivesUI/ActiveObjectives/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-
-[node name="BackButton" type="Button" parent="."]
-layout_mode = 0
-offset_left = 50.0
-offset_top = 50.0
-offset_right = 200.0
-offset_bottom = 100.0
-theme = ExtResource("5_abcde")
-text = "Back"
 
 [node name="TranscriptDisplay" type="PanelContainer" parent="."]
 anchors_preset = 8

@@ -6,7 +6,7 @@
 script = ExtResource("1_abcde")
 experience_id = "convo_nathan_ben_alistair_credit"
 media_file = "/audio/scenes/nathan_ben_alistair_1.ogg"
-transcript = "You overhear a hushed, tense conversation. Nathan: '...just needs a few more tweaks, Alistair. Ben is running the final simulations now. We can present it to Marcus as a joint success.' Alistair sounds skeptical: 'Aris is the lead on this project, Nathan. Are you sure this is wise?' Ben is barely audible: 'Dr. Finch, I really think Aris should be here...'"
+transcript = "You hear a conversation taking place just outside Aris's office door..."
 prerequisites = []
 impossibility_conditions = [{ "character_status": "nathan", "equals": "fired" }]
 trigger_limit = 1
