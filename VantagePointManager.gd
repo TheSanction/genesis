@@ -4,9 +4,12 @@ class_name VantagePointManager
 signal experience_triggered(transcript)
 
 var Global
+var audio_player: AudioStreamPlayer
 
 func _ready():
 	Global = get_node("/root/Global")
+	audio_player = AudioStreamPlayer.new()
+	add_child(audio_player)
 
 func use_vantage_point(vantage_point: VantagePoint):
 	# 1. Deduct activation cost
@@ -89,8 +92,11 @@ func select_experience(experiences: Array) -> Experience:
 func trigger_experience(experience: Experience):
 	print("Triggering experience: ", experience.experience_id)
 	
-	# TODO: Implement media playing
-	print("Playing media: ", experience.media_file)
+	if experience.media_file and not experience.media_file.is_empty():
+		var audio_stream = load(experience.media_file)
+		if audio_stream:
+			audio_player.stream = audio_stream
+			audio_player.play()
 	
 	emit_signal("experience_triggered", experience.transcript)
 

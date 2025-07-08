@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_abcde")
 experience_id = "convo_nathan_ben_alistair_credit"
-media_file = "/audio/scenes/nathan_ben_alistair_1.ogg"
+media_file = "res://Audio/sterling_ben_model_steal.mp3"
 transcript = "You hear a conversation taking place just outside Aris's office door..."
 prerequisites = []
 impossibility_conditions = [{ "character_status": "nathan", "equals": "fired" }]
