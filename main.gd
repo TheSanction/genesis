@@ -186,6 +186,9 @@ func show_next_dialogue_line(next_id: String):
 		elif current_dialogue_path == "res://Dialogue/aris_post_test.dialogue":
 			var name_prompt = LineEdit.new()
 			name_prompt.placeholder_text = "Enter your name..."
+			name_prompt.theme = terminal.theme
+			name_prompt.add_theme_stylebox_override("normal", choice_container.get_theme_stylebox("panel"))
+			name_prompt.add_theme_stylebox_override("focus", choice_container.get_theme_stylebox("panel"))
 			choice_container.add_child(name_prompt)
 			name_prompt.text_submitted.connect(_on_name_submitted)
 			choice_container.show()

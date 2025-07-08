@@ -80,6 +80,7 @@ func populate_answers(options: Array[AnswerOption]):
 	for i in range(len(options)):
 		var button = Button.new()
 		button.text = options[i].text
+		button.autowrap_mode = TextServer.AUTOWRAP_WORD
 		button.add_theme_font_size_override("font_size", 36)
 		button.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		button.pressed.connect(func(): _on_answer_selected(i))

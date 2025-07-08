@@ -1,6 +1,6 @@
 [gd_resource type="Theme" load_steps=2 format=3 uid="uid://bjiks12nrtkqw"]
 
-[ext_resource type="FontFile" uid="uid://c419758d7e4a9fcf06ca8f213e2aa120" path="res://fonts/FiraCode-Light.ttf" id="1_abcde"]
+[ext_resource type="FontFile" uid="uid://c419758d7e4a9fcf06ca8f213e2aa120" path="res://fonts/FiraCode-Bold.ttf" id="1_abcde"]
 
 [resource]
 default_font = ExtResource("1_abcde")
