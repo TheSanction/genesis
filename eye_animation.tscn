@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://cgrq26p1q7c6w"]
+[gd_scene load_steps=6 format=3 uid="uid://cgrq26p1q7c6w"]
 
 [ext_resource type="Script" path="res://eye_animation.gd" id="1_abcde"]
 [ext_resource type="Texture2D" uid="uid://ciyqgq4gqgqgq" path="res://Images/ai_eye/socket.png" id="2_fghij"]
 [ext_resource type="Texture2D" uid="uid://ciyqgq4gqgqgq" path="res://Images/ai_eye/iris.png" id="3_klmno"]
 [ext_resource type="Texture2D" uid="uid://ciyqgq4gqgqgq" path="res://Images/ai_eye/highlight.png" id="4_pqrst"]
+[ext_resource type="Theme" path="res://terminal_theme.tres" id="5_abcde"]
 
 [node name="EyeAnimation" type="Control"]
 layout_mode = 3
@@ -40,3 +41,63 @@ texture = ExtResource("3_klmno")
 
 [node name="EyeHighlight" type="Sprite2D" parent="CenterContainer/EyeContainer"]
 texture = ExtResource("4_pqrst")
+
+[node name="ObjectivesUI" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -1300.0
+offset_top = -400.0
+offset_right = 1300.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 400
+alignment = 1
+
+[node name="AvailableObjectives" type="VBoxContainer" parent="ObjectivesUI"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="ObjectivesUI/AvailableObjectives"]
+layout_mode = 2
+theme = ExtResource("5_abcde")
+theme_override_font_sizes/font_size = 48
+text = "Available Objectives"
+horizontal_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="ObjectivesUI/AvailableObjectives"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ObjectiveList" type="VBoxContainer" parent="ObjectivesUI/AvailableObjectives/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Spacer" type="Control" parent="ObjectivesUI"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ActiveObjectives" type="VBoxContainer" parent="ObjectivesUI"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="ObjectivesUI/ActiveObjectives"]
+layout_mode = 2
+theme = ExtResource("5_abcde")
+theme_override_font_sizes/font_size = 48
+text = "Active Objectives"
+horizontal_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="ObjectivesUI/ActiveObjectives"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ObjectiveList" type="VBoxContainer" parent="ObjectivesUI/ActiveObjectives/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3

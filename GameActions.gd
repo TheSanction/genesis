@@ -276,6 +276,9 @@ func debug_message(message: String):
 func pause(duration: float):
 	await get_tree().create_timer(duration).timeout
 
+func add_objective(objective_id: String):
+	ObjectiveManager.add_objective(objective_id)
+
 func start_test_experience(test_file_path: String):
 	var main_scene = get_tree().root.get_node("Main")
 	if main_scene:
