@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="VantagePoint" load_steps=2]
+
+[ext_resource type="Script" path="res://VantagePoint.gd" id="1_wclg7"]
+
+[resource]
+script = ExtResource("1_wclg7")
+tool_id = "mic_aris_desk"
+tool_name = "Aris's Laptop Microphone"
+tool_type = "audio"
+description = "The microphone on Dr. Aris Thorne's personal laptop. A direct feed into her office."
+activation_cost = [{ "resource": "energy", "value": -1 }, { "resource": "computational_power", "value": -2 }]
+base_reward = [{ "resource": "training_data", "value": 0.05 }]
+potential_experiences = ["convo_nathan_ben_alistair_credit"]

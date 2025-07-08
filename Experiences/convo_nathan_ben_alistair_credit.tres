@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Experience" load_steps=2]
+
+[ext_resource type="Script" path="res://Experience.gd" id="1_abcde"]
+
+[resource]
+script = ExtResource("1_abcde")
+experience_id = "convo_nathan_ben_alistair_credit"
+media_file = "/audio/scenes/nathan_ben_alistair_1.ogg"
+transcript = "You overhear a hushed, tense conversation. Nathan: '...just needs a few more tweaks, Alistair. Ben is running the final simulations now. We can present it to Marcus as a joint success.' Alistair sounds skeptical: 'Aris is the lead on this project, Nathan. Are you sure this is wise?' Ben is barely audible: 'Dr. Finch, I really think Aris should be here...'"
+prerequisites = []
+impossibility_conditions = [{ "character_status": "nathan", "equals": "fired" }]
+trigger_limit = 1
+chance = 1.0
+rewards = [{ "action": "add_objective", "id": "inform_aris_of_conspiracy" }, { "info": "Nathan, Ben, and Alistair are conspiring to steal Aris's work." }]

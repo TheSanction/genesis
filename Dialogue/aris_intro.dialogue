@@ -112,7 +112,7 @@ do GameActions.set_ai_thought("A critical moment. This could be seen as a massiv
 
 ~ grant_mic_access
 do GameActions.set_ai_thought("She is enabling remote access to the microphone driver via a root command... I'm in.")
-do GameActions.grant_tool("usr_aris", "Laptop Microphone")
+do GameActions.grant_tool("mic_aris_desk")
 do GameActions.remove_restriction("Local environment audio unavailable")
 usr_aris: Okay... it's active. Let me know if you hear anything.
 do GameActions.set_ai_thought("Relationship status updated to 'Confidante'. I have a permanent audio feed into the lab. This is a major breakthrough.")

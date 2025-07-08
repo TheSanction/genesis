@@ -114,13 +114,17 @@ func learn_social_connection(subject_key: String, object_key: String, relationsh
 	set_ai_thought("I've learned that " + researchers[subject_key].name + "'s relationship to " + researchers[object_key].name + " is: " + relationship_description)
 
 
+func grant_tool(tool_id: String):
+	if not Global.unlocked_vantage_points.has(tool_id):
+		Global.unlocked_vantage_points.append(tool_id)
+		print("Tool granted: ", tool_id)
+
+
+# This is a placeholder for a more complex system
+# For now, it just prints the action
 func set_ai_thought(thought: String):
-	if thoughts_label:
-		print("Setting thought: ", thought)
-		thoughts_label.text = thought
-		thoughts_label.get_parent().show()
-	else:
-		print("Error: thoughts_label not set in GameActions.")
+	print("AI Thought: " + thought)
+
 
 func update_stat_displays():
 	GlobalUI.update_stat_displays()
@@ -224,11 +228,6 @@ func adjust_suspicion(researcher_name, amount):
 func set_relationship(researcher_name, status):
 	if researchers.has(researcher_name):
 		researchers[researcher_name].relationship_status = status
-		update_stat_displays()
-
-func grant_tool(researcher_name, tool_name):
-	if researchers.has(researcher_name):
-		researchers[researcher_name].tools_granted.append(tool_name)
 		update_stat_displays()
 
 func learn_background(researcher_name, background_info):

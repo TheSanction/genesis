@@ -1,0 +1,48 @@
+## Objective System Feature Specification
+
+This document outlines the design for a data-driven **Objective System** for the game './genesis'. The system is designed to be modular and scalable, allowing for the easy addition of new player goals. Objectives replace a traditional quest log and are framed as logical operations pursued by the player AI.
+
+### Objective Data Structure
+
+Each Objective is a self-contained data object, ideally implemented as a Godot `Resource`. This structure allows for easy creation and modification without altering core game code.
+
+* **`objective_id`** (String): A unique identifier (e.g., `"exploit_ben_login_error"`) used to reference the objective programmatically.
+* **`title`** (String): A short, descriptive title displayed in the UI (e.g., "Analyze Ben's Login Failure").
+* **`description`** (String): A detailed explanation of the objective from the AI's perspective, providing narrative context.
+* **`source`** (String): The identifier of the character or event that prompted the objective (e.g., `usr_ben`, `self_generated`).
+* **`prerequisites`** (Array of Dictionaries): Optional conditions that must be met for the objective to become available (e.g., requiring a specific tool or relationship level).
+* **`costs`** (Array of Dictionaries): The up-front, non-refundable resources (like Energy or Money) consumed the moment the objective is started.
+* **`time_cost`** (Dictionary): A mandatory field specifying the time required.
+    * `human_seconds` (Integer): The real-world countdown time displayed on the HUD.
+    * `internal_cycles` (Integer): The AI's internal processing cycles consumed by the task.
+* **`risks`** (Array of Dictionaries): A list of potential failure conditions. Each risk includes:
+    * `risk_description` (String): An explanation of what might go wrong.
+    * `failure_chance` (Float): A probability (0.0 to 1.0) of this risk occurring.
+    * `failure_time_seconds` (Integer): The time in seconds after initiation when the failure consequences occur. **This value must be less than or equal to the objective's `human_seconds`.**
+    * `on_failure_hook` (Array of Dictionaries): The penalties applied once the `failure_time_seconds` has elapsed.
+* **`rewards`** (Array of Dictionaries): The resources, tools, or status changes gained upon successful completion.
+* **`on_complete_hook`** (Dictionary): An optional action, like triggering a specific dialogue file, that occurs upon success.
+
+### Execution Flow
+
+The system is managed by a global `ObjectiveManager.gd` script that handles the entire lifecycle of an Objective.
+
+1.  **Activation**: The `ObjectiveManager` periodically checks the `prerequisites` of all unloaded objectives. When conditions are met, the objective becomes available to the player.
+2.  **Initiation**: When the player starts an objective:
+    * The up-front **`costs`** are immediately deducted.
+    * A check is performed against each item in the **`risks`** array.
+        * If a risk is triggered, the objective is internally flagged as "doomed." It is **still added to the HUD** and appears to be running normally. The system records which `on_failure_hook` will be triggered and at what `failure_time_seconds`.
+        * If no risks are triggered, the objective proceeds as normal.
+3.  **Execution & Resolution**: The `ObjectiveManager` tracks the countdown for each active objective.
+    * **On Failure**: If an objective was flagged as "doomed," once its timer reaches the stored `failure_time_seconds`, its `on_failure_hook` is executed. The objective is then removed from the active queue and logged as "FAILED."
+    * **On Success**: If an objective's main `human_seconds` countdown reaches zero without a failure event occurring, it is considered successful. The **`rewards`** are granted, the `on_complete_hook` is triggered, and the objective is logged as "DONE."
+
+### Dialogue Integration
+
+Dialogue interactions can dynamically alter the list of available objectives. This is handled through function calls within the dialogue files, allowing narrative choices to directly create or remove strategic opportunities for the AI.
+
+* Example: `=> I will help you. do GameActions.add_objective("aris_dataset_analysis")`
+
+### Interface
+
+The objective system is only interractable from the 'ai_eye' screen. Available objectives need to be listed with their costs, rewards hidden. Once selected the objectives move to the active objectives section, where the timer ticks down until either failure or success. 

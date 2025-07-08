@@ -7,6 +7,13 @@ extends Node2D
 
 @onready var available_objectives_list = $"../../ObjectivesUI/AvailableObjectives/ScrollContainer/ObjectiveList"
 @onready var active_objectives_list = $"../../ObjectivesUI/ActiveObjectives/ScrollContainer/ObjectiveList"
+@onready var vantage_points_container = $"../../VantagePointsContainer"
+@onready var transcript_display = $"../../TranscriptDisplay"
+@onready var transcript_text = $"../../TranscriptDisplay/VBoxContainer/TranscriptText"
+@onready var transcript_close_button = $"../../TranscriptDisplay/VBoxContainer/CloseButton"
+
+var vantage_point_manager: VantagePointManager
+var vantage_point_button_scene = preload("res://VantagePointButton.tscn")
 
 # How far can the iris move from the center?
 # Adjust this value to fit the size of your eye socket.
@@ -30,6 +37,17 @@ func _ready():
 	
 	# Populate the objectives lists
 	update_objective_lists()
+	
+	# Setup Vantage Point system
+	vantage_point_manager = VantagePointManager.new()
+	add_child(vantage_point_manager)
+	vantage_point_manager.experience_triggered.connect(show_transcript)
+	
+	load_vantage_points()
+	
+	# Hide transcript display by default
+	transcript_display.hide()
+	transcript_close_button.pressed.connect(func(): transcript_display.hide())
 
 func _process(delta):
 	# 1. Get the direction vector from the eye's center to the mouse.
@@ -49,6 +67,28 @@ func _process(delta):
 	
 	# Update the active objectives list
 	update_active_objectives_list()
+
+func load_vantage_points():
+	var dir = DirAccess.open("res://VantagePoints")
+	if dir:
+		dir.list_dir_begin()
+		var file_name = dir.get_next()
+		while file_name != "":
+			if dir.current_is_dir() == false and file_name.ends_with(".tres"):
+				var vantage_point = load("res://VantagePoints/" + file_name)
+				if vantage_point is VantagePoint and Global.unlocked_vantage_points.has(vantage_point.tool_id):
+					var button = vantage_point_button_scene.instantiate()
+					button.set_vantage_point(vantage_point)
+					button.pressed.connect(func(): on_vantage_point_pressed(vantage_point))
+					vantage_points_container.add_child(button)
+			file_name = dir.get_next()
+
+func on_vantage_point_pressed(vantage_point: VantagePoint):
+	vantage_point_manager.use_vantage_point(vantage_point)
+
+func show_transcript(transcript: String):
+	transcript_text.text = transcript
+	transcript_display.show()
 
 func update_objective_lists():
 	update_available_objectives_list()

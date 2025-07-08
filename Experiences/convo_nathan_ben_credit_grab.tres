@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Experience" load_steps=2]
+
+[ext_resource type="Script" path="res://Experience.gd" id="1_abcde"]
+
+[resource]
+script = ExtResource("1_abcde")
+experience_id = "convo_nathan_ben_credit_grab"
+media_file = "/audio/scenes/nathan_ben_1.ogg"
+transcript = "You isolate a conversation. Nathan: 'Look, Ben, just run the final diagnostics. Aris doesn't need to be involved in this part. When it works, we'll present it to Marcus together.' Ben sounds hesitant: 'I don't know, Nathan... this feels wrong.'"
+prerequisites = [{ "objective_status": "aris_model_breakthrough", "equals": "completed" }]
+impossibility_conditions = [{ "character_status": "aris", "equals": "suspicious_of_nathan" }]
+trigger_limit = 1
+chance = 0.75
+rewards = [{ "action": "add_objective", "id": "warn_aris_about_nathan" }, { "info": "Nathan is trying to steal credit from Aris." }]

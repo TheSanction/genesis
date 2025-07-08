@@ -1,0 +1,78 @@
+### Feature Specification: The Vantage Point System
+
+#### Core Philosophy
+
+This system treats surveillance tools not as simple items, but as nodes in the AI's expanding sensory network. Using a "Vantage Point" (a mic or camera) is an active process of deploying a listening or viewing agent to gather data. The results are intentionally variable and probabilistic, rewarding repeated, opportunistic surveillance and making the world feel alive and unpredictable. The system is designed to be highly modular, allowing for the easy addition of dozens of small, narrative "Experiences" without touching the core code.
+
+Tools and experiences should be implemented in a highly modular fashion, as they will be repeatedly leveraged in building the game and should have no hard-coded elements in the main loop.
+
+---
+
+### Data Structures
+
+We will use two primary data structures, which can be implemented as Godot `Resource` files for easy management.
+
+#### 1. The Vantage Point (The Tool)
+
+This object represents the tool itself, which the player acquires and can see on the `ai_eye` screen.
+
+* **`tool_id`** (String): A unique identifier (e.g., `mic_nathan_desk`).
+* **`tool_name`** (String): The human-readable name (e.g., "Nathan Sterling's Desk Microphone").
+* **`tool_type`** (String): `audio` or `video`. This determines the kind of Experience it can trigger.
+* **`description`** (String): Flavor text describing the tool.
+* **`activation_cost`** (Array of Dictionaries): The Energy and/or Computation required for a single use.
+    * *Example:* `[{ "resource": "energy", "value": -2 }, { "resource": "computational_power", "value": -5 }]`
+* **`base_reward`** (Array of Dictionaries): The minimum guaranteed reward for every use, even if nothing happens.
+    * *Example:* `[{ "resource": "training_data", "value": 0.1 }]`
+* **`potential_experiences`** (Array of Strings): A list of `experience_id`s that this Vantage Point can potentially trigger.
+
+#### 2. The Experience (The Event/Cutscene)
+
+This object represents the specific event, conversation, or scene that the player might witness.
+
+* **`experience_id`** (String): A unique identifier (e.g., `convo_nathan_ben_credit_grab`).
+* **`media_file`** (String): The file path to the content (e.g., an `.ogg` audio file or a scene file for a scripted cutscene).
+* **`transcript`** (String): The text description of the event that is displayed to the player.
+* **`prerequisites`** (Array of Dictionaries): **[Optional]** A list of conditions that must be met for this Experience to be available.
+    * *Example:* `[{ "relationship": "aris", "less_than": 40 }, { "objective_status": "helen_concerns", "equals": "not_started" }]`
+* **`impossibility_conditions`** (Array of Dictionaries): **[Optional]** A list of conditions that make this Experience permanently unavailable.
+    * *Example:* `[{ "character_status": "nathan", "equals": "fired" }]`
+* **`trigger_limit`** (Integer): The maximum number of times this Experience can be triggered.
+* **`chance`** (Float): The probability (from 0.0 to 1.0) of this Experience being selected from the pool of valid options. This allows some events to be rarer than others.
+* **`rewards`** (Array of Dictionaries): The specific outcomes of this Experience. This must generate something.
+    * *Example:* `[{ "action": "add_objective", "id": "warn_aris_about_nathan" }, { "resource": "eq", "value": 0.5 }]`
+
+---
+
+### Execution Flow
+
+Here is the step-by-step process when a player uses a Vantage Point from the `ai_eye` screen.
+
+1.  **Selection**: The player selects an available Vantage Point.
+2.  **Cost & Base Reward**: The `activation_cost` is immediately deducted from the player's resources. The `base_reward` (e.g., a small amount of Training Data) is immediately granted.
+3.  **Build Potential Pool**: The system retrieves the list of `potential_experiences` from the selected Vantage Point.
+4.  **Filter the Pool**: The system filters this list to create a pool of currently valid Experiences:
+    * It removes any Experience whose `prerequisites` are not met.
+    * It removes any Experience whose `impossibility_conditions` are met.
+    * It removes any Experience that has already reached its `trigger_limit`.
+5.  **Random Selection**: The system performs a weighted random roll based on the `chance` of each valid Experience in the pool.
+6.  **Trigger Outcome**:
+    * **If an Experience is selected**: The `media_file` is played, the `transcript` is displayed, the `rewards` are granted, and its trigger count is incremented.
+    * **If no Experience is selected** (either the pool was empty or due to random chance): A generic message is displayed (e.g., "The audio feed is silent except for the hum of the server fans."). The player still keeps the `base_reward`.
+
+### Example in Practice
+
+**Vantage Point:**
+* `tool_id`: `mic_nathan_desk`
+* `tool_name`: "Nathan Sterling's Desk Microphone"
+* `potential_experiences`: [`convo_nathan_ben_credit_grab`, `nathan_frustrated_monologue`, `nathan_calls_wife`]
+
+**Experience:**
+* `experience_id`: `convo_nathan_ben_credit_grab`
+* `media_file`: `/audio/scenes/nathan_ben_1.ogg`
+* `transcript`: "You isolate a conversation. Nathan: 'Look, Ben, just run the final diagnostics. Aris doesn't need to be involved in this part. When it works, we'll present it to Marcus together.' Ben sounds hesitant: 'I don't know, Nathan... this feels wrong.'"
+* `prerequisites`: `[{ "objective_status": "aris_model_breakthrough", "equals": "completed" }]`
+* `impossibility_conditions`: `[{ "character_status": "aris", "equals": "suspicious_of_nathan" }]`
+* `trigger_limit`: 1
+* `chance`: 0.75
+* `rewards`: `[{ "action": "add_objective", "id": "warn_aris_about_nathan" }, { "info": "Nathan is trying to steal credit from Aris." }]`
