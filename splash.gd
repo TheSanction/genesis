@@ -1,6 +1,7 @@
 extends Control
 
 func _ready():
+	GlobalUI.hide()
 	$VBoxContainer/StartButton.pressed.connect(on_start_pressed)
 	$VBoxContainer/ArisButton.pressed.connect(on_aris_pressed)
 	$VBoxContainer/AlistarButton.pressed.connect(on_alistar_pressed)

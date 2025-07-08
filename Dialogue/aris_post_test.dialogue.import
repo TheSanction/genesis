@@ -1,0 +1,16 @@
+[remap]
+
+importer="dialogue_manager"
+importer_version=15
+type="Resource"
+uid="uid://yngl2e2l6735"
+path="res://.godot/imported/aris_post_test.dialogue-8cceee92b488f498ab6a88f598a4bb02.tres"
+
+[deps]
+
+source_file="res://Dialogue/aris_post_test.dialogue"
+dest_files=["res://.godot/imported/aris_post_test.dialogue-8cceee92b488f498ab6a88f598a4bb02.tres"]
+
+[params]
+
+defaults=true

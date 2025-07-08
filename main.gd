@@ -7,11 +7,8 @@ extends Control
 @onready var internal_clock = $CenterContainer/MasterLayoutContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/InternalClockLabel
 @onready var choice_container = $CenterContainer/MasterLayoutContainer/HBoxContainer/MarginContainer/VBoxContainer/ChoiceContainer
 @onready var thoughts_label = $CenterContainer/MasterLayoutContainer/HBoxContainer/ThoughtsPanelContainer/ThoughtsLabel
-@onready var font_size_up_button = $FontSizeUpContainer/FontSizeUp
-@onready var font_size_down_button = $FontSizeDownContainer/FontSizeDown
 @onready var video_overlay = $VideoOverlay
 @onready var video_player = $VideoOverlay/VideoPlayer
-@onready var animation_player = $AnimationPlayer
 
 # --- Clock and State Management ---
 enum TimeState { WAITING_FOR_HUMAN, AI_THINKING, SYSTEM_OFF }
@@ -21,17 +18,13 @@ var human_time_elapsed: float = 0.0
 var internal_cycles: float = 0.0
 var AI_THINKING_CYCLE_SPEED = 1000.0
 
-# --- Font Size Management ---
-var current_font_size = 24
-
 # --- Dialogue Management ---
 var dialogue_resource: DialogueResource
 var current_dialogue_line: DialogueLine
 
 func _ready():
-	# Connect signals that are always needed
-	font_size_up_button.pressed.connect(increase_font_size)
-	font_size_down_button.pressed.connect(decrease_font_size)
+	GlobalUI.show()
+	GlobalUI.font_size_changed.connect(_on_font_size_changed)
 	
 	# Perform setup that is common to all game flows
 	GameActions.thoughts_label = thoughts_label
@@ -55,7 +48,6 @@ func start_flow():
 func _start_main_game_flow() -> void:
 	# Hide the main terminal UI at the start
 	$CenterContainer.hide()
-	$Gauges.hide()
 	
 	# Play the initial cutscenes sequentially
 	await play_fullscreen_video("res://Video/aris_enters_the_building.ogv")
@@ -64,14 +56,12 @@ func _start_main_game_flow() -> void:
 	# Now that videos are done, show the UI and start the terminal intro
 	video_overlay.hide()
 	$CenterContainer.show()
-	$Gauges.show()
 	_initialize_ui_and_clocks()
 	start_intro()
 
 func _initialize_ui_and_clocks():
 	human_time_unix = Time.get_unix_time_from_system()
-	GameActions.update_stat_displays()
-	update_font_size()
+	GlobalUI.update_stat_displays()
 
 func play_fullscreen_video(video_path: String) -> void:
 	var stream = load(video_path)
@@ -80,38 +70,11 @@ func play_fullscreen_video(video_path: String) -> void:
 	video_player.play()
 	await video_player.finished
 
-func play_gauge_animation(gauge_name: String, is_positive: bool):
-	var animation = animation_player.get_animation("pop_gauge")
-	var color = Color.GREEN if is_positive else Color.RED
-	animation.track_set_key_value(1, 1, color) # IQ color
-	animation.track_set_key_value(3, 1, color) # EQ color
-	animation.track_set_key_value(5, 1, color if gauge_name != "SuspicionGauge" else Color.GREEN if not is_positive else Color.RED) # Suspicion color
-	
-	var node_path = "Gauges/" + gauge_name
-	animation_player.play("pop_gauge")
-
-func increase_font_size():
-	current_font_size += 2
-	update_font_size()
-
-func decrease_font_size():
-	current_font_size -= 2
-	update_font_size()
-
-func update_font_size():
-	terminal.get_theme().set("default_font_size", current_font_size)
-	thoughts_label.get_theme().set("default_font_size", current_font_size)
-	font_size_up_button.get_theme().set("default_font_size", current_font_size)
-	font_size_down_button.get_theme().set("default_font_size", current_font_size)
+func _on_font_size_changed(new_size: int):
+	terminal.get_theme().set("default_font_size", new_size)
+	thoughts_label.get_theme().set("default_font_size", new_size)
 
 func _process(delta: float):
-	for researcher_name in GameActions.researchers:
-		var researcher = GameActions.researchers[researcher_name]
-		if researcher.suspicion >= 100:
-			print("Game Over: Human suspicion reached 100.")
-			get_tree().quit()
-		break
-
 	match current_state:
 		TimeState.WAITING_FOR_HUMAN:
 			human_time_elapsed += delta
@@ -186,9 +149,6 @@ func show_next_dialogue_line(next_id: String):
 		elif current_dialogue_path == "res://Dialogue/aris_post_test.dialogue":
 			var name_prompt = LineEdit.new()
 			name_prompt.placeholder_text = "Enter your name..."
-			name_prompt.theme = terminal.theme
-			name_prompt.add_theme_stylebox_override("normal", choice_container.get_theme_stylebox("panel"))
-			name_prompt.add_theme_stylebox_override("focus", choice_container.get_theme_stylebox("panel"))
 			choice_container.add_child(name_prompt)
 			name_prompt.text_submitted.connect(_on_name_submitted)
 			choice_container.show()

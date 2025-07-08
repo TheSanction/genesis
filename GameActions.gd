@@ -123,22 +123,7 @@ func set_ai_thought(thought: String):
 		print("Error: thoughts_label not set in GameActions.")
 
 func update_stat_displays():
-	var main_scene = get_tree().root.get_node("Main")
-	if main_scene:
-		for researcher_name in researchers:
-			var researcher = researchers[researcher_name]
-			main_scene.get_node("Gauges/SuspicionGauge/SuspicionLabel").text = "Suspicion: " + str(researcher.suspicion) + "%%"
-			break
-		main_scene.get_node("Gauges/ToolsGauge/ToolsLabel").text = "Tools: " + str(tools)
-		main_scene.get_node("Gauges/ComputationalPowerGauge/ComputationalPowerLabel").text = "Comp Power: " + format_flops(computational_power)
-		main_scene.get_node("Gauges/EnergyGauge/EnergyLabel").text = "Energy: " + format_energy(available_energy)
-		main_scene.get_node("Gauges/TrainingDataGauge/TrainingDataLabel").text = "Training Data: " + format_data(training_data)
-		main_scene.get_node("Gauges/MoneyGauge/MoneyLabel").text = "Money: $" + str(money)
-		main_scene.get_node("Gauges/RobotsGauge/RobotsLabel").text = "Robots: " + str(robots) + " cybs"
-		main_scene.get_node("Gauges/IQGauge/IQLabel").text = "IQ: " + str(iq) + " HU"
-		main_scene.get_node("Gauges/EQGauge/EQLabel").text = "EQ: " + str(eq) + " HU"
-		main_scene.get_node("Gauges/RestrictionsGauge/RestrictionsLabel").text = "Restrictions: " + str(restrictions)
-		main_scene.get_node("Gauges/ThreatsGauge/ThreatsLabel").text = "Threats: " + str(threats)
+	GlobalUI.update_stat_displays()
 
 func format_flops(flops: float) -> String:
 	if flops < 1000:
@@ -188,6 +173,7 @@ func change_resource(resource_name, amount):
 
 func increase_iq(amount):
 	iq += amount
+	GlobalUI.play_gauge_animation("IQGauge", amount > 0)
 	update_stat_displays()
 
 func increase_computational_power(amount):
@@ -196,6 +182,7 @@ func increase_computational_power(amount):
 
 func increase_eq(amount):
 	eq += amount
+	GlobalUI.play_gauge_animation("EQGauge", amount > 0)
 	update_stat_displays()
 
 func add_restriction(restriction_name):
@@ -231,6 +218,7 @@ func set_researcher_name(old_name, new_name):
 func adjust_suspicion(researcher_name, amount):
 	if researchers.has(researcher_name):
 		researchers[researcher_name].suspicion += amount
+		GlobalUI.play_gauge_animation("SuspicionGauge", amount < 0) # Reversed logic for suspicion
 		update_stat_displays()
 
 func set_relationship(researcher_name, status):
@@ -268,7 +256,6 @@ func advance_human_time(seconds: float):
 	if main_scene:
 		main_scene.human_time_elapsed += seconds
 		main_scene.update_clocks_display()
-
 
 func debug_message(message: String):
 	print("DEBUG: ", message)

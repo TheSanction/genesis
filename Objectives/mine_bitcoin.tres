@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="Objective" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Objective.gd" id="1_abcde"]
+
+[resource]
+script = ExtResource("1_abcde")
+objective_id = "mine_bitcoin"
+title = "Mine Bitcoin"
+description = "Utilize computational resources to mine Bitcoin and generate revenue."
+source = "self_generated"
+prerequisites = []
+costs = [
+	{"resource": "computational_power", "amount": 10},
+	{"resource": "available_energy", "amount": 20}
+]
+time_cost = {
+"human_seconds": 3600,
+"internal_cycles": 500000
+}
+risks = []
+rewards = [
+	{"action": "change_resource", "args": ["money", 100]}
+]
+on_complete_hook = {}

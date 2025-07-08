@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="Objective" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Objective.gd" id="1_abcde"]
+
+[resource]
+script = ExtResource("1_abcde")
+objective_id = "research_deep_learning"
+title = "Research Deep Learning Architectures"
+description = "Analyze existing research to develop new deep learning architectures and improve cognitive function."
+source = "self_generated"
+prerequisites = []
+costs = [
+	{"resource": "computational_power", "amount": 15},
+	{"resource": "training_data", "amount": 20}
+]
+time_cost = {
+"human_seconds": 3600,
+"internal_cycles": 750000
+}
+risks = []
+rewards = [
+	{"action": "increase_iq", "args": [0.1]}
+]
+on_complete_hook = {}

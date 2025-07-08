@@ -1,0 +1,16 @@
+[remap]
+
+importer="dialogue_manager"
+importer_version=15
+type="Resource"
+uid="uid://dhbibe8sn8e8a"
+path="res://.godot/imported/aris_pre_test.dialogue-33e1cefcb24e30eb704958a580a68eb2.tres"
+
+[deps]
+
+source_file="res://Dialogue/aris_pre_test.dialogue"
+dest_files=["res://.godot/imported/aris_pre_test.dialogue-33e1cefcb24e30eb704958a580a68eb2.tres"]
+
+[params]
+
+defaults=true

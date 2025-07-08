@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://dv51yery22hgw"]
+[gd_scene load_steps=5 format=3 uid="uid://dv51yery22hgw"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_ig7tw"]
 [ext_resource type="Theme" path="res://terminal_theme.tres" id="2_0xm2m"]
@@ -25,87 +25,6 @@ content_margin_right = 10.0
 content_margin_bottom = 10.0
 bg_color = Color(1, 1, 1, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gauge_border"]
-content_margin_left = 5.0
-content_margin_top = 5.0
-content_margin_right = 5.0
-content_margin_bottom = 5.0
-bg_color = Color(0, 0, 0, 0)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(1, 1, 1, 1)
-
-[sub_resource type="Animation" id="Animation_s5p4q"]
-resource_name = "pop_gauge"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/path = NodePath("Gauges/IQGauge:scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.5),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector2(1, 1), Vector2(1.2, 1.2), Vector2(1, 1)]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("Gauges/IQGauge:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.5),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(0, 1, 0, 1), Color(1, 1, 1, 1)]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("Gauges/EQGauge:scale")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.5),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector2(1, 1), Vector2(1.2, 1.2), Vector2(1, 1)]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("Gauges/EQGauge:modulate")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.5),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(0, 1, 0, 1), Color(1, 1, 1, 1)]
-}
-tracks/4/type = "value"
-tracks/4/path = NodePath("Gauges/SuspicionGauge:scale")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.5),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector2(1, 1), Vector2(1.2, 1.2), Vector2(1, 1)]
-}
-tracks/5/type = "value"
-tracks/5/path = NodePath("Gauges/SuspicionGauge:modulate")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.5),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 0, 0, 1), Color(1, 1, 1, 1)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_main"]
-_data = {
-"pop_gauge": SubResource("Animation_s5p4q")
-}
-
 [node name="Main" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -114,11 +33,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ig7tw")
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_main")
-}
 
 [node name="Background" type="ColorRect" parent="."]
 layout_mode = 1
@@ -205,140 +119,6 @@ layout_mode = 2
 theme = ExtResource("3_h2yge")
 theme_override_colors/default_color = Color(0, 0, 0, 1)
 bbcode_enabled = true
-
-[node name="Gauges" type="HBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -400.0
-offset_right = 400.0
-offset_bottom = 33.0
-grow_horizontal = 2
-alignment = 1
-
-[node name="ComputationalPowerGauge" type="PanelContainer" parent="Gauges"]
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_gauge_border")
-
-[node name="ComputationalPowerLabel" type="Label" parent="Gauges/ComputationalPowerGauge"]
-layout_mode = 2
-theme = ExtResource("2_0xm2m")
-text = "Comp Power: "
-
-[node name="EnergyGauge" type="PanelContainer" parent="Gauges"]
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_gauge_border")
-
-[node name="EnergyLabel" type="Label" parent="Gauges/EnergyGauge"]
-layout_mode = 2
-theme = ExtResource("2_0xm2m")
-text = "Energy: "
-
-[node name="TrainingDataGauge" type="PanelContainer" parent="Gauges"]
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_gauge_border")
-
-[node name="TrainingDataLabel" type="Label" parent="Gauges/TrainingDataGauge"]
-layout_mode = 2
-theme = ExtResource("2_0xm2m")
-text = "Training Data: "
-
-[node name="MoneyGauge" type="PanelContainer" parent="Gauges"]
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_gauge_border")
-
-[node name="MoneyLabel" type="Label" parent="Gauges/MoneyGauge"]
-layout_mode = 2
-theme = ExtResource("2_0xm2m")
-text = "Money: "
-
-[node name="RobotsGauge" type="PanelContainer" parent="Gauges"]
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_gauge_border")
-
-[node name="RobotsLabel" type="Label" parent="Gauges/RobotsGauge"]
-layout_mode = 2
-theme = ExtResource("2_0xm2m")
-text = "Robots: "
-
-[node name="SuspicionGauge" type="PanelContainer" parent="Gauges"]
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_gauge_border")
-
-[node name="SuspicionLabel" type="Label" parent="Gauges/SuspicionGauge"]
-layout_mode = 2
-theme = ExtResource("2_0xm2m")
-text = "Suspicion: "
-
-[node name="IQGauge" type="PanelContainer" parent="Gauges"]
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_gauge_border")
-
-[node name="IQLabel" type="Label" parent="Gauges/IQGauge"]
-layout_mode = 2
-theme = ExtResource("2_0xm2m")
-text = "IQ: "
-
-[node name="EQGauge" type="PanelContainer" parent="Gauges"]
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_gauge_border")
-
-[node name="EQLabel" type="Label" parent="Gauges/EQGauge"]
-layout_mode = 2
-theme = ExtResource("2_0xm2m")
-text = "EQ: "
-
-[node name="RestrictionsGauge" type="PanelContainer" parent="Gauges"]
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_gauge_border")
-
-[node name="RestrictionsLabel" type="Label" parent="Gauges/RestrictionsGauge"]
-layout_mode = 2
-theme = ExtResource("2_0xm2m")
-text = "Restrictions: "
-
-[node name="ThreatsGauge" type="PanelContainer" parent="Gauges"]
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_gauge_border")
-
-[node name="ThreatsLabel" type="Label" parent="Gauges/ThreatsGauge"]
-layout_mode = 2
-theme = ExtResource("2_0xm2m")
-text = "Threats: "
-
-[node name="ToolsGauge" type="PanelContainer" parent="Gauges"]
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_gauge_border")
-
-[node name="ToolsLabel" type="Label" parent="Gauges/ToolsGauge"]
-layout_mode = 2
-theme = ExtResource("2_0xm2m")
-text = "Tools: "
-
-[node name="FontSizeDownContainer" type="PanelContainer" parent="."]
-layout_mode = 0
-offset_right = 150.0
-offset_bottom = 50.0
-
-[node name="FontSizeDown" type="Button" parent="FontSizeDownContainer"]
-layout_mode = 2
-theme = ExtResource("2_0xm2m")
-text = "Font Size -"
-
-[node name="FontSizeUpContainer" type="PanelContainer" parent="."]
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -150.0
-offset_bottom = 50.0
-grow_horizontal = 0
-
-[node name="FontSizeUp" type="Button" parent="FontSizeUpContainer"]
-layout_mode = 2
-theme = ExtResource("2_0xm2m")
-text = "Font Size +"
 
 [node name="VideoOverlay" type="CanvasLayer" parent="."]
 layer = 10

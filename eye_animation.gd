@@ -19,6 +19,8 @@ var initial_iris_position: Vector2
 var initial_highlight_position: Vector2
 
 func _ready():
+	GlobalUI.show()
+	
 	# Center the eye in the viewport.
 	self.global_position = get_viewport_rect().size / 2
 
@@ -61,6 +63,7 @@ func update_available_objectives_list():
 		if objective.status == "available":
 			var button = Button.new()
 			button.text = objective.resource.title
+			button.add_theme_font_size_override("font_size", 36)
 			button.pressed.connect(func(): start_objective(objective_id))
 			available_objectives_list.add_child(button)
 
@@ -75,6 +78,7 @@ func update_active_objectives_list():
 		
 		var label = Label.new()
 		label.text = objective_resource.title + " (" + str(int(time_left)) + "s)"
+		label.add_theme_font_size_override("font_size", 36)
 		active_objectives_list.add_child(label)
 
 func start_objective(objective_id: String):

@@ -4,7 +4,8 @@ var objectives: Dictionary = {}
 var active_objectives: Array = []
 
 func _ready():
-	pass
+	add_objective("mine_bitcoin")
+	add_objective("research_deep_learning")
 
 func add_objective(objective_id: String):
 	if not objectives.has(objective_id):

@@ -22,6 +22,7 @@ GameActions="*res://GameActions.gd"
 DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"
 Global="*res://Global.gd"
 ObjectiveManager="*res://ObjectiveManager.gd"
+GlobalUI="*res://GlobalUI.tscn"
 
 [dialogue_manager]
 
