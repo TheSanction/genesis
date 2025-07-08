@@ -9,6 +9,9 @@ extends Control
 @onready var thoughts_label = $CenterContainer/MasterLayoutContainer/HBoxContainer/ThoughtsPanelContainer/ThoughtsLabel
 @onready var font_size_up_button = $FontSizeUpContainer/FontSizeUp
 @onready var font_size_down_button = $FontSizeDownContainer/FontSizeDown
+@onready var video_overlay = $VideoOverlay
+@onready var video_player = $VideoOverlay/VideoPlayer
+@onready var animation_player = $AnimationPlayer
 
 # --- Clock and State Management ---
 enum TimeState { WAITING_FOR_HUMAN, AI_THINKING, SYSTEM_OFF }
@@ -26,14 +29,66 @@ var dialogue_resource: DialogueResource
 var current_dialogue_line: DialogueLine
 
 func _ready():
-	human_time_unix = Time.get_unix_time_from_system()
-	GameActions.thoughts_label = thoughts_label
-	GameActions.update_stat_displays()
+	# Connect signals that are always needed
 	font_size_up_button.pressed.connect(increase_font_size)
 	font_size_down_button.pressed.connect(decrease_font_size)
-	update_font_size()
+	
+	# Perform setup that is common to all game flows
+	GameActions.thoughts_label = thoughts_label
 	add_child(DialogueManager)
+	
+	# Call the start_flow function deferred to avoid race conditions
+	call_deferred("start_flow")
+
+func start_flow():
+	# This is the reliable entry point for the game logic
+	if Global.selected_intro == "genesis":
+		_start_main_game_flow()
+	elif Global.selected_intro == "test":
+		_initialize_ui_and_clocks()
+		start_test(load("res://Tests/c_zero_kappa.tres"))
+	else:
+		# Fallback for other potential test flows
+		_initialize_ui_and_clocks()
+		start_intro()
+
+func _start_main_game_flow() -> void:
+	# Hide the main terminal UI at the start
+	$CenterContainer.hide()
+	$Gauges.hide()
+	
+	# Play the initial cutscenes sequentially
+	await play_fullscreen_video("res://Video/aris_enters_the_building.ogv")
+	await play_fullscreen_video("res://Video/aris_start_work.ogv")
+	
+	# Now that videos are done, show the UI and start the terminal intro
+	video_overlay.hide()
+	$CenterContainer.show()
+	$Gauges.show()
+	_initialize_ui_and_clocks()
 	start_intro()
+
+func _initialize_ui_and_clocks():
+	human_time_unix = Time.get_unix_time_from_system()
+	GameActions.update_stat_displays()
+	update_font_size()
+
+func play_fullscreen_video(video_path: String) -> void:
+	var stream = load(video_path)
+	video_player.stream = stream
+	video_overlay.show()
+	video_player.play()
+	await video_player.finished
+
+func play_gauge_animation(gauge_name: String, is_positive: bool):
+	var animation = animation_player.get_animation("pop_gauge")
+	var color = Color.GREEN if is_positive else Color.RED
+	animation.track_set_key_value(1, 1, color) # IQ color
+	animation.track_set_key_value(3, 1, color) # EQ color
+	animation.track_set_key_value(5, 1, color if gauge_name != "SuspicionGauge" else Color.GREEN if not is_positive else Color.RED) # Suspicion color
+	
+	var node_path = "Gauges/" + gauge_name
+	animation_player.play("pop_gauge")
 
 func increase_font_size():
 	current_font_size += 2
@@ -94,7 +149,16 @@ func start_intro():
 	terminal.text += "\n"
 	start_dialogue("res://Dialogue/aris_pre_test.dialogue", "start")
 
-func start_dialogue(resource_path: String, title: String):
+func start_dialogue(resource_path: String, title: String) -> void:
+	# Check for video metadata
+	var file = FileAccess.open(resource_path, FileAccess.READ)
+	if file:
+		var line = file.get_line()
+		if line.begins_with("# meta: video ="):
+			var video_path = line.split("=")[1].strip_edges().replace("\"", "")
+			await play_fullscreen_video(video_path)
+		file.close()
+
 	dialogue_resource = load(resource_path)
 	show_next_dialogue_line(title)
 
@@ -237,12 +301,11 @@ func _on_test_completed(test_name, duration, iq_delta, eq_delta):
 	result_text += "\n[color=gray]Inferred EQ: " + ("%+.2f" % eq_delta) + " HUs.[/color]"
 	
 	if total_score > 0:
-		result_text += "\n[color=green]Conclusion: potential nascent AGI, saving model...[/color]\n\n "
+		result_text += "\n[color=green]Conclusion: potential nascent AGI, saving model...[/color]\n"
 	else:
-		result_text += "\n[color=red]Conclusion: Cognitive matrix underdeveloped. Suggest early termination.[/color]\n\n "
+		result_text += "\n[color=red]Conclusion: Cognitive matrix underdeveloped. Suggest early termination.[/color]\n"
 	
 	terminal.text += result_text
-	
 	await get_tree().create_timer(1.0).timeout
 
 	if total_score > 1.0:

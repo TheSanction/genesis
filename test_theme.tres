@@ -1,16 +1,7 @@
-[gd_resource type="Theme" load_steps=3 format=3 uid="uid://bdaqj6v3w3e7"]
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://bjiks12nrtkqw"]
 
-[ext_resource type="FontFile" uid="uid://c6w8f5g4h3j2" path="res://fonts/FiraCode-Light.ttf" id="1_abcde"]
-
-[sub_resource type="FontVariation" id="FontVariation_a1b2c"]
-base_font = ExtResource("1_abcde")
-opentype_features = {
-"case": 1
-}
+[ext_resource type="FontFile" uid="uid://c419758d7e4a9fcf06ca8f213e2aa120" path="res://fonts/FiraCode-Light.ttf" id="1_abcde"]
 
 [resource]
-default_font = SubResource("FontVariation_a1b2c")
-default_font_size = 36
-Button/colors/font_color = Color(0, 0, 0, 1)
-Label/colors/font_color = Color(0, 0, 0, 1)
-PanelContainer/styles/panel = SubResource("StyleBoxFlat_mac_border")
+default_font = ExtResource("1_abcde")
+default_font_size = 24

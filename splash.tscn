@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://c1x2y3z4a5b6"]
+[gd_scene load_steps=2 format=3 uid="uid://c1x2y304a5b6"]
 
-[ext_resource type="Script" path="res://splash.gd" id="1_cdefg"]
+[ext_resource type="Script" uid="uid://dqj4whaa4ik1w" path="res://splash.gd" id="1_cdefg"]
 
 [node name="Splash" type="Control"]
 layout_mode = 3

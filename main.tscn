@@ -1,8 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://dv51yery22hgw"]
+[gd_scene load_steps=9 format=3 uid="uid://dv51yery22hgw"]
 
-[ext_resource type="Script" uid="uid://bf13hdx4cadj1" path="res://main.gd" id="1_ig7tw"]
-[ext_resource type="Theme" uid="uid://coau0iv0ea3r3" path="res://terminal_theme.tres" id="2_0xm2m"]
-[ext_resource type="Theme" uid="uid://bjiks12nrtkqw" path="res://thoughts_theme.tres" id="3_h2yge"]
+[ext_resource type="Script" path="res://main.gd" id="1_ig7tw"]
+[ext_resource type="Theme" path="res://terminal_theme.tres" id="2_0xm2m"]
+[ext_resource type="Theme" path="res://thoughts_theme.tres" id="3_h2yge"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mac_border"]
 bg_color = Color(0.1, 0.1, 0.1, 0)
@@ -37,6 +37,75 @@ border_width_right = 1
 border_width_bottom = 1
 border_color = Color(1, 1, 1, 1)
 
+[sub_resource type="Animation" id="Animation_s5p4q"]
+resource_name = "pop_gauge"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("Gauges/IQGauge:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.2, 1.2), Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Gauges/IQGauge:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0, 1, 0, 1), Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Gauges/EQGauge:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.2, 1.2), Vector2(1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Gauges/EQGauge:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0, 1, 0, 1), Color(1, 1, 1, 1)]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Gauges/SuspicionGauge:scale")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.2, 1.2), Vector2(1, 1)]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Gauges/SuspicionGauge:modulate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 0, 0, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_main"]
+_data = {
+"pop_gauge": SubResource("Animation_s5p4q")
+}
+
 [node name="Main" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -45,6 +114,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ig7tw")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_main")
+}
 
 [node name="Background" type="ColorRect" parent="."]
 layout_mode = 1
@@ -265,3 +339,24 @@ grow_horizontal = 0
 layout_mode = 2
 theme = ExtResource("2_0xm2m")
 text = "Font Size +"
+
+[node name="VideoOverlay" type="CanvasLayer" parent="."]
+layer = 10
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="VideoOverlay"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="VideoPlayer" type="VideoStreamPlayer" parent="VideoOverlay"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+autoplay = true
+expand = true

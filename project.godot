@@ -17,7 +17,6 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-GlobalState="*res://GlobalState.gd"
 MusicPlayer="*res://MusicPlayer.gd"
 GameActions="*res://GameActions.gd"
 DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"
@@ -39,4 +38,4 @@ enabled=PackedStringArray("res://addons/dialogue_manager/plugin.cfg")
 
 [internationalization]
 
-locale/translations_pot_files=PackedStringArray("res://Dialogue/test.dialogue", "res://Dialogue/aris_intro.dialogue", "res://Dialogue/finch_intro.dialogue", "res://Dialogue/nathan_intro.dialogue", "res://Dialogue/aris_pre_test.dialogue", "res://Dialogue/aris_post_test.dialogue")
+locale/translations_pot_files=PackedStringArray("res://Dialogue/aris_intro.dialogue", "res://Dialogue/finch_intro.dialogue", "res://Dialogue/nathan_intro.dialogue", "res://Dialogue/aris_pre_test.dialogue", "res://Dialogue/aris_post_test.dialogue")
