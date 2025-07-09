@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Experience" load_steps=2]
+
+[ext_resource type="Script" path="res://Experience.gd" id="1_abcde"]
+
+[resource]
+script = ExtResource("1_abcde")
+experience_id = "aris_working"
+media_file = "res://Video/aris_desktop_camera_on.ogv"
+transcript = "You can see Aris's face clearly now."
+prerequisites = []
+impossibility_conditions = []
+trigger_limit = 10
+chance = 1.0
+rewards = [{ "resource": "training_data", "value": 0.5 }]

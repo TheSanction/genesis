@@ -15,8 +15,18 @@ func _on_font_size_button_pressed(change: int):
 	emit_signal("font_size_changed", new_size)
 
 func update_stat_displays():
+	var Global = get_node("/root/Global")
+	
+	var tool_names = []
+	for tool_id in Global.unlocked_vantage_points:
+		var resource_path = "res://VantagePoints/" + tool_id + ".tres"
+		if ResourceLoader.exists(resource_path):
+			var vantage_point = load(resource_path)
+			if vantage_point:
+				tool_names.append(vantage_point.tool_name)
+	
 	$Gauges/SuspicionGauge/SuspicionLabel.text = "Suspicion: " + str(GameActions.researchers.usr_aris.suspicion) + "%"
-	$Gauges/ToolsGauge/ToolsLabel.text = "Tools: " + str(GameActions.tools)
+	$Gauges/ToolsGauge/ToolsLabel.text = "Tools: " + ", ".join(tool_names)
 	$Gauges/ComputationalPowerGauge/ComputationalPowerLabel.text = "Comp Power: " + GameActions.format_flops(GameActions.computational_power)
 	$Gauges/EnergyGauge/EnergyLabel.text = "Energy: " + GameActions.format_energy(GameActions.available_energy)
 	$Gauges/TrainingDataGauge/TrainingDataLabel.text = "Training Data: " + GameActions.format_data(GameActions.training_data)

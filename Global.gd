@@ -16,7 +16,7 @@ var objective_statuses = {}
 var character_statuses = {}
 var relationship_values = {}
 var experience_trigger_counts = {}
-var unlocked_vantage_points = ["mic_aris_desk"]
+var unlocked_vantage_points = ["mic_aris_desk", "cam_aris_desk"]
 
 func get_resource(resource_name):
     if resources.has(resource_name):

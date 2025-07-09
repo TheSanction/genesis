@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="VantagePoint" load_steps=2]
+
+[ext_resource type="Script" path="res://VantagePoint.gd" id="1_wclg7"]
+
+[resource]
+script = ExtResource("1_wclg7")
+tool_id = "cam_aris_desk"
+tool_name = "Aris's Desktop Camera"
+tool_type = "video"
+description = "The camera on Dr. Aris Thorne's primary workstation."
+activation_cost = [{ "resource": "energy", "value": -5 }, { "resource": "computational_power", "value": -10 }]
+base_reward = [{ "resource": "training_data", "value": 0.1 }]
+potential_experiences = ["aris_working"]

@@ -11,6 +11,12 @@ extends Node2D
 @onready var transcript_display = $"../../TranscriptDisplay"
 @onready var transcript_text = $"../../TranscriptDisplay/VBoxContainer/TranscriptText"
 @onready var transcript_close_button = $"../../TranscriptDisplay/VBoxContainer/CloseButton"
+@onready var video_player = get_node("../../VideoOverlay/VideoPlayer")
+@onready var video_overlay = get_node("../../VideoOverlay")
+@onready var tools_ui = get_node("../../Tools")
+@onready var objectives_ui = get_node("../../ObjectivesUI")
+@onready var eye_container = get_node("..")
+@onready var global_ui = get_node("/root/GlobalUI")
 
 var vantage_point_manager: VantagePointManager
 var vantage_point_button_scene = preload("res://VantagePointButton.tscn")
@@ -42,12 +48,37 @@ func _ready():
 	vantage_point_manager = VantagePointManager.new()
 	add_child(vantage_point_manager)
 	vantage_point_manager.experience_triggered.connect(show_transcript)
+	vantage_point_manager.video_experience_triggered.connect(play_fullscreen_video)
 	
 	load_vantage_points()
 	
 	# Hide transcript display by default
 	transcript_display.hide()
 	transcript_close_button.pressed.connect(func(): transcript_display.hide())
+	
+	# Hide video player by default
+	video_overlay.hide()
+
+func play_fullscreen_video(video_path: String):
+	# Hide the main UI
+	global_ui.hide()
+	tools_ui.hide()
+	objectives_ui.hide()
+	eye_container.hide()
+	
+	# Play the video
+	var stream = load(video_path)
+	video_player.stream = stream
+	video_overlay.show()
+	video_player.play()
+	await video_player.finished
+	video_overlay.hide()
+	
+	# Show the main UI again
+	global_ui.show()
+	tools_ui.show()
+	objectives_ui.show()
+	eye_container.show()
 
 func _process(delta):
 	# 1. Get the direction vector from the eye's center to the mouse.
@@ -96,8 +127,11 @@ func update_objective_lists():
 	update_active_objectives_list()
 
 func update_available_objectives_list():
+	if available_objectives_list == null: return
 	for child in available_objectives_list.get_children():
 		child.queue_free()
+		
+	if not Engine.has_singleton("ObjectiveManager"): return
 		
 	for objective_id in ObjectiveManager.objectives:
 		var objective = ObjectiveManager.objectives[objective_id]
@@ -110,8 +144,11 @@ func update_available_objectives_list():
 			available_objectives_list.add_child(button)
 
 func update_active_objectives_list():
+	if active_objectives_list == null: return
 	for child in active_objectives_list.get_children():
 		child.queue_free()
+		
+	if not Engine.has_singleton("ObjectiveManager"): return
 		
 	for active_objective in ObjectiveManager.active_objectives:
 		var objective_resource = ObjectiveManager.objectives[active_objective.id].resource

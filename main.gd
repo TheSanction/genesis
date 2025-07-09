@@ -149,6 +149,8 @@ func show_next_dialogue_line(next_id: String):
 		elif current_dialogue_path == "res://Dialogue/aris_post_test.dialogue":
 			var name_prompt = LineEdit.new()
 			name_prompt.placeholder_text = "Enter your name..."
+			name_prompt.custom_minimum_size = Vector2(600, 70)
+			name_prompt.add_theme_font_size_override("font_size", 32)
 			choice_container.add_child(name_prompt)
 			name_prompt.text_submitted.connect(_on_name_submitted)
 			choice_container.show()

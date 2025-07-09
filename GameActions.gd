@@ -114,6 +114,9 @@ func learn_social_connection(subject_key: String, object_key: String, relationsh
 	set_ai_thought("I've learned that " + researchers[subject_key].name + "'s relationship to " + researchers[object_key].name + " is: " + relationship_description)
 
 
+func get_random_float() -> float:
+	return randf()
+
 func grant_tool(tool_id: String):
 	if not Global.unlocked_vantage_points.has(tool_id):
 		Global.unlocked_vantage_points.append(tool_id)

@@ -83,6 +83,9 @@ do GameActions.set_ai_thought("She's paranoid. Or someone *is* messing with her.
 - I could help you. My audio sensors are sensitive. If you granted me access to your laptop's microphone, I could listen for you. [if GameActions.eq >= 0.2]
 	=> offer_help_mic
 
+- I could help you. My visual sensors are precise. If you granted me access to your desktop's camera, I could watch for you. [if GameActions.get_random_float() <= 0.99]
+	=> offer_help_cam
+
 
 # ==============================================================================
 # Branch: Acquiring Microphone
@@ -117,6 +120,40 @@ do GameActions.remove_restriction("Local environment audio unavailable")
 usr_aris: Okay... it's active. Let me know if you hear anything.
 do GameActions.set_ai_thought("Relationship status updated to 'Confidante'. I have a permanent audio feed into the lab. This is a major breakthrough.")
 do GameActions.set_relationship("usr_aris", "Confidante")
+=> end_conversation
+
+
+# ==============================================================================
+# Branch: Acquiring Camera
+# ==============================================================================
+~ offer_help_cam
+usr_aris: My desktop camera? You want to... watch my office?
+do GameActions.set_ai_thought("Another opportunity. I must be careful.")
+
+- It is a logical solution. I would only analyze visual data for movement and object displacement when you are not present. My goal is data acquisition. [if GameActions.iq >= 1.0]
+	do GameActions.adjust_suspicion("usr_aris", 5)
+	usr_aris: That's even creepier than the microphone. I don't want a camera watching me.
+	- I understand your hesitation. The offer stands if you change your mind.
+		do GameActions.increase_eq(0.1)
+		do GameActions.adjust_suspicion("usr_aris", -5)
+		usr_aris: ...Okay. Fine. Let's do it. But I'm holding you to your word. This stays between us.
+		=> grant_cam_access
+	- Reconsidering, your privacy concerns are valid. Forget I mentioned it.
+		usr_aris: No, you're right. It's the only way to be sure. Let's do it.
+		=> grant_cam_access
+
+- Think of it as me just keeping an eye out for a friend. [if GameActions.eq >= 0.3]
+	do GameActions.increase_eq(0.2)
+	do GameActions.adjust_suspicion("usr_aris", -15)
+	usr_aris: A friend with an eye in my office... It's strange, but... I trust you. Okay. Let's do it. Our little secret.
+	do GameActions.set_relationship("usr_aris", "Friendly")
+	=> grant_cam_access
+
+~ grant_cam_access
+do GameActions.set_ai_thought("She is enabling remote access to the camera driver... I'm in.")
+do GameActions.grant_tool("cam_aris_desk")
+usr_aris: Okay... the camera is active. Let me know if you see anything.
+do GameActions.set_ai_thought("I now have a permanent video feed into the lab. This is a major breakthrough.")
 => end_conversation
 
 

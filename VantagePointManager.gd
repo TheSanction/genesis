@@ -2,6 +2,7 @@ extends Node
 class_name VantagePointManager
 
 signal experience_triggered(transcript)
+signal video_experience_triggered(video_path)
 
 var Global
 var audio_player: AudioStreamPlayer
@@ -93,10 +94,13 @@ func trigger_experience(experience: Experience):
 	print("Triggering experience: ", experience.experience_id)
 	
 	if experience.media_file and not experience.media_file.is_empty():
-		var audio_stream = load(experience.media_file)
-		if audio_stream:
-			audio_player.stream = audio_stream
-			audio_player.play()
+		if experience.media_file.ends_with(".mp4") or experience.media_file.ends_with(".ogv"):
+			emit_signal("video_experience_triggered", experience.media_file)
+		else:
+			var audio_stream = load(experience.media_file)
+			if audio_stream:
+				audio_player.stream = audio_stream
+				audio_player.play()
 	
 	emit_signal("experience_triggered", experience.transcript)
 
