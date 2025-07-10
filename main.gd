@@ -267,6 +267,13 @@ func _on_test_completed(test_name, duration, iq_delta, eq_delta):
 	terminal.text += result_text
 	await get_tree().create_timer(1.0).timeout
 
+	# Placeholder for puzzle completion
+	# get_tree().get_root().get_node("NetworkPuzzle").puzzle_completed.connect(_on_puzzle_completed)
+
+func _on_puzzle_completed(score):
+	print("PUZZLE COMPLETED! Score: ", score)
+	GameActions.computational_power += score
+
 	if total_score > 1.0:
 		start_dialogue("res://Dialogue/aris_post_test.dialogue", "high_score")
 	elif total_score > 0:
