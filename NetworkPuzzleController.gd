@@ -3,6 +3,7 @@ extends Node2D
 signal puzzle_completed(score)
 
 @onready var camera = $Camera2D
+@onready var background = $Background
 @onready var throughput_label = $UI/VBoxContainer/ThroughputLabel
 @onready var packet_loss_label = $UI/VBoxContainer/PacketLossLabel
 
@@ -28,6 +29,11 @@ var packet_loss = 0
 # This function is now the entry point for the puzzle
 func initialize(width: int, height: int):
 	print("--- Initializing puzzle with size: ", Vector2i(width, height), " ---")
+	
+	# Load the background texture
+	background.texture = load("res://Tests/c_zero_kappa.png")
+	background.z_index = -10
+
 	var puzzle_generator = PUZZLE_GENERATOR.new()
 	puzzle_data = puzzle_generator.generate(width, height)
 	
@@ -57,9 +63,11 @@ func _input(event):
 		run_simulation()
 
 func _world_to_grid(screen_pos):
-	var world_pos = get_global_mouse_position()
-	var grid_x = floor(world_pos.x / TILE_SIZE)
-	var grid_y = floor(world_pos.y / TILE_SIZE)
+	# Transform the screen coordinate to the camera's world coordinate
+	var world_pos = get_viewport().get_canvas_transform().affine_inverse() * screen_pos
+	# Offset by half a tile to make the center the click target
+	var grid_x = floor((world_pos.x + TILE_SIZE / 2) / TILE_SIZE)
+	var grid_y = floor((world_pos.y + TILE_SIZE / 2) / TILE_SIZE)
 	return Vector2i(grid_x, grid_y)
 
 func place_circuit(grid_pos):
@@ -148,4 +156,8 @@ func center_camera():
 	var grid_pixel_size = puzzle_data.grid_size * TILE_SIZE
 	camera.position = (Vector2(grid_pixel_size) / 2) - Vector2(TILE_SIZE / 2, TILE_SIZE / 2)
 	camera.zoom = Vector2(2.0, 2.0)
+	
+	# Center the background on the camera
+	background.position = camera.position
+	
 	print("--- Camera centered and zoomed. Puzzle ready. ---")
